@@ -1,6 +1,6 @@
-import "./app.css";
+import "./App.css";
 
-function App() {
+function app() {
   return <h1>Hello :)</h1>;
 }
 
