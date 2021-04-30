@@ -1,36 +1,35 @@
 import React from 'react';
 import styles from './aside.module.css';
+import Menu from './menu';
 
-const Aside = ({ FontAwesomeIcon, faBars }) => (
-  <aside id="aside" className={styles.aside}>
-    <button className={styles.menu__btn}>
-      <FontAwesomeIcon icon={faBars} />
-    </button>
-    <ul className={styles.menu}>
-      <li className={styles.menu_item} data-id="#home">
-        Home
-      </li>
-      <li className={styles.menu_item} data-id="#about">
-        About
-      </li>
-      <li className={styles.menu_item} data-id="#skills">
-        Skills
-      </li>
-      <li className={styles.menu_item} data-id="#work">
-        Works
-      </li>
-      <li className={styles.menu_item} data-id="#contact">
-        Contact
-      </li>
-    </ul>
-    <div className={styles.smpchat}>
-      <img
-        src="imgs/message.png"
-        alt="chatting"
-        className={styles.smpchat_icon}
-      />
-    </div>
-  </aside>
-);
+const Aside = ({ FontAwesomeIcon, faBars }) => {
+  const menus = [
+    { id: '#Home', title: 'Home' },
+    { id: '#About', title: 'About' },
+    { id: '#Skills', title: 'Skills' },
+    { id: '#Work', title: 'Work' },
+    { id: '#Contact', title: 'Contact' },
+  ];
+
+  return (
+    <aside id="aside" className={styles.aside}>
+      <button className={styles.menu__btn}>
+        <FontAwesomeIcon icon={faBars} />
+      </button>
+      <ul className={styles.menu}>
+        {menus.map((menu) => (
+          <Menu key={menu.id} menu={menu} />
+        ))}
+      </ul>
+      <div className={styles.smpchat}>
+        <img
+          src="imgs/message.png"
+          alt="chatting"
+          className={styles.smpchat_icon}
+        />
+      </div>
+    </aside>
+  );
+};
 
 export default Aside;
