@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './home.module.css';
 
 const Home = () => (
-  <section id="home" className={`${styles.home} ${styles.section}`}>
+  <section id="home" className={`${styles.home} section`}>
     <h1 className={styles.title}>
       smpark's portfolio <br />
     </h1>

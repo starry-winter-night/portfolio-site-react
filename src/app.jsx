@@ -1,9 +1,11 @@
 import Navbar from './components/navbar/navbar';
 import Aside from './components/aside/aside';
-import Home from './components/section/home';
+import Home from './components/sections/home';
+import About from './components/sections/about';
 import './app.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faServer } from '@fortawesome/free-solid-svg-icons';
+import { faJsSquare } from '@fortawesome/free-brands-svg-icons';
 import React, { useRef, useEffect } from 'react';
 
 const App = ({ starryNight }) => {
@@ -19,6 +21,11 @@ const App = ({ starryNight }) => {
       <Navbar />
       <Aside FontAwesomeIcon={FontAwesomeIcon} faBars={faBars} />
       <Home />
+      <About
+        FontAwesomeIcon={FontAwesomeIcon}
+        faServer={faServer}
+        faJsSquare={faJsSquare}
+      />
     </>
   );
 };
