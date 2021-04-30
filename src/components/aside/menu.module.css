@@ -1,0 +1,16 @@
+
+
+.menu_item {
+  cursor: pointer;
+  font-size: var(--font-regular);
+}
+
+.menu_item:hover {
+  color: var(--color-blue);
+}
+
+.menu_item.view {
+  color: var(--color-orange);
+}
+
+
