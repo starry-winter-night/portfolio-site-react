@@ -1,0 +1,31 @@
+.home {
+  background-color: var(--color-backgroundTransparency);
+  border-radius: 15px;
+  text-transform: uppercase;
+}
+
+.home img {
+  height: 300px;
+  margin: 25px;
+  border-radius: 20px;
+}
+
+.title {
+  font-weight: 100;
+  letter-spacing: 0.5rem;
+}
+
+.dscription {
+  letter-spacing: 0.125em;
+  font-size: var(--font-micro);
+  line-height: 30px;
+}
+
+.section {
+  padding: 50px;
+  text-align: center;
+  max-width: 1200px;
+  width: 70%;
+  margin: auto;
+  font-family: 'Josefin Sans', sans-serif;
+}

@@ -1,0 +1,47 @@
+.navbar {
+  position: sticky;
+  width: 100%;
+  height: 110px;
+  display: flex;
+  top: 0;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.logo {
+  font-family: 'Inconsolata', monospace;
+  line-height: 30px;
+  letter-spacing: 0.5rem;
+  display: flex;
+  font-weight: 700;
+  flex-basis: 15%;
+  text-transform: uppercase;
+  font-size: var(--font-regular);
+}
+
+.logo a {
+  margin: auto;
+  padding: 10px;
+}
+.logo a:hover {
+  color: var(--color-orange);
+}
+
+.guide {
+  flex-basis: 70%;
+  max-width: 1310px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.guide img {
+  height: 50px;
+}
+
+.guide > .rocket {
+  height: 30px;
+  position: absolute;
+  left: 50px;
+}
