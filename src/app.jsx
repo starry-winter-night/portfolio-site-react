@@ -1,8 +1,8 @@
 import Navbar from './components/navbar/navbar';
 import Aside from './components/aside/aside';
-import Home from './components/sections/home';
-import About from './components/sections/about';
-import Skills from './components/sections/skills';
+import Home from './components/sections/home/home';
+import About from './components/sections/about/about';
+import Skills from './components/sections/skills/skills';
 import './app.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faServer } from '@fortawesome/free-solid-svg-icons';

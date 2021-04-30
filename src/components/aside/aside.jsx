@@ -17,8 +17,8 @@ const Aside = ({ FontAwesomeIcon, faBars }) => {
         <FontAwesomeIcon icon={faBars} />
       </button>
       <ul className={styles.menu}>
-        {menus.map((menu) => (
-          <Menu key={menu.id} menu={menu} />
+        {menus.map((item) => (
+          <Menu key={item.id} menu={item} />
         ))}
       </ul>
       <div className={styles.smpchat}>
