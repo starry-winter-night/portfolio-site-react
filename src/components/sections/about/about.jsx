@@ -1,7 +1,9 @@
 import React from 'react';
 import styles from './about.module.css';
+import { faServer } from '@fortawesome/free-solid-svg-icons';
+import { faJsSquare } from '@fortawesome/free-brands-svg-icons';
 
-const about = ({ FontAwesomeIcon, faServer, faJsSquare }) => (
+const about = ({ FontAwesome }) => (
   <section id="about" className={`${styles.about} section`}>
     <div className={styles.title}>
       <h1>About me</h1>
@@ -19,7 +21,7 @@ const about = ({ FontAwesomeIcon, faServer, faJsSquare }) => (
     <div className={styles.majors}>
       <div className={styles.major}>
         <div className={styles.major__icon}>
-          <FontAwesomeIcon icon={faJsSquare} />
+          <FontAwesome icon={faJsSquare} />
         </div>
         <h2 className={styles.major__title}>Front-end</h2>
         <div className={styles.major__description}>
@@ -29,7 +31,7 @@ const about = ({ FontAwesomeIcon, faServer, faJsSquare }) => (
       </div>
       <div className={styles.major}>
         <div className={styles.major__icon}>
-          <FontAwesomeIcon icon={faServer} />
+          <FontAwesome icon={faServer} />
         </div>
         <h2 className={styles.major__title}>Back-end</h2>
         <div className={styles.major__description}>

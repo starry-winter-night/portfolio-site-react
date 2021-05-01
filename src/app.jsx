@@ -1,15 +1,9 @@
+import React, { useRef, useEffect } from 'react';
+import './app.css';
 import Navbar from './components/navbar/navbar';
 import Aside from './components/aside/aside';
-import Home from './components/sections/home/home';
-import About from './components/sections/about/about';
-import Skills from './components/sections/skills/skills';
-import Work from './components/sections/work/work';
-import Contact from './components/sections/contact/contact';
-import './app.css';
+import Sections from './components/sections/sections';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faServer, faAt } from '@fortawesome/free-solid-svg-icons';
-import { faJsSquare, faGithub } from '@fortawesome/free-brands-svg-icons';
-import React, { useRef, useEffect } from 'react';
 
 const App = ({ starryNight }) => {
   const canvasRef = useRef();
@@ -22,20 +16,8 @@ const App = ({ starryNight }) => {
     <>
       <canvas ref={canvasRef} className="canvas"></canvas>
       <Navbar />
-      <Aside FontAwesomeIcon={FontAwesomeIcon} faBars={faBars} />
-      <Home />
-      <About
-        FontAwesomeIcon={FontAwesomeIcon}
-        faServer={faServer}
-        faJsSquare={faJsSquare}
-      />
-      <Skills />
-      <Work />
-      <Contact
-        FontAwesomeIcon={FontAwesomeIcon}
-        faAt={faAt}
-        faGithub={faGithub}
-      />
+      <Aside FontAwesome={FontAwesomeIcon} />
+      <Sections FontAwesome={FontAwesomeIcon} />
     </>
   );
 };

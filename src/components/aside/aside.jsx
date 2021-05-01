@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styles from './aside.module.css';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Menu from './menu';
 
-const Aside = ({ FontAwesomeIcon, faBars }) => {
+const Aside = ({ FontAwesome }) => {
   const menus = [
     { id: '#Home', title: 'Home' },
     { id: '#About', title: 'About' },
@@ -11,14 +12,16 @@ const Aside = ({ FontAwesomeIcon, faBars }) => {
     { id: '#Contact', title: 'Contact' },
   ];
 
+  const menuRef = useRef();
+
   return (
     <aside id="aside" className={styles.aside}>
       <button className={styles.menu__btn}>
-        <FontAwesomeIcon icon={faBars} />
+        <FontAwesome icon={faBars} />
       </button>
-      <ul className={styles.menu}>
+      <ul className={styles.menu} ref={menuRef}>
         {menus.map((item) => (
-          <Menu key={item.id} menu={item} />
+          <Menu key={item.id} menu={item} menuRef={menuRef} />
         ))}
       </ul>
       <div className={styles.smpchat}>
