@@ -3,6 +3,7 @@ import Aside from './components/aside/aside';
 import Home from './components/sections/home/home';
 import About from './components/sections/about/about';
 import Skills from './components/sections/skills/skills';
+import Work from './components/sections/work/work';
 import './app.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faServer } from '@fortawesome/free-solid-svg-icons';
@@ -28,6 +29,7 @@ const App = ({ starryNight }) => {
         faJsSquare={faJsSquare}
       />
       <Skills />
+      <Work />
     </>
   );
 };
