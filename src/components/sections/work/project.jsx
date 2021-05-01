@@ -1,0 +1,24 @@
+import React from 'react';
+import styles from './propject.module.css';
+
+const project = ({ project }) => {
+  return (
+    <a
+      href={project.url}
+      className={`${styles.project} backend`}
+      target="noopener"
+    >
+      <img
+        src={project.imgUrl}
+        alt={project.alt}
+        className={styles.project__img}
+      />
+      <div className={styles.projcet__description}>
+        <h3>{project.title}</h3>
+        {/* <span>자체제작 Oauth server</span> */}
+      </div>
+    </a>
+  );
+};
+
+export default project;
