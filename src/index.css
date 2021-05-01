@@ -102,3 +102,14 @@ body {
   overflow-y: scroll;
   background-color: var(--color-background);
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #333;
+  border-radius: 20px;
+}
+::-webkit-scrollbar-track {
+  background-color: var(--color-backgroundTransparency);
+}

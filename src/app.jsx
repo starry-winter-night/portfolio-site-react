@@ -4,10 +4,11 @@ import Home from './components/sections/home/home';
 import About from './components/sections/about/about';
 import Skills from './components/sections/skills/skills';
 import Work from './components/sections/work/work';
+import Contact from './components/sections/contact/contact';
 import './app.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faServer } from '@fortawesome/free-solid-svg-icons';
-import { faJsSquare } from '@fortawesome/free-brands-svg-icons';
+import { faBars, faServer, faAt } from '@fortawesome/free-solid-svg-icons';
+import { faJsSquare, faGithub } from '@fortawesome/free-brands-svg-icons';
 import React, { useRef, useEffect } from 'react';
 
 const App = ({ starryNight }) => {
@@ -30,6 +31,11 @@ const App = ({ starryNight }) => {
       />
       <Skills />
       <Work />
+      <Contact
+        FontAwesomeIcon={FontAwesomeIcon}
+        faAt={faAt}
+        faGithub={faGithub}
+      />
     </>
   );
 };
