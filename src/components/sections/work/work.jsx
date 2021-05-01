@@ -54,6 +54,8 @@ const work = () => {
     },
   ];
 
+  const drawProject = (item) => <Project key={item.id} project={item} />;
+
   return (
     <section id="work" className="work section">
       <div className={styles.title}>
@@ -61,15 +63,9 @@ const work = () => {
       </div>
       <div className={styles.projects}>
         <h2>Back-end</h2>
-        {projects.map(
-          (item) =>
-            item.type === 'backend' && <Project key={item.id} project={item} />
-        )}
+        {projects.map((item) => item.type === 'backend' && drawProject(item))}
         <h2>Front-end</h2>
-        {projects.map(
-          (item) =>
-            item.type === 'frontend' && <Project key={item.id} project={item} />
-        )}
+        {projects.map((item) => item.type === 'frontend' && drawProject(item))}
       </div>
     </section>
   );
