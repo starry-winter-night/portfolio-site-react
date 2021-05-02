@@ -1,25 +1,23 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import styles from './aside.module.css';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Menu from './menu';
 
-const Aside = ({ FontAwesome }) => {
+const Aside = ({ menuRef, FontAwesome }) => {
   const menus = [
-    { id: '#Home', title: 'Home' },
-    { id: '#About', title: 'About' },
-    { id: '#Skills', title: 'Skills' },
-    { id: '#Work', title: 'Work' },
-    { id: '#Contact', title: 'Contact' },
+    { id: 'home', title: 'Home' },
+    { id: 'about', title: 'About' },
+    { id: 'skills', title: 'Skills' },
+    { id: 'work', title: 'Work' },
+    { id: 'contact', title: 'Contact' },
   ];
-
-  const menuRef = useRef();
 
   return (
     <aside id="aside" className={styles.aside}>
       <button className={styles.menu__btn}>
         <FontAwesome icon={faBars} />
       </button>
-      <ul className={styles.menu} ref={menuRef}>
+      <ul className={styles.menu}>
         {menus.map((item) => (
           <Menu key={item.id} menu={item} menuRef={menuRef} />
         ))}

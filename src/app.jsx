@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const App = ({ starryNight }) => {
   const canvasRef = useRef();
+  const menuRef = useRef([]);
 
   useEffect(() => {
     starryNight.draw(canvasRef.current);
@@ -16,8 +17,11 @@ const App = ({ starryNight }) => {
     <>
       <canvas ref={canvasRef} className="canvas"></canvas>
       <Navbar />
-      <Aside FontAwesome={FontAwesomeIcon} />
-      <Sections FontAwesome={FontAwesomeIcon} />
+      <Aside menuRef={menuRef} FontAwesome={FontAwesomeIcon} />
+      <Sections
+        menuRef={(ref) => menuRef.current.push(ref)}
+        FontAwesome={FontAwesomeIcon}
+      />
     </>
   );
 };

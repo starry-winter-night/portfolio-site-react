@@ -5,14 +5,15 @@ import Skills from './skills/skills';
 import Work from './work/work';
 import Contact from './contact/contact';
 
-const Sections = ({ FontAwesome }) => {
+const Sections = ({ menuRef, FontAwesome }) => {
+  
   return (
     <>
-      <Home />
-      <About FontAwesome={FontAwesome} />
-      <Skills />
-      <Work />
-      <Contact FontAwesome={FontAwesome} />
+      <Home menuRef={menuRef} />
+      <About menuRef={menuRef} FontAwesome={FontAwesome} />
+      <Skills menuRef={menuRef} />
+      <Work menuRef={menuRef} />
+      <Contact menuRef={menuRef} FontAwesome={FontAwesome} />
     </>
   );
 };

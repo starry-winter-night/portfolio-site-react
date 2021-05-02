@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './skills.module.css';
 import Skill from './skill';
 import Etc from './etc';
-const Skills = () => {
+const Skills = ({ menuRef }) => {
   const skills = [
     { id: 1, title: 'HTML', bar: '90%' },
     { id: 2, title: 'CSS', bar: '90%' },
@@ -20,7 +20,7 @@ const Skills = () => {
   ];
 
   return (
-    <section id="skills" className={`${styles.skills} section`}>
+    <section id="skills" className={`${styles.skills} section`} ref={menuRef}>
       <div className={styles.title}>
         <h1>Skills</h1>
       </div>

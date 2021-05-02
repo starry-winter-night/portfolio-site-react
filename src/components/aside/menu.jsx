@@ -3,15 +3,17 @@ import styles from './menu.module.css';
 
 const Menu = memo(({ menu, menuRef }) => {
   const onMenuClick = (e) => {
-    console.log(e.target);
     const currId = e.target.dataset.id;
-    const firstMenuId = menuRef.current.children[0].dataset.id;
+    const sections = menuRef.current;
 
-    currId === firstMenuId ? moveScrollMenu(currId) : moveScrollHome();
+    sections.forEach((item, index) => {
+      if (item.id === currId) {
+        index === 0 ? moveScrollHome() : moveScrollMenu(item);
+      }
+    });
 
-    function moveScrollMenu(id) {
-      const selector = document.querySelector(id);
-      selector.scrollIntoView({ behavior: 'smooth' });
+    function moveScrollMenu(item) {
+      item.scrollIntoView({ behavior: 'smooth' });
     }
 
     function moveScrollHome() {

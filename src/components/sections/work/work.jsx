@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './work.module.css';
 import Project from './project';
 
-const work = () => {
+const work = ({ menuRef }) => {
   const projects = [
     {
       id: 1,
@@ -57,7 +57,7 @@ const work = () => {
   const drawProject = (item) => <Project key={item.id} project={item} />;
 
   return (
-    <section id="work" className="work section">
+    <section id="work" className={`${styles.work} section`} ref={menuRef}>
       <div className={styles.title}>
         <h1>My work</h1>
       </div>
