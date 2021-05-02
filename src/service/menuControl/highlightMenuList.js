@@ -1,36 +1,36 @@
 export default class HighlightMenuList {
-  constructor(sections) {
-    this.sections = sections;
-  }
-
-  on(setObserve) {
+  on(sections, setObserve) {
     const REQUEST_TRESHOLD = 0.26;
     const options = {
       root: null,
       rootMargin: '0px',
-      threshold: this._getThresholdMinimumNumber(
-        this.sections,
-        REQUEST_TRESHOLD
-      ),
+      threshold: this._getThresholdMinimumNumber(sections, REQUEST_TRESHOLD),
     };
-    const callback = (entries, observer) => {
+    const observer = new IntersectionObserver(
+      this._callback(setObserve),
+      options
+    );
+
+    sections.forEach((dom) => observer.observe(dom));
+  }
+
+  _callback(setObserve) {
+    return (entries, observer) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting && entry.intersectionRatio > 0) {
           this._setElementByObserve(
             setObserve,
-            entry.boundingClientRect.y,
-            entry.target
+            entry.target,
+            entry.boundingClientRect.y
           );
+        } else if (entry.isIntersecting && entry.intersectionRatio > 0) {
+          this._setElementByObserve(setObserve, entry.target);
         }
       });
     };
-
-    const observer = new IntersectionObserver(callback, options);
-
-    this.sections.forEach((dom) => observer.observe(dom));
   }
 
-  _setElementByObserve(setObserve, y, target) {
+  _setElementByObserve(setObserve, target, y) {
     if (y < 0) {
       setObserve(target.nextElementSibling.id);
     } else if (y > 0) {

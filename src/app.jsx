@@ -4,10 +4,8 @@ import Navbar from './components/navbar/navbar';
 import Aside from './components/aside/aside';
 import Sections from './components/sections/sections';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import MoveSection from './service/menuControl/moveMenuSection';
-import HighLightMenu from './service/menuControl/highlightMenuList.js';
 
-const App = ({ starryNight }) => {
+const App = ({ starryNight, highLightMenu, moveSection }) => {
   const [observe, setObserve] = useState(null);
   const [sections, setSections] = useState([]);
   const canvasRef = useRef();
@@ -17,17 +15,12 @@ const App = ({ starryNight }) => {
   }, [starryNight]);
 
   useEffect(() => {
-    const highlight = new HighLightMenu([...sections]);
+    highLightMenu.on([...sections], setObserve);
+  }, [highLightMenu, sections]);
 
-    highlight.on(setObserve);
-  }, [sections]);
-
-  const moveSection = useCallback(
-    (id) => {
-      const move = new MoveSection(id, [...sections]);
-      move.start();
-    },
-    [sections]
+  const menuClickHandler = useCallback(
+    (id) => moveSection.start(id, [...sections]),
+    [moveSection, sections]
   );
 
   const getSectionsRef = useCallback((dom) => {
@@ -40,7 +33,7 @@ const App = ({ starryNight }) => {
       <Navbar />
       <Aside
         observe={observe}
-        moveSection={moveSection}
+        moveSection={menuClickHandler}
         FontAwesome={FontAwesomeIcon}
       />
       <Sections sectionRef={getSectionsRef} FontAwesome={FontAwesomeIcon} />

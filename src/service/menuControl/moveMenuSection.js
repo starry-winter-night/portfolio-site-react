@@ -1,12 +1,7 @@
 export default class MoveMenuSection {
-  constructor(targetId, sections) {
-    this.targetId = targetId;
-    this.sections = sections;
-  }
-
-  start() {
-    this.sections.forEach((item, index) => {
-      if (item.id === this.targetId) {
+  start(targetId, sections) {
+    sections.forEach((item, index) => {
+      if (item.id === targetId) {
         index === 0 ? this._moveScrollHome() : this._moveScrollMenu(item);
       }
     });
