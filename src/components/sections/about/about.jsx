@@ -3,8 +3,8 @@ import styles from './about.module.css';
 import { faServer } from '@fortawesome/free-solid-svg-icons';
 import { faJsSquare } from '@fortawesome/free-brands-svg-icons';
 
-const about = ({ menuRef, FontAwesome }) => (
-  <section id="about" className={`${styles.about} section`} ref={menuRef}>
+const about = ({ sectionRef, FontAwesome }) => (
+  <section id="about" className={`${styles.about} section`} ref={sectionRef}>
     <div className={styles.title}>
       <h1>About me</h1>
     </div>

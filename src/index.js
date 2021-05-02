@@ -8,7 +8,7 @@ const starryNight = new StarryNight();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App starryNight={starryNight} />
+    <App starryNight={starryNight}/>
   </React.StrictMode>,
   document.getElementById('root')
 );
