@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styles from './aside.module.css';
+import menuStyles from './menu.module.css';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Menu from './menu';
 
-const Aside = ({ menuRef, FontAwesome }) => {
+const Aside = memo(({ observe, moveSection, FontAwesome }) => {
   const menus = [
     { id: 'home', title: 'Home' },
     { id: 'about', title: 'About' },
@@ -12,6 +13,20 @@ const Aside = ({ menuRef, FontAwesome }) => {
     { id: 'contact', title: 'Contact' },
   ];
 
+  const changeClassName = (id, observe) => {
+    if (observe) {
+      if (observe === id) {
+        return menuStyles.itemView;
+      }
+
+      if (observe !== id) {
+        return menuStyles.item;
+      }
+    }
+  };
+
+  const onMenuClick = (e) => moveSection(e.target.dataset.id);
+
   return (
     <aside id="aside" className={styles.aside}>
       <button className={styles.menu__btn}>
@@ -19,7 +34,13 @@ const Aside = ({ menuRef, FontAwesome }) => {
       </button>
       <ul className={styles.menu}>
         {menus.map((item) => (
-          <Menu key={item.id} menu={item} menuRef={menuRef} />
+          <Menu
+            key={item.id}
+            menu={item}
+            moveSection={moveSection}
+            effect={changeClassName(item.id, observe)}
+            onMenuClick={onMenuClick}
+          />
         ))}
       </ul>
       <div className={styles.smpchat}>
@@ -31,6 +52,6 @@ const Aside = ({ menuRef, FontAwesome }) => {
       </div>
     </aside>
   );
-};
+});
 
 export default Aside;

@@ -1,16 +1,17 @@
-
-
-.menu_item {
+.item {
   cursor: pointer;
   font-size: var(--font-regular);
+  font-weight: 700;
 }
 
-.menu_item:hover {
+.item:hover {
   color: var(--color-blue);
 }
 
-.menu_item.view {
+.itemView {
   color: var(--color-orange);
+  cursor: pointer;
+  font-size: var(--font-regular);
+  font-weight: 700;
+  transform: scale(1.1);
 }
-
-
