@@ -100,7 +100,7 @@ body {
   margin: 0;
   font-family: 'Open Sans', sans-serif;
   overflow-y: scroll;
-  background-color: var(--color-background);
+  /* background-color: var(--color-background); */
 }
 
 ::-webkit-scrollbar {

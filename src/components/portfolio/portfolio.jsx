@@ -1,10 +1,11 @@
 import React, { useRef, useEffect, useCallback, useState } from 'react';
+import './portfolio.css';
 import Navbar from './navbar/navbar';
 import Aside from './aside/aside';
 import Sections from './sections/sections';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const Portfolio = ({ starryNight, highLightMenu, moveSection }) => {
+const Portfolio = ({ starryNight, highLightMenu, moveSection, onStudy }) => {
   const [observe, setObserve] = useState(null);
   const [sections, setSections] = useState([]);
 
@@ -33,8 +34,9 @@ const Portfolio = ({ starryNight, highLightMenu, moveSection }) => {
       <Navbar />
       <Aside
         observe={observe}
-        handleClickMenu={handleClickMenu}
+        onMenu={handleClickMenu}
         FontAwesome={FontAwesomeIcon}
+        onStudy={onStudy}
       />
       <Sections sectionRefs={getSectionsRefs} FontAwesome={FontAwesomeIcon} />
     </>

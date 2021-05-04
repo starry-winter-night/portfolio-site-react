@@ -4,8 +4,9 @@ import menuStyles from './menu.module.css';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Menu from './menu';
 
-const Aside = memo(({ observe, handleClickMenu, FontAwesome }) => {
-  const [toggle, setToggle] = useState('off');
+const Aside = memo(({ observe, onMenu, FontAwesome, onStudy }) => {
+  const [menuIconToggle, setMenuIconToggle] = useState('off');
+
 
   const menus = [
     { id: 'home', title: 'Home' },
@@ -27,41 +28,50 @@ const Aside = memo(({ observe, handleClickMenu, FontAwesome }) => {
     }
   };
 
-  const handleMenuClick = (e) => {
+  const handleMenuIconClick = (e) => {
     e.preventDefault();
 
-    if (toggle === 'off') {
-      setToggle('on');
+    if (menuIconToggle === 'off') {
+      setMenuIconToggle('on');
     } else {
-      setToggle('off');
+      setMenuIconToggle('off');
     }
   };
 
-  const onMenuClick = (e) => handleClickMenu(e.target.dataset.id);
+  const handleStudyButtonClick = (e) => {
+    e.preventDefault();
+
+    onStudy();
+  };
 
   return (
     <aside
       id="aside"
-      className={`${styles.aside} ${toggle === 'on' && styles.active}`}
+      className={`${styles.aside} ${menuIconToggle === 'on' && styles.active}`}
     >
-      <button className={styles.menu__btn} onClick={handleMenuClick}>
+      <button className={styles.menu__btn} onClick={handleMenuIconClick}>
         <FontAwesome icon={faBars} />
       </button>
-      <ul className={`${styles.menu} ${toggle === 'on' && styles.active}`}>
+      <ul
+        className={`${styles.menu} ${menuIconToggle === 'on' && styles.active}`}
+      >
         {menus.map((item) => (
           <Menu
             key={item.id}
             menu={item}
-            handleClickMenu={handleClickMenu}
+            onMenu={onMenu}
             effect={changeClassName(item.id, observe)}
-            onMenuClick={onMenuClick}
           />
         ))}
       </ul>
       <div
-        className={`${styles.studyPage} ${toggle === 'on' && styles.active}`}
+        className={`${styles.studyPage} ${
+          menuIconToggle === 'on' && styles.active
+        }`}
       >
-        <button className={styles.itemButton}>Study</button>
+        <button className={styles.itemButton} onClick={handleStudyButtonClick}>
+          Study
+        </button>
         {/* <img
           src="imgs/message.png"
           alt="chatting"
