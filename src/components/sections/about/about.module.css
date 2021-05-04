@@ -1,7 +1,7 @@
 .about p {
   margin-top: 40px;
   margin-bottom: 40px;
-  font-family: "Nanum Gothic Coding", monospace;
+  font-family: 'Nanum Gothic Coding', monospace;
   color: var(--color-dark-white);
   font-weight: 100;
   line-height: 25px;
@@ -89,4 +89,37 @@
 
 .major__icon svg {
   transition: all var(--animation-duration) ease;
+}
+
+@media screen and (max-width: 768px) {
+  .title {
+    width: 15em;
+  }
+
+  .job {
+    flex-direction: column;
+  }
+
+  .job ul {
+    line-height: 25px;
+  }
+
+  .jobImg {
+    max-width: 80px;
+    margin: 5px auto 10px auto;
+  }
+
+  .major__title {
+    font-size: var(--font-regular);
+  }
+
+  .major__description {
+    font-size: var(--font-micro);
+  }
+
+  .major__icon {
+    width: 80px;
+    height: 80px;
+    font-size: var(--font-large);
+  }
 }

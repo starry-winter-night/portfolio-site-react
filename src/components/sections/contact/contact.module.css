@@ -46,7 +46,6 @@
   background-color: var(--color-white);
 }
 
-
 .container a svg {
   font-size: var(--font-large);
   margin: 15px 0;
@@ -54,4 +53,24 @@
 
 .rights {
   margin: 0;
+}
+
+@media screen and (max-width: 768px) {
+  .title {
+    width: 15em;
+  }
+
+  .container {
+    padding: 25px 15px;
+    flex-direction: column;
+    margin-bottom: 35px;
+  }
+
+  .guide {
+    margin: 35px 0;
+  }
+
+  .rights {
+    margin-bottom: 25px;
+  }
 }

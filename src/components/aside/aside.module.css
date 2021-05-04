@@ -55,3 +55,80 @@
   margin-top: 45px;
   padding-bottom: 100px;
 }
+
+@media screen and (max-width: 1024px) {
+  .smpchat img {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .aside {
+    padding-top: 0;
+    width: 100px;
+    align-items: center;
+  }
+
+  .aside.active {
+    top: 0;
+    padding-top: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+
+  .menu {
+    display: none;
+    animation-duration: var(--animation-duration);
+    animation-name: menuSlide;
+  }
+
+  @keyframes menuSlide {
+    from {
+      transform: translateX(100px);
+    }
+    to {
+      transform: translateX(0px);
+    }
+  }
+
+  .menu.active {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    flex-basis: 73%;
+    padding: 10px 0;
+    height: 0;
+    margin: 0;
+  }
+
+  .menu.active li {
+    font-size: var(--font-small);
+  }
+
+  .menu__btn {
+    display: flex;
+    width: 50px;
+    align-items: center;
+    flex-basis: 50px;
+    margin: 0;
+    padding: 0;
+    margin-top: 25px;
+  }
+
+  .smpchat {
+    position: absolute;
+    bottom: 63px;
+    left: 0;
+    right: 0;
+  }
+
+  .aside.active > .smpchat {
+    position: static;
+    margin-bottom: 25px;
+  }
+
+  .smpchat img {
+    width: 35px;
+    height: 35px;
+  }
+}

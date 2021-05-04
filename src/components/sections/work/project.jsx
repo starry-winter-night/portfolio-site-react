@@ -5,7 +5,7 @@ const project = ({ project }) => {
   return (
     <a
       href={project.url}
-      className={`${styles.project} backend`}
+      className={`${styles.project} ${project.type}`}
       target="noopener"
     >
       <img

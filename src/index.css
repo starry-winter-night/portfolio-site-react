@@ -113,3 +113,25 @@ body {
 ::-webkit-scrollbar-track {
   background-color: var(--color-backgroundTransparency);
 }
+
+@media screen and (max-width: 768px) {
+  h1 {
+    font-size: var(--font-medium);
+  }
+
+  h2 {
+    font-size: var(--font-regular);
+  }
+
+  h3 {
+    font-size: var(--font-small);
+  }
+
+  p {
+    font-size: var(--font-micro);
+  }
+
+  a {
+    font-size: var(--font-micro);
+  }
+}

@@ -38,3 +38,11 @@
   width: 220px;
   height: 220px;
 }
+
+@media screen and (max-width: 768px) {
+  .title {
+    width: 15em;
+  }
+
+
+}

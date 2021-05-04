@@ -13,7 +13,7 @@
 .skills > p {
   margin-top: 40px;
   margin-bottom: 40px;
-  font-family: "Nanum Gothic Coding", monospace;
+  font-family: 'Nanum Gothic Coding', monospace;
   color: var(--color-dark-white);
   font-weight: 100;
   line-height: 25px;
@@ -31,7 +31,6 @@
   font-weight: 700;
 }
 
-
 .left {
   flex-basis: 70%;
 }
@@ -40,8 +39,25 @@
   flex-basis: 30%;
 }
 
-
-
 .tools__list li {
   padding: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .title {
+    width: 15em;
+  }
+
+  .skillset {
+    padding: 15px;
+    flex-direction: column;
+  }
+
+  .skills > p {
+    margin: 25px 0;
+  }
+
+  .tools__list li {
+    padding: 5px;
+  }
 }
