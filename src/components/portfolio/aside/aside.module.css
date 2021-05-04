@@ -64,11 +64,13 @@
 }
 
 .itemButton {
+  font-family: 'Didact Gothic';
   cursor: pointer;
   font-size: var(--font-regular);
   font-weight: 700;
-  border: 1px solid var(--color-orange);
-  padding: 10px 15px;
+  border: 1px solid var(--color-blue);
+  padding: 7px 15px;
+  border-radius: 5px;
 }
 
 .itemButton:hover {
@@ -128,6 +130,11 @@
 
   .studyPage.active {
     display: flex;
+  }
+
+  .itemButton {
+    font-size: var(--font-size-small);
+    padding: 4px 10px;
   }
 
   .menu.active li {
