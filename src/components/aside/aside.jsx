@@ -1,10 +1,12 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import styles from './aside.module.css';
 import menuStyles from './menu.module.css';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Menu from './menu';
 
 const Aside = memo(({ observe, handleClickMenu, FontAwesome }) => {
+  const [toggle, setToggle] = useState('off');
+
   const menus = [
     { id: 'home', title: 'Home' },
     { id: 'about', title: 'About' },
@@ -25,14 +27,27 @@ const Aside = memo(({ observe, handleClickMenu, FontAwesome }) => {
     }
   };
 
+  const handleMenuClick = (e) => {
+    e.preventDefault();
+
+    if (toggle === 'off') {
+      setToggle('on');
+    } else {
+      setToggle('off');
+    }
+  };
+
   const onMenuClick = (e) => handleClickMenu(e.target.dataset.id);
 
   return (
-    <aside id="aside" className={styles.aside}>
-      <button className={styles.menu__btn}>
+    <aside
+      id="aside"
+      className={`${styles.aside} ${toggle === 'on' && styles.active}`}
+    >
+      <button className={styles.menu__btn} onClick={handleMenuClick}>
         <FontAwesome icon={faBars} />
       </button>
-      <ul className={styles.menu}>
+      <ul className={`${styles.menu} ${toggle === 'on' && styles.active}`}>
         {menus.map((item) => (
           <Menu
             key={item.id}
