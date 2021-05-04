@@ -3,21 +3,11 @@ import styles from './navbar.module.css';
 import RocketGuide from '../../service/rocketGuide/rocketGuide';
 const Navbar = memo(() => {
   const guide = useRef();
-  const earth = useRef();
-  const rocket = useRef();
-  const mars = useRef();
 
   useEffect(() => {
-    const ref = {
-      guide: guide.current,
-      earth: earth.current,
-      rocket: rocket.current,
-      mars: mars.current,
-    };
-
-    const rocketGuide = new RocketGuide(ref);
+    const rocketGuide = new RocketGuide(guide.current);
     rocketGuide.start();
-  });
+  }, [guide]);
 
   return (
     <nav className={styles.navbar}>
@@ -35,21 +25,18 @@ const Navbar = memo(() => {
           alt="earth"
           className={styles.earth}
           data-id="earth"
-          ref={earth}
         />
         <img
           src="/imgs/spaceShip-unscreen.gif"
           alt="spaceShip"
           className={styles.rocket}
           data-id="rocket"
-          ref={rocket}
         />
         <img
           src="/imgs/mars.png"
           alt="mars"
           className={styles.mars}
           data-id="mars"
-          ref={mars}
         />
       </div>
     </nav>

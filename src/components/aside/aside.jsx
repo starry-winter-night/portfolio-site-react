@@ -58,12 +58,15 @@ const Aside = memo(({ observe, handleClickMenu, FontAwesome }) => {
           />
         ))}
       </ul>
-      <div className={styles.smpchat}>
-        <img
+      <div
+        className={`${styles.studyPage} ${toggle === 'on' && styles.active}`}
+      >
+        <button className={styles.itemButton}>Study</button>
+        {/* <img
           src="imgs/message.png"
           alt="chatting"
           className={styles.smpchat_icon}
-        />
+        /> */}
       </div>
     </aside>
   );

@@ -8,8 +8,8 @@ const skill = ({ skillList }) => {
         <span>{skillList.title}</span>
         <span>{skillList.bar}</span>
       </div>
-      <div style={{ width: skillList.bar }} className={styles.bar}>
-        <div className={styles.value}></div>
+      <div className={styles.bar}>
+        <div style={{ width: skillList.bar }} className={styles.value}></div>
       </div>
     </li>
   );

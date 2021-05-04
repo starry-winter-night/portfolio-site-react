@@ -1,19 +1,19 @@
 export default class RocketGuide {
-  constructor(elements) {
-    this.elements = elements;
+  constructor(element) {
+    this.element = element;
     this.prevHeight = 0;
   }
 
   start() {
-    document.addEventListener('scroll', this._render(this.elements));
+    document.addEventListener('scroll', this._render(this.element));
   }
 
-  _render(elements) {
-    return () => {
-      const rocket = elements.rocket;
+  _render(element) {
+    return (e) => {
+      const rocket = element.childNodes[1];
       const currHeight = window.pageYOffset;
 
-      const distance = getRocketMoveDistancePixel(elements);
+      const distance = getRocketMoveDistancePixel(element);
 
       const rotate = getRocketRotate(this.prevHeight, currHeight);
 
@@ -35,16 +35,14 @@ function getScrollHeightPercent() {
   return Math.floor((window.pageYOffset / remainTotalHeight) * 100);
 }
 
-function getTravelLoadOnePercentPixel(elements) {
-  const { rocket, guide, earth, mars } = elements;
-
-  const rocektWidth = rocket.clientWidth;
-  const earthWidth = earth.clientWidth;
-  const marsWidth = mars.clientWidth;
+function getTravelLoadOnePercentPixel(element) {
+  const rocektWidth = element.childNodes[0].getBoundingClientRect().width;
+  const earthWidth = element.childNodes[1].getBoundingClientRect().width;
+  const marsWidth = element.childNodes[2].getBoundingClientRect().width;
 
   const totalImgWidth = rocektWidth + earthWidth + marsWidth;
 
-  const travelRoadWidth = guide.clientWidth;
+  const travelRoadWidth = element.clientWidth;
 
   // x축의 1%에 해당하는 pixel 구하기.
   return (travelRoadWidth - totalImgWidth) / 100;

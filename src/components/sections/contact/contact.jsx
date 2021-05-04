@@ -37,7 +37,7 @@ const contact = ({ sectionRefs, FontAwesome }) => {
         연결됩니다.
         <br />
         오른쪽 하단의 <span>말풍선</span>을 클릭하시면 제가 만든 실시간 채팅
-        라이브러리를 통해 저와 채팅 하실 수 있습니다. <br />
+        API를 통해 저와 채팅 하실 수 있습니다. <br />
         감사합니다. :D
       </p>
       <div className={styles.container}>
