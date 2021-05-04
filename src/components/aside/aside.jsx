@@ -4,7 +4,7 @@ import menuStyles from './menu.module.css';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Menu from './menu';
 
-const Aside = memo(({ observe, moveSection, FontAwesome }) => {
+const Aside = memo(({ observe, handleClickMenu, FontAwesome }) => {
   const menus = [
     { id: 'home', title: 'Home' },
     { id: 'about', title: 'About' },
@@ -25,7 +25,7 @@ const Aside = memo(({ observe, moveSection, FontAwesome }) => {
     }
   };
 
-  const onMenuClick = (e) => moveSection(e.target.dataset.id);
+  const onMenuClick = (e) => handleClickMenu(e.target.dataset.id);
 
   return (
     <aside id="aside" className={styles.aside}>
@@ -37,7 +37,7 @@ const Aside = memo(({ observe, moveSection, FontAwesome }) => {
           <Menu
             key={item.id}
             menu={item}
-            moveSection={moveSection}
+            handleClickMenu={handleClickMenu}
             effect={changeClassName(item.id, observe)}
             onMenuClick={onMenuClick}
           />

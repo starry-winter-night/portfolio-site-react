@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const App = ({ starryNight, highLightMenu, moveSection }) => {
   const [observe, setObserve] = useState(null);
   const [sections, setSections] = useState([]);
+
   const canvasRef = useRef();
 
   useEffect(() => {
@@ -18,12 +19,12 @@ const App = ({ starryNight, highLightMenu, moveSection }) => {
     highLightMenu.on([...sections], setObserve);
   }, [highLightMenu, sections]);
 
-  const menuClickHandler = useCallback(
+  const handleClickMenu = useCallback(
     (id) => moveSection.start(id, [...sections]),
     [moveSection, sections]
   );
 
-  const getSectionsRef = useCallback((dom) => {
+  const getSectionsRefs = useCallback((dom) => {
     setSections((item) => [...item, dom]);
   }, []);
 
@@ -33,10 +34,10 @@ const App = ({ starryNight, highLightMenu, moveSection }) => {
       <Navbar />
       <Aside
         observe={observe}
-        moveSection={menuClickHandler}
+        handleClickMenu={handleClickMenu}
         FontAwesome={FontAwesomeIcon}
       />
-      <Sections sectionRef={getSectionsRef} FontAwesome={FontAwesomeIcon} />
+      <Sections sectionRefs={getSectionsRefs} FontAwesome={FontAwesomeIcon} />
     </>
   );
 };

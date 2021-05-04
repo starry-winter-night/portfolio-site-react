@@ -4,7 +4,7 @@ import styles from './contact.module.css';
 import { faAt } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
-const contact = ({ sectionRef, FontAwesome }) => {
+const contact = ({ sectionRefs, FontAwesome }) => {
   const infos = [
     {
       id: 1,
@@ -26,7 +26,7 @@ const contact = ({ sectionRef, FontAwesome }) => {
     <section
       id="contact"
       className={`${styles.contact} section`}
-      ref={sectionRef}
+      ref={sectionRefs}
     >
       <div className={styles.title}>
         <h1>Contact</h1>
