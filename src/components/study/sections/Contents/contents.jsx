@@ -3,7 +3,7 @@ import styles from './contents.module.css';
 
 const Contents = memo(({ items }) => {
   const video = items.snippet;
-  console.log(video);
+
   return (
     <section className={styles.contents}>
       <div className={styles.videoBox}>
@@ -11,7 +11,7 @@ const Contents = memo(({ items }) => {
           type="text/html"
           title="youtube video player"
           width="100%"
-          height="500px"
+          height="600px"
           src={`https://www.youtube.com/embed/${video.resourceId.videoId}`}
           frameBorder="0"
           allowFullScreen
