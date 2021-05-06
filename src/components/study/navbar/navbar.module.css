@@ -1,6 +1,6 @@
 .navbar {
   height: 56px;
-  padding: 0 16px;
+  padding: 0 24px;
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
@@ -14,7 +14,7 @@
 }
 
 .backIcon {
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .inputBox {
@@ -50,5 +50,10 @@
   justify-content: space-between;
   width: 30%;
   font-size: 13px;
-  cursor:pointer;
+  cursor: pointer;
+}
+
+.logo {
+  width: 35px;
+  margin-right: 5px;
 }

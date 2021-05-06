@@ -9,6 +9,11 @@ const Navbar = ({ FontAwesome }) => {
         <FontAwesome className={styles.backIcon} icon={faArrowLeft} />
       </div>
       <form className={styles.inputBox}>
+        <img
+          src="/imgs/youtubeLogo.png"
+          alt="youtubeLogo"
+          className={styles.logo}
+        ></img>
         <input className={styles.searchInput} placeholder="검색"></input>
         <button className={styles.searchButton}>
           <FontAwesome className={styles.searchIcon} icon={faSearch} />
@@ -17,8 +22,8 @@ const Navbar = ({ FontAwesome }) => {
       <ul className={styles.studyList}>
         <li className={styles.music}>Search</li>
         <li className={styles.frontEnd}>Develop</li>
-        <li className={styles.etc}>Card</li>
-        <li className={styles.backEnd}>BookMark</li>
+        <li className={styles.etc}>Etc</li>
+        <li className={styles.backEnd}>Card</li>
       </ul>
     </nav>
   );
