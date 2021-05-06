@@ -1,0 +1,27 @@
+.youtubeList {
+  display: flex;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.thumbnail {
+  width: 168px;
+}
+
+.title {
+  font-size: 14px;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  -webkit-line-clamp: 3;
+  height: 60px;
+  margin: 0 5px;
+  display: -webkit-box;
+}
+
+.content {
+  font-size: 12px;
+  margin: 20px 5px 0 5px;
+  color: var(--color-light-grey);
+}
