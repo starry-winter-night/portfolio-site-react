@@ -14,7 +14,10 @@
   --color-orange: #f35f2c;
   --color-yellow: #f2d038;
   --color-black: #000000;
-  --color-background: #02020e;
+  --color-background: #212121;
+  --color-subBackground: #121212;
+  --color-contentBackground: #181818;
+  --color-light-black: #313131;
   --color-backgroundTransparency: rgba(45, 45, 52, 0.5);
 
   /* Font size */
@@ -100,18 +103,18 @@ body {
   margin: 0;
   font-family: 'Open Sans', sans-serif;
   overflow-y: scroll;
-  /* background-color: var(--color-background); */
+  background-color: var(--color-background);
 }
 
 ::-webkit-scrollbar {
   width: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: #333;
+  background-color: var(--color-dark-grey);
   border-radius: 20px;
 }
 ::-webkit-scrollbar-track {
-  background-color: var(--color-backgroundTransparency);
+  background-color: var(--color-background);
 }
 
 @media screen and (max-width: 768px) {

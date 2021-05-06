@@ -1,9 +1,10 @@
 import React, { useCallback, useState } from 'react';
 import './app.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Portfolio from './components/portfolio/portfolio';
 import Study from './components/study/study';
 
-const App = ({ starryNight, highLightMenu, moveSection }) => {
+const App = ({ starryNight, highLightMenu, moveSection, youtube }) => {
   const [studyButtonToggle, setStudyButtonToggle] = useState('off');
 
   const handleClickStudy = useCallback(() => {
@@ -18,6 +19,7 @@ const App = ({ starryNight, highLightMenu, moveSection }) => {
     <>
       <div className={`portfolio ${studyButtonToggle === 'off' && 'view'}`}>
         <Portfolio
+          FontAwesome={FontAwesomeIcon}
           starryNight={starryNight}
           highLightMenu={highLightMenu}
           moveSection={moveSection}
@@ -25,7 +27,7 @@ const App = ({ starryNight, highLightMenu, moveSection }) => {
         />
       </div>
       <div className={`study ${studyButtonToggle === 'on' && 'view'}`}>
-        <Study />
+        <Study FontAwesome={FontAwesomeIcon} youtube={youtube} />
       </div>
     </>
   );

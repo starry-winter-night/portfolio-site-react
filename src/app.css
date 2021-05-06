@@ -10,6 +10,6 @@
   display: none;
 }
 
-.study .view {
+.study.view {
   display: block;
 }
