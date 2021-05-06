@@ -3,9 +3,14 @@ import './portfolio.css';
 import Navbar from './navbar/navbar';
 import Aside from './aside/aside';
 import Sections from './sections/sections';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const Portfolio = ({ starryNight, highLightMenu, moveSection, onStudy }) => {
+const Portfolio = ({
+  starryNight,
+  highLightMenu,
+  moveSection,
+  onStudy,
+  FontAwesome,
+}) => {
   const [observe, setObserve] = useState(null);
   const [sections, setSections] = useState([]);
 
@@ -35,10 +40,10 @@ const Portfolio = ({ starryNight, highLightMenu, moveSection, onStudy }) => {
       <Aside
         observe={observe}
         onMenu={handleClickMenu}
-        FontAwesome={FontAwesomeIcon}
+        FontAwesome={FontAwesome}
         onStudy={onStudy}
       />
-      <Sections sectionRefs={getSectionsRefs} FontAwesome={FontAwesomeIcon} />
+      <Sections sectionRefs={getSectionsRefs} FontAwesome={FontAwesome} />
     </>
   );
 };
