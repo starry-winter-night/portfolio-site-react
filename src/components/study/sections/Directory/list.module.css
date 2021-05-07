@@ -1,0 +1,7 @@
+.playList {
+  display: none;
+}
+
+.playList.view {
+  display: block;
+}

@@ -1,8 +1,9 @@
 import React from 'react';
 import styles from './navbar.module.css';
+import Menu from './menu';
 import { faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-icons';
 
-const Navbar = ({ FontAwesome }) => {
+const Navbar = ({ FontAwesome, menus, onMenu }) => {
   return (
     <nav className={styles.navbar}>
       <div className={styles.backBox}>
@@ -20,10 +21,9 @@ const Navbar = ({ FontAwesome }) => {
         </button>
       </form>
       <ul className={styles.studyList}>
-        <li className={styles.music}>Search</li>
-        <li className={styles.frontEnd}>Develop</li>
-        <li className={styles.etc}>Etc</li>
-        <li className={styles.backEnd}>Card</li>
+        {menus.map((item) => (
+          <Menu key={item.id} title={item.title} onMenu={onMenu} />
+        ))}
       </ul>
     </nav>
   );

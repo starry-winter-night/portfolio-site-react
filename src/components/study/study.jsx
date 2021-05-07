@@ -1,20 +1,45 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Navbar from './navbar/navbar';
 import Sections from './sections/sections';
-// import Aside from './aside/aside';
+
 const Study = ({ FontAwesome, youtube }) => {
-  const [items, setItems] = useState([]);
+  // 리스트와 컨텐트를 나누자. 
+
+  const [items, setItems] = useState();
+  const [menus, setMenu] = useState([
+    { id: 'develop', title: 'Develop', view: 'on' },
+    { id: 'search', title: 'Search', view: 'off' },
+    { id: 'etc', title: 'Etc', view: 'off' },
+    { id: 'card', title: 'Card', view: 'off' },
+  ]);
 
   useEffect(() => {
-    youtube.playList().then((result) => setItems(result));
+    youtube.developList().then((result) => setItems(result));
   }, [youtube]);
+
+  const handleClickMenu = useCallback(
+    (title) => {
+      setMenu((menu) =>
+        menu.map((item) => {
+          if (item.title === title) {
+            return { ...item, view: 'on' };
+          }
+
+          return { ...item, view: 'off' };
+        })
+      );
+    },
+    []
+  );
 
   return (
     <>
-      <Navbar FontAwesome={FontAwesome} /> {}
-      {items.length !== 0 && (
-        /* <Aside items={items} /> */ <Sections items={items} />
-      )}
+      <Navbar
+        menus={menus}
+        FontAwesome={FontAwesome}
+        onMenu={handleClickMenu}
+      />
+      {items && <Sections items={items} menus={menus} />}
     </>
   );
 };

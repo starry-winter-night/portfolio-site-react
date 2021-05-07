@@ -6,7 +6,7 @@
 .pnp.js
 .history
 .gitignore
-
+.env
 # testing
 /coverage
 

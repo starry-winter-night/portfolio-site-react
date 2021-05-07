@@ -8,6 +8,7 @@ class Youtube {
   }
   async developList() {
     const id = process.env.REACT_APP_YOUTUBE_MYCHENNEL_ID;
+
     const response = await fetch(
       `https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet%2CcontentDetails%2Cstatus&playlistId=${id}&maxResults=25&key=${this.key}`,
       this.getRequestOptions
@@ -23,10 +24,10 @@ class Youtube {
       `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${query}&key=${this.key}`,
       this.getRequestOptions
     );
-    
+
     const result = await response.json();
 
-    console.log(result);
+    return result.items;
   }
 }
 
