@@ -3,11 +3,11 @@ import styles from './sections.module.css';
 import Contents from './Contents/contents';
 import Directory from './Directory/directory';
 
-const Sections = ({ items, menus }) => {
+const Sections = ({ videoList, videoPlay, menus, onList }) => {
   return (
     <div className={styles.container}>
-      <Contents items={items[0]} />
-      <Directory items={items} menus={menus} />
+      <Contents videoPlay={videoPlay} />
+      <Directory videoList={videoList} menus={menus} onList={onList} />
     </div>
   );
 };

@@ -1,28 +1,52 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styles from './navbar.module.css';
 import Menu from './menu';
 import { faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-icons';
 
-const Navbar = ({ FontAwesome, menus, onMenu }) => {
+const Navbar = ({ FontAwesome, menus, onMenu, onSearch, onStudy }) => {
+  const inputRef = useRef();
+
+  const handleSubmitSearch = (e) => {
+    e.preventDefault();
+
+    const query = inputRef.current.value;
+
+    query && onSearch(query, 'Search');
+
+    inputRef.current.value = '';
+  };
+
+  const handleGoBack = () => {
+    onStudy();
+  };
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.backBox}>
-        <FontAwesome className={styles.backIcon} icon={faArrowLeft} />
+        <FontAwesome
+          className={styles.backIcon}
+          icon={faArrowLeft}
+          onClick={handleGoBack}
+        />
       </div>
-      <form className={styles.inputBox}>
+      <form className={styles.inputBox} onSubmit={handleSubmitSearch}>
         <img
           src="/imgs/youtubeLogo.png"
           alt="youtubeLogo"
           className={styles.logo}
         ></img>
-        <input className={styles.searchInput} placeholder="검색"></input>
+        <input
+          className={styles.searchInput}
+          ref={inputRef}
+          placeholder="검색"
+        ></input>
         <button className={styles.searchButton}>
           <FontAwesome className={styles.searchIcon} icon={faSearch} />
         </button>
       </form>
       <ul className={styles.studyList}>
         {menus.map((item) => (
-          <Menu key={item.id} title={item.title} onMenu={onMenu} />
+          <Menu key={item.id} title={item.title} onMenu={onMenu} item={item} />
         ))}
       </ul>
     </nav>
