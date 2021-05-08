@@ -1,0 +1,14 @@
+.menu {
+  cursor: pointer;
+}
+
+.menu.select {
+  color: var(--color-orange);
+}
+
+/* .menu.select:after {
+  content: '';
+  display: block;
+  width: 60px;
+  border-bottom: 1px solid var(--color-orange);
+} */

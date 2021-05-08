@@ -4,10 +4,11 @@
 }
 
 .contentBox {
-  margin-top: 5px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 50px;
+  line-height: 25px;
 }
 
 .title {

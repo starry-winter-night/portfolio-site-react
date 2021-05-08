@@ -10,7 +10,7 @@ class Youtube {
     const id = process.env.REACT_APP_YOUTUBE_MYCHENNEL_ID;
 
     const response = await fetch(
-      `https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet%2CcontentDetails%2Cstatus&playlistId=${id}&maxResults=25&key=${this.key}`,
+      `https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${id}&maxResults=25&type=video&key=${this.key}`,
       this.getRequestOptions
     );
 
@@ -21,7 +21,7 @@ class Youtube {
 
   async search(query) {
     const response = await fetch(
-      `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${query}&key=${this.key}`,
+      `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${query}&type=video&key=${this.key}`,
       this.getRequestOptions
     );
 

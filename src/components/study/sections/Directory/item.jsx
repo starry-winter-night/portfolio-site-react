@@ -1,14 +1,18 @@
 import React, { memo } from 'react';
 import styles from './item.module.css';
 
-const item = memo(({ item }) => {
+const item = memo(({ item, onList }) => {
   const video = item.snippet;
   const channelTitle = video.videoOwnerChannelTitle
     ? video.videoOwnerChannelTitle
     : video.channelTitle;
 
+  const handleClickVideoList = () => {
+    onList(item);
+  };
+
   return (
-    <li className={styles.youtubeList}>
+    <li className={styles.youtubeList} onClick={handleClickVideoList}>
       <div className={styles.thumnailBox}>
         <img
           className={styles.thumbnail}

@@ -1,8 +1,11 @@
 import React, { memo } from 'react';
 import styles from './contents.module.css';
 
-const Contents = memo(({ items }) => {
-  const video = items.snippet;
+const Contents = memo(({ videoPlay }) => {
+  const video = videoPlay.snippet;
+  const developVideoId = video?.resourceId?.videoId;
+  const searchVideoId = videoPlay.id.videoId;
+  const videoId = developVideoId ? developVideoId : searchVideoId;
 
   return (
     <section className={styles.contents}>
@@ -12,7 +15,7 @@ const Contents = memo(({ items }) => {
           title="youtube video player"
           width="100%"
           height="600px"
-          src={`https://www.youtube.com/embed/${video.resourceId.videoId}`}
+          src={`https://www.youtube.com/embed/${videoId}`}
           frameBorder="0"
           allowFullScreen
         ></iframe>
