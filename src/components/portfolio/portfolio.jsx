@@ -1,51 +1,47 @@
-import React, { useRef, useEffect, useCallback, useState } from 'react';
+import React, { useRef, useEffect, useCallback, useState, memo } from 'react';
 import './portfolio.css';
 import Navbar from './navbar/navbar';
 import Aside from './aside/aside';
 import Sections from './sections/sections';
 
-const Portfolio = ({
-  starryNight,
-  highLightMenu,
-  moveSection,
-  onStudy,
-  FontAwesome,
-}) => {
-  const [observe, setObserve] = useState(null);
-  const [sections, setSections] = useState([]);
+const Portfolio = memo(
+  ({ starryNight, highLightMenu, moveSection, onStudy, FontAwesome }) => {
+    const [observe, setObserve] = useState(null);
+    const [sections, setSections] = useState([]);
 
-  const canvasRef = useRef();
+    const canvasRef = useRef();
 
-  useEffect(() => {
-    starryNight.draw(canvasRef.current);
-  }, [starryNight]);
+    useEffect(() => {
+      starryNight.draw(canvasRef.current);
+    }, [starryNight]);
 
-  useEffect(() => {
-    highLightMenu.on([...sections], setObserve);
-  }, [highLightMenu, sections]);
+    useEffect(() => {
+      highLightMenu.on([...sections], setObserve);
+    }, [highLightMenu, sections]);
 
-  const handleClickMenu = useCallback(
-    (id) => moveSection.start(id, [...sections]),
-    [moveSection, sections]
-  );
+    const handleClickMenu = useCallback(
+      (id) => moveSection.start(id, [...sections]),
+      [moveSection, sections]
+    );
 
-  const getSectionsRefs = useCallback((dom) => {
-    setSections((item) => [...item, dom]);
-  }, []);
+    const getSectionsRefs = useCallback((dom) => {
+      setSections((item) => [...item, dom]);
+    }, []);
 
-  return (
-    <>
-      <canvas ref={canvasRef} className="canvas"></canvas>
-      <Navbar />
-      <Aside
-        observe={observe}
-        onMenu={handleClickMenu}
-        FontAwesome={FontAwesome}
-        onStudy={onStudy}
-      />
-      <Sections sectionRefs={getSectionsRefs} FontAwesome={FontAwesome} />
-    </>
-  );
-};
+    return (
+      <>
+        <canvas ref={canvasRef} className="canvas"></canvas>
+        <Navbar />
+        <Aside
+          observe={observe}
+          onMenu={handleClickMenu}
+          FontAwesome={FontAwesome}
+          onStudy={onStudy}
+        />
+        <Sections sectionRefs={getSectionsRefs} FontAwesome={FontAwesome} />
+      </>
+    );
+  }
+);
 
 export default Portfolio;
