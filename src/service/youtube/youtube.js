@@ -1,33 +1,37 @@
+import axios from 'axios';
 class Youtube {
   constructor(key) {
-    this.key = key;
-    this.getRequestOptions = {
-      method: 'GET',
-      redirect: 'follow',
-    };
+    this.youtube = axios.create({
+      baseURL: 'https://youtube.googleapis.com/youtube/v3',
+      params: { key: key },
+    });
   }
   async developList() {
     const id = process.env.REACT_APP_YOUTUBE_MYCHENNEL_ID;
 
-    const response = await fetch(
-      `https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${id}&maxResults=25&type=video&key=${this.key}`,
-      this.getRequestOptions
-    );
+    const response = await this.youtube.get('playlistItems', {
+      params: {
+        part: 'snippet',
+        playlistId: id,
+        maxResults: 25,
+        type: 'video',
+      },
+    });
 
-    const result = await response.json();
-
-    return result.items;
+    return response.data.items;
   }
 
   async search(query) {
-    const response = await fetch(
-      `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${query}&type=video&key=${this.key}`,
-      this.getRequestOptions
-    );
+    const response = await this.youtube.get('search', {
+      params: {
+        part: 'snippet',
+        q: query,
+        maxResults: 25,
+        type: 'video',
+      },
+    });
 
-    const result = await response.json();
-
-    return result.items;
+    return response.data.items;
   }
 }
 
