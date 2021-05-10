@@ -17,6 +17,8 @@ const Skills = ({ sectionRefs }) => {
     { id: 2, title: 'Git' },
     { id: 3, title: 'MySQL' },
     { id: 4, title: 'MongoDB' },
+    { id: 5, title: 'FireBase' },
+    { id: 6, title: 'Cloudinary' },
   ];
 
   return (

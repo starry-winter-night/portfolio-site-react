@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback, memo } from 'react';
 import Navbar from './navbar/navbar';
 import Sections from './sections/sections';
 
-const Study = memo(({ FontAwesome, youtube, onStudy }) => {
+const Study = memo(({ FontAwesome, youtube }) => {
   const [videoPlay, setVideoPlay] = useState(null);
   const [videoList, setVideoList] = useState([
     { id: 'develop', content: [] },
@@ -80,7 +80,6 @@ const Study = memo(({ FontAwesome, youtube, onStudy }) => {
     <>
       <Navbar
         menus={menus}
-        onStudy={onStudy}
         FontAwesome={FontAwesome}
         onMenu={handleClickMenu}
         onSearch={onSearch}

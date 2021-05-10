@@ -5,7 +5,7 @@ import Aside from './aside/aside';
 import Sections from './sections/sections';
 
 const Portfolio = memo(
-  ({ starryNight, highLightMenu, moveSection, onStudy, FontAwesome }) => {
+  ({ starryNight, highLightMenu, moveSection, FontAwesome }) => {
     const [observe, setObserve] = useState(null);
     const [sections, setSections] = useState([]);
 
@@ -36,7 +36,6 @@ const Portfolio = memo(
           observe={observe}
           onMenu={handleClickMenu}
           FontAwesome={FontAwesome}
-          onStudy={onStudy}
         />
         <Sections sectionRefs={getSectionsRefs} FontAwesome={FontAwesome} />
       </>

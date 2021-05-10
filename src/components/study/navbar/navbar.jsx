@@ -1,10 +1,12 @@
 import React, { useRef } from 'react';
+import { useHistory } from 'react-router-dom';
 import styles from './navbar.module.css';
 import Menu from './menu';
 import { faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-icons';
 
-const Navbar = ({ FontAwesome, menus, onMenu, onSearch, onStudy }) => {
+const Navbar = ({ FontAwesome, menus, onMenu, onSearch }) => {
   const inputRef = useRef();
+  const homeHistory = useHistory();
 
   const handleSubmitSearch = (e) => {
     e.preventDefault();
@@ -17,7 +19,7 @@ const Navbar = ({ FontAwesome, menus, onMenu, onSearch, onStudy }) => {
   };
 
   const handleGoBack = () => {
-    onStudy();
+    homeHistory.push('/');
   };
 
   return (

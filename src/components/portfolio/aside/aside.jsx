@@ -1,12 +1,13 @@
 import React, { memo, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import styles from './aside.module.css';
 import menuStyles from './menu.module.css';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Menu from './menu';
 
-const Aside = memo(({ observe, onMenu, FontAwesome, onStudy }) => {
+const Aside = memo(({ observe, onMenu, FontAwesome }) => {
   const [menuIconToggle, setMenuIconToggle] = useState('off');
-
+  const studyHistory = useHistory();
 
   const menus = [
     { id: 'home', title: 'Home' },
@@ -41,7 +42,7 @@ const Aside = memo(({ observe, onMenu, FontAwesome, onStudy }) => {
   const handleStudyButtonClick = (e) => {
     e.preventDefault();
 
-    onStudy();
+    studyHistory.push('/study');
   };
 
   return (

@@ -40,7 +40,7 @@
 }
 
 .tools__list li {
-  padding: 20px;
+  padding: 0.8rem;
 }
 
 @media screen and (max-width: 768px) {

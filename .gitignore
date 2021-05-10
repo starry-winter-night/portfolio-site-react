@@ -4,14 +4,19 @@
 /node_modules
 /.pnp
 .pnp.js
-.history
-.gitignore
-.env
+
 # testing
 /coverage
 
 # production
 /build
+
+# git history
+.history
+.gitignore
+
+# api keys
+.env
 
 # misc
 .DS_Store
