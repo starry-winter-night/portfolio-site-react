@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './app.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -13,6 +13,18 @@ const App = ({
   youtube,
   firebase,
 }) => {
+  const [loginState, setLogoinState] = useState({});
+
+  useEffect(() => {
+    firebase.loginUserCheck((user) => {
+      if (user) {
+        setLogoinState({ ...loginState, state: 'login' });
+      } else {
+        setLogoinState({ ...loginState, state: 'nonLogin' });
+      }
+    });
+  }, [firebase, loginState]);
+
   return (
     <Router>
       <Switch>
@@ -26,13 +38,14 @@ const App = ({
           />
         </Route>
         <Route path="/login">
-          <Login firebase={firebase} />
+          <Login firebase={firebase} loginState={loginState} />
         </Route>
         <Route path="/study">
           <Study
             FontAwesome={FontAwesomeIcon}
             youtube={youtube}
             firebase={firebase}
+            loginState={loginState}
           />
         </Route>
       </Switch>

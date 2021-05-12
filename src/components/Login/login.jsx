@@ -1,17 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router';
+import styles from './login.module.css';
+import Logo from '../Logo/logo';
 
-const Login = ({ firebase }) => {
-  const loginHistory = useHistory();
+const Login = ({ firebase, loginState }) => {
+  const history = useHistory();
 
   const onLogin = (e) => {
-    const loginType = e.target.dataset.name;
+    let loginType = e.target.dataset.name;
+
+    if (!loginType) {
+      const li = e.target.closest('li');
+      loginType = li.dataset.name;
+    }
 
     firebase
       .login(loginType)
       .then((data) => {
         // console.log(data.user.uid);
-        loginHistory.push('/study');
+        history.push('/study');
       })
       .catch((e) => {
         e.code === 'auth/account-exists-with-different-credential' &&
@@ -20,30 +27,43 @@ const Login = ({ firebase }) => {
           );
       });
   };
+
+  useEffect(() => {
+    firebase.loginUserCheck((user) => {
+      if (user) {
+        history.push('/study');
+      }
+    });
+  }, [firebase, history]);
+
   return (
-    <section>
-      <header>
-        <h2>smpark.dev Login</h2>
-      </header>
-      <div>
-        <ul>
-          <li>
-            <button data-name="Google" onClick={onLogin}>
-              Google 로그인
-            </button>
-          </li>
-          <li>
-            <button data-name="Github" onClick={onLogin}>
-              GitHub 로그인
-            </button>
-          </li>
-          <li>
-            <button data-name="Smpark" onClick={onLogin}>
-              Smpark 로그인
-            </button>
-          </li>
-        </ul>
-      </div>
+    <section className={styles.section}>
+      {loginState.state === 'nonLogin' && (
+        <>
+          <header className={styles.header}>
+            <Logo logo={styles.logo} />
+
+            <h1 className={styles.title}>Study Page Login</h1>
+          </header>
+
+          <ul className={styles.loginButtons}>
+            <li data-name="Google" onClick={onLogin}>
+              <button>Google</button>
+            </li>
+            <li data-name="Github" onClick={onLogin}>
+              <button>Github</button>
+            </li>
+            <li data-name="Smpark" onClick={onLogin}>
+              <button>SmPark</button>
+            </li>
+          </ul>
+          <footer className={styles.footer}>
+            <ul>
+              <li>2021 software engineer smpark - All rights reserved</li>
+            </ul>
+          </footer>
+        </>
+      )}
     </section>
   );
 };

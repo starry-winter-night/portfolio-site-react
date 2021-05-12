@@ -1,5 +1,6 @@
 import React, { memo, useRef, useEffect } from 'react';
 import styles from './navbar.module.css';
+import Logo from '../../Logo/logo';
 import RocketGuide from '../../../service/rocketGuide/rocketGuide';
 const Navbar = memo(() => {
   const guide = useRef();
@@ -11,13 +12,7 @@ const Navbar = memo(() => {
 
   return (
     <nav className={styles.navbar}>
-      <div className={styles.logo}>
-        <a href="https://smpark.dev">
-          web <br />
-          developer <br />
-          smpark
-        </a>
-      </div>
+      <Logo logo={styles.logo} />
 
       <div className={styles.guide} data-id="guide" ref={guide}>
         <img

@@ -3,7 +3,7 @@ import { useHistory } from 'react-router';
 import Navbar from './navbar/navbar';
 import Sections from './sections/sections';
 
-const Study = memo(({ FontAwesome, youtube, firebase }) => {
+const Study = memo(({ FontAwesome, youtube, firebase, loginState }) => {
   const [etcToggle, setEtcToggle] = useState('off');
   const [videoPlay, setVideoPlay] = useState(null);
   const [videoList, setVideoList] = useState([
@@ -13,36 +13,36 @@ const Study = memo(({ FontAwesome, youtube, firebase }) => {
     { id: 'web', content: [] },
   ]);
   const [menus, setMenu] = useState([
-    { id: 'search', title: 'Search', type: 'button', view: 'off' },
-    { id: 'my', title: 'My', type: 'button', view: 'off' },
-    { id: 'card', title: 'Card', type: 'button', view: 'off' },
-    { id: 'web', title: 'Web', type: 'button', view: 'on' },
+    { id: 'search', title: 'Search', view: 'off' },
+    { id: 'my', title: 'My', view: 'off' },
+    { id: 'card', title: 'Card', view: 'off' },
+    { id: 'web', title: 'Web', view: 'on' },
   ]);
   const history = useHistory();
 
   useEffect(() => {
     firebase.loginUserCheck((user) => {
-      !user && history.push('/login');
+      if (!user) {
+        history.push('/login');
+      } else {
+        youtube
+          .developList() //
+          .then((result) => {
+            setVideoList((list) =>
+              list.map((item) => {
+                if (item.id === 'web') return { ...item, content: result };
+
+                return item;
+              })
+            );
+
+            setVideoPlay(result[0]);
+          });
+      }
     });
-  }, [firebase, history]);
+  }, [firebase, history, youtube]);
 
-  useEffect(() => {
-    youtube
-      .developList() //
-      .then((result) => {
-        setVideoList((list) =>
-          list.map((item) => {
-            if (item.id === 'web') return { ...item, content: result };
-
-            return item;
-          })
-        );
-
-        setVideoPlay(result[0]);
-      });
-  }, [youtube]);
-
-  const onSetMenu = useCallback((title, type) => {
+  const onSetMenu = useCallback((title) => {
     setMenu((menu) =>
       menu.map((item) => {
         if (item.title === title) {
@@ -94,22 +94,26 @@ const Study = memo(({ FontAwesome, youtube, firebase }) => {
 
   return (
     <div onClick={onStudyClick}>
-      <Navbar
-        menus={menus}
-        FontAwesome={FontAwesome}
-        onMenu={onSetMenu}
-        onSearch={onSearch}
-        onDropbox={onDropbox}
-        etcToggle={etcToggle}
-        firebase={firebase}
-      />
-      {videoPlay && (
-        <Sections
-          videoList={videoList}
-          videoPlay={videoPlay}
-          menus={menus}
-          onList={handleClickVideoList}
-        />
+      {loginState.state === 'login' && (
+        <>
+          <Navbar
+            menus={menus}
+            FontAwesome={FontAwesome}
+            onMenu={onSetMenu}
+            onSearch={onSearch}
+            onDropbox={onDropbox}
+            etcToggle={etcToggle}
+            firebase={firebase}
+          />
+          {videoPlay && (
+            <Sections
+              videoList={videoList}
+              videoPlay={videoPlay}
+              menus={menus}
+              onList={handleClickVideoList}
+            />
+          )}
+        </>
       )}
     </div>
   );

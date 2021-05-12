@@ -1,0 +1,86 @@
+.section {
+  background-color: var(--color-backgroundTransparency);
+  width: 80%;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -45%);
+}
+
+.header {
+  width: 100%;
+  text-align: center;
+  padding: 0.5em;
+  position: relative;
+}
+
+.logo {
+  font-family: 'Inconsolata', monospace;
+  line-height: 30px;
+  letter-spacing: 0.5rem;
+  text-transform: uppercase;
+  font-size: var(--font-regular);
+  font-weight: 700;
+  text-align: left;
+  width: 100%;
+  padding: 15px;
+  user-select: none;
+}
+
+.logo a {
+  margin: auto;
+  padding: 10;
+}
+
+.logo a:hover {
+  color: var(--color-orange);
+}
+
+.mainImage {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+}
+
+.title {
+  font-family: 'Josefin Sans', sans-serif;
+  margin: 0 0 30px 0;
+  font-weight: 100;
+  user-select: none;
+}
+
+.loginButtons {
+  text-align: center;
+  margin: 15px;
+}
+
+.loginButtons li {
+  user-select: none;
+  width: 300px;
+  text-align: center;
+  margin: 15px auto;
+  padding: 15px;
+  border: 1px solid var(--color-blue);
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.loginButtons li:hover {
+  background-color: var(--color-orange);
+  border: 1px solid var(--color-blue);
+}
+
+.loginButtons li button {
+  font-size: var(--font-regular);
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.footer {
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 300;
+  text-align: center;
+  padding: 60px 0 45px 0;
+  font-size: var(--font-micro);
+  margin: 15px;
+  user-select: none;
+}

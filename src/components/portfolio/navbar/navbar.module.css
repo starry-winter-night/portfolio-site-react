@@ -29,6 +29,7 @@
   margin: auto;
   padding: 10px;
 }
+
 .logo a:hover {
   color: var(--color-orange);
 }

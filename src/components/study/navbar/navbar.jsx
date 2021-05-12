@@ -19,7 +19,7 @@ const Navbar = memo(
     firebase,
   }) => {
     const inputRef = useRef();
-    const homeHistory = useHistory();
+    const history = useHistory();
 
     const handleSubmitSearch = (e) => {
       e.preventDefault();
@@ -32,7 +32,7 @@ const Navbar = memo(
     };
 
     const handleGoBack = () => {
-      homeHistory.push('/');
+      history.push('/');
     };
 
     const hadleToggle = () => {
@@ -41,6 +41,7 @@ const Navbar = memo(
 
     const hadleLogout = () => {
       firebase.logout();
+      handleGoBack();
     };
 
     return (

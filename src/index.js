@@ -13,14 +13,14 @@ const highLightMenu = new HighLightMenu();
 const moveSection = new MoveSection();
 const firebase = new Firebase();
 const youtube = new Youtube(process.env.REACT_APP_YOUTUBE_API_KEY);
-
+// Youtube.developList();
 ReactDOM.render(
-    <App
-      starryNight={starryNight}
-      highLightMenu={highLightMenu}
-      moveSection={moveSection}
-      youtube={youtube}
-      firebase={firebase}
-    />,
+  <App
+    starryNight={starryNight}
+    highLightMenu={highLightMenu}
+    moveSection={moveSection}
+    youtube={youtube}
+    firebase={firebase}
+  />,
   document.getElementById('root')
 );
