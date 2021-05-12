@@ -1,22 +1,30 @@
 import React, { useEffect, useState, useCallback, memo } from 'react';
+import { useHistory } from 'react-router';
 import Navbar from './navbar/navbar';
 import Sections from './sections/sections';
 
-const Study = memo(({ FontAwesome, youtube }) => {
+const Study = memo(({ FontAwesome, youtube, firebase }) => {
+  const [etcToggle, setEtcToggle] = useState('off');
   const [videoPlay, setVideoPlay] = useState(null);
   const [videoList, setVideoList] = useState([
-    { id: 'develop', content: [] },
     { id: 'search', content: [] },
-    { id: 'etc', content: [] },
+    { id: 'my', content: [] },
     { id: 'card', content: [] },
+    { id: 'web', content: [] },
   ]);
-
   const [menus, setMenu] = useState([
-    { id: 'develop', title: 'Develop', view: 'on' },
-    { id: 'search', title: 'Search', view: 'off' },
-    { id: 'etc', title: 'Etc', view: 'off' },
-    { id: 'card', title: 'Card', view: 'off' },
+    { id: 'search', title: 'Search', type: 'button', view: 'off' },
+    { id: 'my', title: 'My', type: 'button', view: 'off' },
+    { id: 'card', title: 'Card', type: 'button', view: 'off' },
+    { id: 'web', title: 'Web', type: 'button', view: 'on' },
   ]);
+  const history = useHistory();
+
+  useEffect(() => {
+    firebase.loginUserCheck((user) => {
+      !user && history.push('/login');
+    });
+  }, [firebase, history]);
 
   useEffect(() => {
     youtube
@@ -24,7 +32,7 @@ const Study = memo(({ FontAwesome, youtube }) => {
       .then((result) => {
         setVideoList((list) =>
           list.map((item) => {
-            if (item.id === 'develop') return { ...item, content: result };
+            if (item.id === 'web') return { ...item, content: result };
 
             return item;
           })
@@ -34,7 +42,7 @@ const Study = memo(({ FontAwesome, youtube }) => {
       });
   }, [youtube]);
 
-  const onSetMenu = useCallback((title) => {
+  const onSetMenu = useCallback((title, type) => {
     setMenu((menu) =>
       menu.map((item) => {
         if (item.title === title) {
@@ -65,24 +73,35 @@ const Study = memo(({ FontAwesome, youtube }) => {
     [youtube, onSetMenu]
   );
 
-  const handleClickMenu = useCallback(
-    (title) => {
-      onSetMenu(title);
-    },
-    [onSetMenu]
-  );
+  const onDropbox = useCallback(() => {
+    etcToggle === 'on' ? setEtcToggle('off') : setEtcToggle('on');
+  }, [etcToggle]);
 
   const handleClickVideoList = useCallback((video) => {
     setVideoPlay({ ...video });
   }, []);
 
+  const onStudyClick = (e) => {
+    const menu = e.target.closest('li');
+    if (!menu) setEtcToggle('off');
+
+    if (menu) {
+      const id = menu.dataset.id;
+
+      if (id !== 'etc') setEtcToggle('off');
+    }
+  };
+
   return (
-    <>
+    <div onClick={onStudyClick}>
       <Navbar
         menus={menus}
         FontAwesome={FontAwesome}
-        onMenu={handleClickMenu}
+        onMenu={onSetMenu}
         onSearch={onSearch}
+        onDropbox={onDropbox}
+        etcToggle={etcToggle}
+        firebase={firebase}
       />
       {videoPlay && (
         <Sections
@@ -92,7 +111,7 @@ const Study = memo(({ FontAwesome, youtube }) => {
           onList={handleClickVideoList}
         />
       )}
-    </>
+    </div>
   );
 });
 export default Study;

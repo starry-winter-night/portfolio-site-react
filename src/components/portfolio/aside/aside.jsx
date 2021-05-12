@@ -4,10 +4,9 @@ import styles from './aside.module.css';
 import menuStyles from './menu.module.css';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Menu from './menu';
-
-const Aside = memo(({ observe, onMenu, FontAwesome }) => {
+const Aside = memo(({ observe, onMenu, FontAwesome, firebase }) => {
   const [menuIconToggle, setMenuIconToggle] = useState('off');
-  const studyHistory = useHistory();
+  const history = useHistory();
 
   const menus = [
     { id: 'home', title: 'Home' },
@@ -41,8 +40,9 @@ const Aside = memo(({ observe, onMenu, FontAwesome }) => {
 
   const handleStudyButtonClick = (e) => {
     e.preventDefault();
-
-    studyHistory.push('/study');
+    firebase.loginUserCheck((user) => {
+      !user ? history.push('/login') : history.push('/study');
+    });
   };
 
   return (

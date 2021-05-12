@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
 import styles from './menu.module.css';
 
-const Menu = memo(({ title, onMenu, item }) => {
+const Menu = memo(({ onMenu, item }) => {
   const handleClickMenu = () => {
-    onMenu(title);
+    onMenu(item.title);
   };
 
   return (
@@ -11,7 +11,7 @@ const Menu = memo(({ title, onMenu, item }) => {
       className={`${styles.menu} ${item.view === 'on' && styles.select}`}
       onClick={handleClickMenu}
     >
-      {title}
+      {item.title}
     </li>
   );
 });

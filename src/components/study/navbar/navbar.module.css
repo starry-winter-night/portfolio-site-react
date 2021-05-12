@@ -61,3 +61,26 @@
   width: 35px;
   margin-right: 5px;
 }
+
+.etc {
+  position: relative;
+  cursor: pointer;
+  width: 20px;
+  text-align: center;
+}
+
+.dropbox {
+  width: 80px;
+  top: 20px;
+  text-align: center;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+}
+
+.list {
+  height: 30px;
+  line-height: 30px;
+  background-color: var(--color-light-black);
+  user-select: none;
+}
