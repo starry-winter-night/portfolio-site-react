@@ -1,12 +1,9 @@
 import React, { useRef, memo } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router';
 import styles from './navbar.module.css';
 import Menu from './menu';
-import {
-  faArrowLeft,
-  faSearch,
-  faEllipsisV,
-} from '@fortawesome/free-solid-svg-icons';
+import Goback from '../../common/goback/goback';
+import { faSearch, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 
 const Navbar = memo(
   ({
@@ -16,7 +13,7 @@ const Navbar = memo(
     onSearch,
     onDropbox,
     etcToggle,
-    firebase,
+    authService,
   }) => {
     const inputRef = useRef();
     const history = useHistory();
@@ -31,28 +28,18 @@ const Navbar = memo(
       inputRef.current.value = '';
     };
 
-    const handleGoBack = () => {
-      history.push('/');
-    };
-
     const hadleToggle = () => {
       onDropbox();
     };
 
     const hadleLogout = () => {
-      firebase.logout();
-      handleGoBack();
+      authService.logout();
+      history.push('/');
     };
 
     return (
       <nav className={styles.navbar}>
-        <div className={styles.backBox}>
-          <FontAwesome
-            className={styles.backIcon}
-            icon={faArrowLeft}
-            onClick={handleGoBack}
-          />
-        </div>
+        <Goback FontAwesome={FontAwesome} backBox={styles.backBox} />
         <form className={styles.inputBox} onSubmit={handleSubmitSearch}>
           <img
             src="/imgs/youtubeLogo.png"

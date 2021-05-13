@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router';
 import styles from './login.module.css';
-import Logo from '../Logo/logo';
+import Logo from '../logo/logo';
+import Goback from '../goback/goback';
 
-const Login = ({ firebase, loginState }) => {
+const Login = ({ FontAwesome, authService, loginState }) => {
   const history = useHistory();
 
   const onLogin = (e) => {
@@ -14,7 +15,7 @@ const Login = ({ firebase, loginState }) => {
       loginType = li.dataset.name;
     }
 
-    firebase
+    authService
       .login(loginType)
       .then((data) => {
         // console.log(data.user.uid);
@@ -29,20 +30,20 @@ const Login = ({ firebase, loginState }) => {
   };
 
   useEffect(() => {
-    firebase.loginUserCheck((user) => {
+    authService.loginUserCheck((user) => {
       if (user) {
         history.push('/study');
       }
     });
-  }, [firebase, history]);
+  }, [authService, history]);
 
   return (
     <section className={styles.section}>
       {loginState.state === 'nonLogin' && (
         <>
           <header className={styles.header}>
+            <Goback FontAwesome={FontAwesome} backBox={styles.backBox} />
             <Logo logo={styles.logo} />
-
             <h1 className={styles.title}>Study Page Login</h1>
           </header>
 

@@ -3,7 +3,7 @@ import { useHistory } from 'react-router';
 import Navbar from './navbar/navbar';
 import Sections from './sections/sections';
 
-const Study = memo(({ FontAwesome, youtube, firebase, loginState }) => {
+const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
   const [etcToggle, setEtcToggle] = useState('off');
   const [videoPlay, setVideoPlay] = useState(null);
   const [videoList, setVideoList] = useState([
@@ -16,31 +16,33 @@ const Study = memo(({ FontAwesome, youtube, firebase, loginState }) => {
     { id: 'search', title: 'Search', view: 'off' },
     { id: 'my', title: 'My', view: 'off' },
     { id: 'card', title: 'Card', view: 'off' },
-    { id: 'web', title: 'Web', view: 'on' },
+    { id: 'webdev', title: 'WebDev', view: 'on' },
   ]);
   const history = useHistory();
 
   useEffect(() => {
-    firebase.loginUserCheck((user) => {
-      if (!user) {
-        history.push('/login');
-      } else {
-        youtube
-          .developList() //
-          .then((result) => {
-            setVideoList((list) =>
-              list.map((item) => {
-                if (item.id === 'web') return { ...item, content: result };
-
-                return item;
-              })
-            );
-
-            setVideoPlay(result[0]);
-          });
-      }
+    authService.loginUserCheck((user) => {
+      if (!user) history.push('/login');
     });
-  }, [firebase, history, youtube]);
+  }, [authService, history]);
+
+  useEffect(() => {
+    if (loginState.state === 'login') {
+      youtube
+        .developList() //
+        .then((result) => {
+          setVideoList((list) =>
+            list.map((item) => {
+              if (item.id === 'web') return { ...item, content: result };
+
+              return item;
+            })
+          );
+
+          setVideoPlay(result[0]);
+        });
+    }
+  }, [youtube, loginState.state]);
 
   const onSetMenu = useCallback((title) => {
     setMenu((menu) =>
@@ -103,7 +105,7 @@ const Study = memo(({ FontAwesome, youtube, firebase, loginState }) => {
             onSearch={onSearch}
             onDropbox={onDropbox}
             etcToggle={etcToggle}
-            firebase={firebase}
+            authService={authService}
           />
           {videoPlay && (
             <Sections

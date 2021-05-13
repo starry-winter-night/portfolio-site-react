@@ -4,26 +4,30 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Portfolio from './components/portfolio/portfolio';
 import Study from './components/study/study';
-import Login from './components/Login/login';
+import Login from './components/common/login/login';
 
 const App = ({
   starryNight,
   highLightMenu,
   moveSection,
   youtube,
-  firebase,
+  authService,
 }) => {
-  const [loginState, setLogoinState] = useState({});
+  const [loginState, setLogoinState] = useState({ state: null });
 
   useEffect(() => {
-    firebase.loginUserCheck((user) => {
+    authService.loginUserCheck((user) => {
       if (user) {
-        setLogoinState({ ...loginState, state: 'login' });
+        setLogoinState((item) => {
+          return { ...item, state: 'login' };
+        });
       } else {
-        setLogoinState({ ...loginState, state: 'nonLogin' });
+        setLogoinState((item) => {
+          return { ...item, state: 'nonLogin' };
+        });
       }
     });
-  }, [firebase, loginState]);
+  }, [authService]);
 
   return (
     <Router>
@@ -34,17 +38,21 @@ const App = ({
             starryNight={starryNight}
             highLightMenu={highLightMenu}
             moveSection={moveSection}
-            firebase={firebase}
+            authService={authService}
           />
         </Route>
         <Route path="/login">
-          <Login firebase={firebase} loginState={loginState} />
+          <Login
+            FontAwesome={FontAwesomeIcon}
+            authService={authService}
+            loginState={loginState}
+          />
         </Route>
         <Route path="/study">
           <Study
             FontAwesome={FontAwesomeIcon}
             youtube={youtube}
-            firebase={firebase}
+            authService={authService}
             loginState={loginState}
           />
         </Route>

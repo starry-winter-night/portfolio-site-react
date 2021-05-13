@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './sections.module.css';
-import Contents from './Contents/contents';
-import Directory from './Directory/directory';
+import Contents from './contents/contents';
+import Directory from './directory/directory';
 
 const Sections = ({ videoList, videoPlay, menus, onList }) => {
   return (

@@ -84,3 +84,10 @@
   margin: 15px;
   user-select: none;
 }
+
+.backBox {
+  position: absolute;
+  right: 15px;
+  padding: 15px;
+  top: 15px;
+}
