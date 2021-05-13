@@ -12,6 +12,7 @@ const App = ({
   moveSection,
   youtube,
   authService,
+  socketIo,
 }) => {
   const [loginState, setLogoinState] = useState({ state: null });
 
@@ -21,13 +22,33 @@ const App = ({
         setLogoinState((item) => {
           return { ...item, state: 'login' };
         });
+
+        const script = document.createElement('script');
+        script.src = `http://localhost:5000/smpChat/chatService.js?CLIENTID=${process.env.REACT_APP_CLIENTID}`;
+        script.defer = true;
+        document.body.appendChild(script);
+
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'http://localhost:5000/smpChat/chatService.css';
+        document.body.appendChild(link);
+
+        script.addEventListener('load', () => {
+          const chat = new window.smpChat.setting.chatService(
+            process.env.REACT_APP_CLIENTID,
+            process.env.REACT_APP_API_KEY,
+            socketIo
+          );
+
+          chat.init('test2', 'smpChat');
+        });
       } else {
         setLogoinState((item) => {
           return { ...item, state: 'nonLogin' };
         });
       }
     });
-  }, [authService]);
+  }, [authService, socketIo]);
 
   return (
     <Router>

@@ -17,7 +17,6 @@ class Youtube {
         type: 'video',
       },
     });
-
     return response.data.items;
   }
 

@@ -10,7 +10,7 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
     { id: 'search', content: [] },
     { id: 'my', content: [] },
     { id: 'card', content: [] },
-    { id: 'web', content: [] },
+    { id: 'webdev', content: [] },
   ]);
   const [menus, setMenu] = useState([
     { id: 'search', title: 'Search', view: 'off' },
@@ -33,7 +33,7 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
         .then((result) => {
           setVideoList((list) =>
             list.map((item) => {
-              if (item.id === 'web') return { ...item, content: result };
+              if (item.id === 'webdev') return { ...item, content: result };
 
               return item;
             })

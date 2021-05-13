@@ -7,6 +7,7 @@ import HighLightMenu from './service/menuControl/highlightMenuList.js';
 import MoveSection from './service/menuControl/moveMenuSection';
 import Youtube from './service/youtube/youtube';
 import AuthService from './service/firebase/auth_service';
+import socketIo from 'socket.io-client';
 
 const starryNight = new StarryNight();
 const highLightMenu = new HighLightMenu();
@@ -22,6 +23,7 @@ ReactDOM.render(
       moveSection={moveSection}
       youtube={youtube}
       authService={authService}
+      socketIo={socketIo}
     />
   </React.StrictMode>,
   document.getElementById('root')

@@ -3,6 +3,7 @@ import './portfolio.css';
 import Navbar from './navbar/navbar';
 import Aside from './aside/aside';
 import Sections from './sections/sections';
+import Smpchat from './smpChat/smpChat';
 
 const Portfolio = memo(
   ({ starryNight, highLightMenu, moveSection, FontAwesome, authService }) => {
@@ -39,6 +40,7 @@ const Portfolio = memo(
           authService={authService}
         />
         <Sections sectionRefs={getSectionsRefs} FontAwesome={FontAwesome} />
+        <Smpchat />
       </>
     );
   }
