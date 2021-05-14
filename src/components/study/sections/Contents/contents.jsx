@@ -1,11 +1,15 @@
 import React, { memo } from 'react';
 import styles from './contents.module.css';
 
-const Contents = memo(({ videoPlay }) => {
+const Contents = memo(({ videoPlay, onMyList }) => {
   const video = videoPlay.snippet;
   const developVideoId = video?.resourceId?.videoId;
   const searchVideoId = videoPlay.id.videoId;
   const videoId = developVideoId ? developVideoId : searchVideoId;
+
+  const onVideoSave = () => {
+    onMyList(videoPlay);
+  };
 
   return (
     <section className={styles.contents}>
@@ -22,7 +26,16 @@ const Contents = memo(({ videoPlay }) => {
       </div>
       <div className={styles.contentBox}>
         <h3 className={styles.title}>{video.title}</h3>
-        <button className={styles.channel}>채널방문</button>
+        <button className={styles.save} onClick={onVideoSave}>
+          저장하기
+        </button>
+        <a
+          className={styles.channel}
+          href={`https://www.youtube.com/channel/${video.videoOwnerChannelId}/videos`}
+          target="noopener"
+        >
+          채널방문
+        </a>
       </div>
     </section>
   );

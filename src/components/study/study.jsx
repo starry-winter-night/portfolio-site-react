@@ -3,123 +3,143 @@ import { useHistory } from 'react-router';
 import Navbar from './navbar/navbar';
 import Sections from './sections/sections';
 
-const Study = memo(
-  ({ FontAwesome, youtube, authService, loginState, smpChat }) => {
-    const [etcToggle, setEtcToggle] = useState('off');
-    const [videoPlay, setVideoPlay] = useState(null);
-    const [videoList, setVideoList] = useState([
-      { id: 'search', content: [] },
-      { id: 'my', content: [] },
-      { id: 'card', content: [] },
-      { id: 'webdev', content: [] },
-    ]);
-    const [menus, setMenu] = useState([
-      { id: 'search', title: 'Search', view: 'off' },
-      { id: 'my', title: 'My', view: 'off' },
-      { id: 'card', title: 'Card', view: 'off' },
-      { id: 'webdev', title: 'WebDev', view: 'on' },
-    ]);
-    const history = useHistory();
+const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
+  const [etcToggle, setEtcToggle] = useState('off');
+  const [videoPlay, setVideoPlay] = useState(null);
+  const [videoList, setVideoList] = useState([
+    { id: 'search', content: [] },
+    { id: 'mylist', content: [] },
+    { id: 'smpark', content: [] },
+  ]);
+  const [menus, setMenu] = useState([
+    { id: 'search', title: 'Search', view: 'off' },
+    { id: 'mylist', title: 'My List', view: 'off' },
+    { id: 'smpark', title: "Smpark's Picks", view: 'on' },
+  ]);
+  const history = useHistory();
 
-    useEffect(() => {
-      authService.loginUserCheck((user) => {
-        if (!user) history.push('/login');
-      });
-    }, [authService, history]);
+  useEffect(() => {
+    authService.loginUserCheck((user) => {
+      if (!user) history.push('/login');
+    });
+  }, [authService, history]);
 
-    useEffect(() => {
-      if (loginState.state === 'login') {
-        youtube
-          .developList() //
-          .then((result) => {
-            setVideoList((list) =>
-              list.map((item) => {
-                if (item.id === 'webdev') return { ...item, content: result };
+  useEffect(() => {
+    if (loginState.state === 'login') {
+      youtube
+        .developList() //
+        .then((result) => {
+          setVideoList((list) =>
+            list.map((item) => {
+              if (item.id === 'smpark') return { ...item, content: result };
 
-                return item;
-              })
-            );
+              return item;
+            })
+          );
 
-            setVideoPlay(result[0]);
+          setVideoPlay(result[0]);
+        });
+    }
+  }, [youtube, loginState.state]);
+
+  const handleClickSaveVideo = useCallback((selectedList) => {
+    setVideoList((list) =>
+      list.map((item) => {
+        if (item.id === 'mylist') {
+          let check = null;
+          item.content.forEach((contents) => {
+            if (contents.etag === selectedList.etag) {
+              check = 'exist';
+              return;
+            }
           });
-      }
-    }, [youtube, loginState.state]);
 
-    const onSetMenu = useCallback((title) => {
-      setMenu((menu) =>
-        menu.map((item) => {
-          if (item.title === title) {
-            return { ...item, view: 'on' };
+          if (!check) {
+            return { ...item, content: [...item.content, selectedList] };
           }
-
-          return { ...item, view: 'off' };
-        })
-      );
-    }, []);
-
-    const onSearch = useCallback(
-      (query, title) => {
-        youtube
-          .search(query) //
-          .then((result) => {
-            setVideoList((list) =>
-              list.map((item) => {
-                if (item.id === 'search') return { ...item, content: result };
-
-                return item;
-              })
-            );
-
-            onSetMenu(title);
-          });
-      },
-      [youtube, onSetMenu]
+        }
+        return item;
+      })
     );
 
-    const onDropbox = useCallback(() => {
-      etcToggle === 'on' ? setEtcToggle('off') : setEtcToggle('on');
-    }, [etcToggle]);
+    alert('저장 되었습니다.');
+  }, []);
 
-    const handleClickVideoList = useCallback((video) => {
-      setVideoPlay({ ...video });
-    }, []);
+  const onSetMenu = useCallback((title) => {
+    setMenu((menu) =>
+      menu.map((item) => {
+        if (item.title === title) {
+          return { ...item, view: 'on' };
+        }
 
-    const onStudyClick = (e) => {
-      const menu = e.target.closest('li');
-      if (!menu) setEtcToggle('off');
+        return { ...item, view: 'off' };
+      })
+    );
+  }, []);
 
-      if (menu) {
-        const id = menu.dataset.id;
+  const onSearch = useCallback(
+    (query, title) => {
+      youtube
+        .search(query) //
+        .then((result) => {
+          setVideoList((list) =>
+            list.map((item) => {
+              if (item.id === 'search') return { ...item, content: result };
 
-        if (id !== 'etc') setEtcToggle('off');
-      }
-    };
+              return item;
+            })
+          );
 
-    return (
-      <div onClick={onStudyClick}>
-        {loginState.state === 'login' && (
-          <>
-            <Navbar
+          onSetMenu(title);
+        });
+    },
+    [youtube, onSetMenu]
+  );
+
+  const onDropbox = useCallback(() => {
+    etcToggle === 'on' ? setEtcToggle('off') : setEtcToggle('on');
+  }, [etcToggle]);
+
+  const handleClickVideoList = useCallback((video) => {
+    setVideoPlay({ ...video });
+  }, []);
+
+  const onStudyClick = (e) => {
+    const menu = e.target.closest('li');
+    if (!menu) setEtcToggle('off');
+
+    if (menu) {
+      const id = menu.dataset.id;
+
+      if (id !== 'etc') setEtcToggle('off');
+    }
+  };
+
+  return (
+    <div onClick={onStudyClick}>
+      {loginState.state === 'login' && (
+        <div>
+          <Navbar
+            menus={menus}
+            FontAwesome={FontAwesome}
+            onMenu={onSetMenu}
+            onSearch={onSearch}
+            onDropbox={onDropbox}
+            etcToggle={etcToggle}
+            authService={authService}
+          />
+          {videoPlay && (
+            <Sections
+              videoList={videoList}
+              videoPlay={videoPlay}
               menus={menus}
-              FontAwesome={FontAwesome}
-              onMenu={onSetMenu}
-              onSearch={onSearch}
-              onDropbox={onDropbox}
-              etcToggle={etcToggle}
-              authService={authService}
+              onList={handleClickVideoList}
+              onMyList={handleClickSaveVideo}
             />
-            {videoPlay && (
-              <Sections
-                videoList={videoList}
-                videoPlay={videoPlay}
-                menus={menus}
-                onList={handleClickVideoList}
-              />
-            )}
-          </>
-        )}
-      </div>
-    );
-  }
-);
+          )}
+        </div>
+      )}
+    </div>
+  );
+});
 export default Study;
