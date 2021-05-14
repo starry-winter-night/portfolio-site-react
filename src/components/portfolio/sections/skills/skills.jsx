@@ -4,9 +4,9 @@ import Skill from './skill';
 import Etc from './etc';
 const Skills = ({ sectionRefs }) => {
   const skills = [
-    { id: 1, title: 'HTML', bar: '90%' },
-    { id: 2, title: 'CSS', bar: '90%' },
-    { id: 3, title: 'JavaScript', bar: '90%' },
+    { id: 1, title: 'HTML', bar: '85%' },
+    { id: 2, title: 'CSS', bar: '85%' },
+    { id: 3, title: 'JavaScript', bar: '85%' },
     { id: 4, title: 'React', bar: '75%' },
     { id: 5, title: 'TypeScript', bar: '75%' },
     { id: 6, title: 'NodeJS', bar: '80%' },

@@ -55,6 +55,11 @@
   margin: 0;
 }
 
+.loginButton {
+  font-size: var(--font-small);
+  color: var(--color-blue);
+}
+
 @media screen and (max-width: 768px) {
   .title {
     width: 15em;
