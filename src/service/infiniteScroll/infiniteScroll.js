@@ -78,6 +78,28 @@ function loadNextDevelopList(youtube, nextPageToken, setVideoList) {
     });
 }
 
+function loadNextSearchList(youtube, nextPageToken, setVideoList, query) {
+  if (query) {
+    youtube
+      .search(query, nextPageToken, 25) //
+      .then((result) => {
+        if (!result) return;
 
+        setVideoList((list) =>
+          list.map((item) => {
+            if (item.id === 'search') {
+              return {
+                ...item,
+                content: [...item.content, ...result.items],
+                nextPageToken: result.nextPageToken,
+              };
+            }
+
+            return item;
+          })
+        );
+      });
+  }
+}
 
 export default InfiniteScroll;
