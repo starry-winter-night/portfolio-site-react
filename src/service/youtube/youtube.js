@@ -6,31 +6,46 @@ class Youtube {
       params: { key: key },
     });
   }
-  async developList() {
+  async developList(pageToken, maxResults = 25) {
     const id = process.env.REACT_APP_YOUTUBE_MYCHENNEL_ID;
-
-    const response = await this.youtube.get('playlistItems', {
+    const data = {
       params: {
         part: 'snippet',
         playlistId: id,
-        maxResults: 25,
+        maxResults,
         type: 'video',
       },
-    });
-    return response.data.items;
+    };
+
+    if (pageToken === 'none') return;
+
+    if (pageToken) {
+      data.params.pageToken = pageToken;
+    }
+
+    const response = await this.youtube.get('playlistItems', data);
+    return response.data;
   }
 
-  async search(query) {
-    const response = await this.youtube.get('search', {
+  async search(query, pageToken, maxResults = 25) {
+    const data = {
       params: {
         part: 'snippet',
         q: query,
-        maxResults: 25,
+        maxResults,
         type: 'video',
       },
-    });
+    };
 
-    return response.data.items;
+    if (pageToken === 'none') return;
+
+    if (pageToken) {
+      data.params.pageToken = pageToken;
+    }
+
+    const response = await this.youtube.get('search', data);
+
+    return response.data;
   }
 }
 
