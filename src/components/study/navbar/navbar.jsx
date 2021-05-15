@@ -15,17 +15,17 @@ const Navbar = memo(
     etcToggle,
     authService,
   }) => {
-    const inputRef = useRef();
+    const input = useRef();
     const history = useHistory();
 
     const handleSubmitSearch = (e) => {
       e.preventDefault();
 
-      const query = inputRef.current.value;
+      const query = input.current.value;
 
       query && onSearch(query, 'Search');
 
-      inputRef.current.value = '';
+      input.current.value = '';
     };
 
     const hadleToggle = () => {
@@ -48,7 +48,7 @@ const Navbar = memo(
           ></img>
           <input
             className={styles.searchInput}
-            ref={inputRef}
+            ref={input}
             placeholder="검색"
           ></input>
           <button className={styles.searchButton}>

@@ -6,10 +6,11 @@ import Sections from './sections/sections';
 const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
   const [etcToggle, setEtcToggle] = useState('off');
   const [videoPlay, setVideoPlay] = useState(null);
+  const [query, setQuery] = useState(null);
   const [videoList, setVideoList] = useState([
-    { id: 'search', content: [] },
-    { id: 'mylist', content: [] },
-    { id: 'smpark', content: [] },
+    { id: 'search', content: [], nextPageToken: null },
+    { id: 'mylist', content: [], nextPageToken: null },
+    { id: 'smpark', content: [], nextPageToken: null },
   ]);
   const [menus, setMenu] = useState([
     { id: 'search', title: 'Search', view: 'off' },
@@ -29,15 +30,22 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
       youtube
         .developList() //
         .then((result) => {
+          if (!result) return;
+
           setVideoList((list) =>
             list.map((item) => {
-              if (item.id === 'smpark') return { ...item, content: result };
+              if (item.id === 'smpark')
+                return {
+                  ...item,
+                  content: result.items,
+                  nextPageToken: result.nextPageToken,
+                };
 
               return item;
             })
           );
 
-          setVideoPlay(result[0]);
+          setVideoPlay(result.items[0]);
         });
     }
   }, [youtube, loginState.state]);
@@ -54,15 +62,16 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
             }
           });
 
-          if (!check) {
+          if (check === 'exist') {
+            alert('이미 존재하는 video입니다.');
+          } else {
+            alert('저장 되었습니다.');
             return { ...item, content: [...item.content, selectedList] };
           }
         }
         return item;
       })
     );
-
-    alert('저장 되었습니다.');
   }, []);
 
   const onSetMenu = useCallback((title) => {
@@ -79,12 +88,21 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
 
   const onSearch = useCallback(
     (query, title) => {
+      setQuery(query);
+
       youtube
         .search(query) //
         .then((result) => {
+          if (!result) return;
+
           setVideoList((list) =>
             list.map((item) => {
-              if (item.id === 'search') return { ...item, content: result };
+              if (item.id === 'search')
+                return {
+                  ...item,
+                  content: result.items,
+                  nextPageToken: result.nextPageToken,
+                };
 
               return item;
             })
@@ -131,10 +149,13 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
           {videoPlay && (
             <Sections
               videoList={videoList}
+              setVideoList={setVideoList}
               videoPlay={videoPlay}
               menus={menus}
               onList={handleClickVideoList}
               onMyList={handleClickSaveVideo}
+              youtube={youtube}
+              query={query}
             />
           )}
         </div>

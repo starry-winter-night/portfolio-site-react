@@ -1,4 +1,4 @@
-export default class HighlightMenuList {
+class HighlightMenuList {
   on(sections, setObserve) {
     const REQUEST_TRESHOLD = 0.26;
     const options = {
@@ -57,3 +57,5 @@ export default class HighlightMenuList {
       : threshold;
   }
 }
+
+export default HighlightMenuList;

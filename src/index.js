@@ -20,6 +20,7 @@ const smpChat = new SmpChat(socketIo);
 
 ReactDOM.render(
   <React.StrictMode>
+    {/* <> */}
     <App
       starryNight={starryNight}
       highLightMenu={highLightMenu}
@@ -28,7 +29,8 @@ ReactDOM.render(
       authService={authService}
       smpChat={smpChat}
     />
-    <Smpchat authService={authService} />
+    <Smpchat AuthService={AuthService} />
+    {/* </>, */}
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -7,7 +7,9 @@ const Contents = memo(({ videoPlay, onMyList }) => {
   const searchVideoId = videoPlay.id.videoId;
   const videoId = developVideoId ? developVideoId : searchVideoId;
 
-  const onVideoSave = () => {
+  const onVideoSave = (e) => {
+    e.preventDefault();
+
     onMyList(videoPlay);
   };
 

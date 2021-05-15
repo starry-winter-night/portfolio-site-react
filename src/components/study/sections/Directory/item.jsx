@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import styles from './item.module.css';
 
-const item = memo(({ item, onList }) => {
+const item = memo(({ item, onList, lastRef = null }) => {
   const video = item.snippet;
   const channelTitle = video.videoOwnerChannelTitle
     ? video.videoOwnerChannelTitle
@@ -12,7 +12,11 @@ const item = memo(({ item, onList }) => {
   };
 
   return (
-    <li className={styles.youtubeList} onClick={handleClickVideoList}>
+    <li
+      className={styles.youtubeList}
+      onClick={handleClickVideoList}
+      ref={lastRef}
+    >
       <div className={styles.thumnailBox}>
         <img
           className={styles.thumbnail}
