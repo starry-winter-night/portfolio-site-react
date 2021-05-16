@@ -19,8 +19,8 @@ const youtube = new Youtube(process.env.REACT_APP_YOUTUBE_API_KEY);
 const smpChat = new SmpChat(socketIo);
 
 ReactDOM.render(
-  <React.StrictMode>
-    {/* <> */}
+  // <React.StrictMode>
+  <>
     <App
       starryNight={starryNight}
       highLightMenu={highLightMenu}
@@ -30,7 +30,7 @@ ReactDOM.render(
       smpChat={smpChat}
     />
     <Smpchat AuthService={AuthService} />
-    {/* </>, */}
-  </React.StrictMode>,
+  </>,
+  // </React.StrictMode>,
   document.getElementById('root')
 );
