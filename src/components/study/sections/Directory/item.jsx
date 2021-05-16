@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import styles from './item.module.css';
 
-const Item = ({ item, onList, onMenu }) => {
-  const lastListRef = useRef();
+const Item = ({ item, onList, lastElementRef }) => {
   const video = item.snippet;
   const channelTitle = video.videoOwnerChannelTitle
     ? video.videoOwnerChannelTitle
@@ -12,18 +11,11 @@ const Item = ({ item, onList, onMenu }) => {
     onList(item);
   };
 
-  useEffect(() => {
-    if (onMenu) {
-      const element = lastListRef.current;
-      onMenu("Smpark's Picks", element);
-    }
-  }, [onMenu, lastListRef]);
-
   return (
     <li
       className={styles.youtubeList}
       onClick={handleClickVideoList}
-      ref={lastListRef}
+      ref={lastElementRef}
     >
       <div className={styles.thumnailBox}>
         <img

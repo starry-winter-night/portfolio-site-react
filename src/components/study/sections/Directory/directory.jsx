@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './directory.module.css';
 import List from './list';
 
-const Directory = ({ layer, onList, onMenu }) => {
+const Directory = ({ layer, onList, lastElementRef }) => {
   console.log(layer);
   return (
     <section className={styles.directory}>
@@ -14,7 +14,7 @@ const Directory = ({ layer, onList, onMenu }) => {
               videoList={item.contents.videoList}
               id={item.id}
               onList={onList}
-              onMenu={onMenu}
+              lastElementRef={lastElementRef}
             />
           )
       )}

@@ -23,7 +23,7 @@ const Navbar = memo(
 
       const query = input.current.value;
 
-      query && onSearch(query, 'Search');
+      query && onSearch(query);
 
       input.current.value = '';
     };

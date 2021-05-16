@@ -8,10 +8,9 @@ const Sections = ({
   videoPlay,
   layer,
   onList,
-  onMenu,
+  lastElementRef,
   onMyList,
   youtube,
-  setVideoList,
   query,
 }) => {
   return (
@@ -23,7 +22,7 @@ const Sections = ({
         youtube={youtube}
         setLayer={setLayer}
         query={query}
-        onMenu={onMenu}
+        lastElementRef={lastElementRef}
       />
     </div>
   );

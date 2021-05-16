@@ -3,36 +3,31 @@ import { useHistory } from 'react-router';
 import Navbar from './navbar/navbar';
 import Sections from './sections/sections';
 import InfiniteScroll from '../../service/infiniteScroll/infiniteScroll.js';
+import _ from 'lodash';
 
 const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
   const [etcToggle, setEtcToggle] = useState('off');
   const [videoPlay, setVideoPlay] = useState(null);
   const [query, setQuery] = useState(null);
-  const [videoList, setVideoList] = useState([
-    { id: 'search', content: [], nextPageToken: null },
-    { id: 'mylist', content: [], nextPageToken: null },
-    { id: 'smpark', content: [], nextPageToken: null },
-  ]);
-
   const [layer, setLayer] = useState([
     {
       id: 'search',
       title: 'Search',
-      view: 'off',
+      view: null,
       contents: { videoList: [], nextPageToken: null, lastElement: null },
       nextPageToken: null,
     },
     {
       id: 'mylist',
       title: 'My List',
-      view: 'off',
+      view: null,
       contents: { videoList: [], nextPageToken: null, lastElement: null },
       nextPageToken: null,
     },
     {
       id: 'smpark',
       title: "Smpark's Picks",
-      view: 'on',
+      view: null,
       contents: { videoList: [], nextPageToken: null, lastElement: null },
     },
   ]);
@@ -69,21 +64,20 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
         .developList() //
         .then((result) => {
           if (!result) return;
-
           setLayer((list) =>
             list.map((item) => {
               if (item.id === 'smpark') {
-                const data = {
+                return {
                   ...item,
-                  contents: { videoList: result.items },
+                  contents: {
+                    videoList: result.items,
+                    nextPageToken: result.nextPageToken,
+                  },
+                  view: 'on',
                 };
-
-                data.contents.nextPageToken = result.nextPageToken;
-
-                return data;
               }
 
-              return item;
+              return { ...item, view: 'off' };
             })
           );
 
@@ -116,18 +110,11 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
     );
   }, []);
 
-  const onSetMenu = useCallback((title, element) => {
+  const onSetMenu = useCallback((title) => {
     setLayer((list) =>
       list.map((item) => {
         if (item.title === title) {
-          if (element) {
-            const data = { ...item, view: 'on' };
-            data.contents.lastElement = element;
-
-            return data;
-          } else {
-            return { ...item, view: 'on' };
-          }
+          return { ...item, view: 'on' };
         }
 
         return { ...item, view: 'off' };
@@ -135,8 +122,24 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
     );
   }, []);
 
+  const getLastElement = useCallback((ref) => {
+    setLayer((list) =>
+      list.map((item) => {
+        if (item.view === 'on') {
+          const cloneItem = _.cloneDeep(item);
+
+          cloneItem.contents.lastElement = ref;
+
+          return cloneItem;
+        }
+
+        return item;
+      })
+    );
+  }, []);
+
   const onSearch = useCallback(
-    (query, title) => {
+    (query) => {
       setQuery(query);
 
       youtube
@@ -155,24 +158,22 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
           setLayer((list) =>
             list.map((item) => {
               if (item.id === 'search') {
-                const data = {
+                return {
                   ...item,
-                  contents: items,
+                  contents: {
+                    videoList: items,
+                    nextPageToken: items[0].nextPageToken,
+                  },
+                  view: 'on',
                 };
-
-                data.contents.nextPageToken = items[0].nextPageToken;
-
-                return data;
               }
 
-              return item;
+              return { ...item, view: 'off' };
             })
           );
-
-          onSetMenu(title);
         });
     },
-    [youtube, onSetMenu]
+    [youtube]
   );
 
   const onDropbox = useCallback(() => {
@@ -216,7 +217,7 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
               onMyList={handleClickSaveVideo}
               youtube={youtube}
               query={query}
-              onMenu={onSetMenu}
+              lastElementRef={getLastElement}
             />
           )}
         </div>
