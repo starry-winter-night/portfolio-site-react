@@ -8,7 +8,7 @@ import { faSearch, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 const Navbar = memo(
   ({
     FontAwesome,
-    menus,
+    layer,
     onMenu,
     onSearch,
     onDropbox,
@@ -56,7 +56,7 @@ const Navbar = memo(
           </button>
         </form>
         <ul className={styles.studyList}>
-          {menus.map((item) => (
+          {layer.map((item) => (
             <Menu key={item.id} onMenu={onMenu} item={item} />
           ))}
           <li className={styles.etc} onClick={hadleToggle} data-id="etc">

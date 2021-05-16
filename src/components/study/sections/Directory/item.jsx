@@ -1,7 +1,8 @@
-import React, { memo } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styles from './item.module.css';
 
-const item = memo(({ item, onList, lastRef = null }) => {
+const Item = ({ item, onList, onMenu }) => {
+  const lastListRef = useRef();
   const video = item.snippet;
   const channelTitle = video.videoOwnerChannelTitle
     ? video.videoOwnerChannelTitle
@@ -11,11 +12,18 @@ const item = memo(({ item, onList, lastRef = null }) => {
     onList(item);
   };
 
+  useEffect(() => {
+    if (onMenu) {
+      const element = lastListRef.current;
+      onMenu("Smpark's Picks", element);
+    }
+  }, [onMenu, lastListRef]);
+
   return (
     <li
       className={styles.youtubeList}
       onClick={handleClickVideoList}
-      ref={lastRef}
+      ref={lastListRef}
     >
       <div className={styles.thumnailBox}>
         <img
@@ -30,6 +38,6 @@ const item = memo(({ item, onList, lastRef = null }) => {
       </div>
     </li>
   );
-});
+};
 
-export default item;
+export default Item;

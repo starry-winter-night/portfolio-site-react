@@ -4,10 +4,11 @@ import Contents from './contents/contents';
 import Directory from './directory/directory';
 
 const Sections = ({
-  videoList,
+  setLayer,
   videoPlay,
-  menus,
+  layer,
   onList,
+  onMenu,
   onMyList,
   youtube,
   setVideoList,
@@ -17,12 +18,12 @@ const Sections = ({
     <div className={styles.container}>
       <Contents videoPlay={videoPlay} onMyList={onMyList} />
       <Directory
-        videoList={videoList}
-        menus={menus}
+        layer={layer}
         onList={onList}
         youtube={youtube}
-        setVideoList={setVideoList}
+        setLayer={setLayer}
         query={query}
+        onMenu={onMenu}
       />
     </div>
   );

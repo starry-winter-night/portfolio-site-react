@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback, memo } from 'react';
 import { useHistory } from 'react-router';
 import Navbar from './navbar/navbar';
 import Sections from './sections/sections';
+import InfiniteScroll from '../../service/infiniteScroll/infiniteScroll.js';
 
 const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
   const [etcToggle, setEtcToggle] = useState('off');
@@ -12,11 +13,48 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
     { id: 'mylist', content: [], nextPageToken: null },
     { id: 'smpark', content: [], nextPageToken: null },
   ]);
-  const [menus, setMenu] = useState([
-    { id: 'search', title: 'Search', view: 'off' },
-    { id: 'mylist', title: 'My List', view: 'off' },
-    { id: 'smpark', title: "Smpark's Picks", view: 'on' },
+
+  const [layer, setLayer] = useState([
+    {
+      id: 'search',
+      title: 'Search',
+      view: 'off',
+      contents: { videoList: [], nextPageToken: null, lastElement: null },
+      nextPageToken: null,
+    },
+    {
+      id: 'mylist',
+      title: 'My List',
+      view: 'off',
+      contents: { videoList: [], nextPageToken: null, lastElement: null },
+      nextPageToken: null,
+    },
+    {
+      id: 'smpark',
+      title: "Smpark's Picks",
+      view: 'on',
+      contents: { videoList: [], nextPageToken: null, lastElement: null },
+    },
   ]);
+
+  // 메뉴의 컨텐츠에 라스트 리스트를 가져와야 한다.
+  useEffect(() => {
+    layer.forEach((item) => {
+      if (item.view === 'on') {
+        const infiniteScroll = new InfiniteScroll(
+          youtube,
+          layer,
+          setLayer,
+          item.id,
+          query
+        );
+
+        // infiniteScroll.on(LastElement);
+      }
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [layer]);
+
   const history = useHistory();
 
   useEffect(() => {
@@ -32,14 +70,18 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
         .then((result) => {
           if (!result) return;
 
-          setVideoList((list) =>
+          setLayer((list) =>
             list.map((item) => {
-              if (item.id === 'smpark')
-                return {
+              if (item.id === 'smpark') {
+                const data = {
                   ...item,
-                  content: result.items,
-                  nextPageToken: result.nextPageToken,
+                  contents: { videoList: result.items },
                 };
+
+                data.contents.nextPageToken = result.nextPageToken;
+
+                return data;
+              }
 
               return item;
             })
@@ -51,7 +93,7 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
   }, [youtube, loginState.state]);
 
   const handleClickSaveVideo = useCallback((selectedList) => {
-    setVideoList((list) =>
+    setLayer((list) =>
       list.map((item) => {
         if (item.id === 'mylist') {
           let check = null;
@@ -74,11 +116,18 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
     );
   }, []);
 
-  const onSetMenu = useCallback((title) => {
-    setMenu((menu) =>
-      menu.map((item) => {
+  const onSetMenu = useCallback((title, element) => {
+    setLayer((list) =>
+      list.map((item) => {
         if (item.title === title) {
-          return { ...item, view: 'on' };
+          if (element) {
+            const data = { ...item, view: 'on' };
+            data.contents.lastElement = element;
+
+            return data;
+          } else {
+            return { ...item, view: 'on' };
+          }
         }
 
         return { ...item, view: 'off' };
@@ -94,15 +143,27 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
         .search(query) //
         .then((result) => {
           if (!result) return;
+          return result.items.map((item) => ({
+            ...item,
+            id: item.id.videoId,
+            nextPageToken: result.nextPageToken,
+          }));
+        })
+        .then((items) => {
+          if (!items) return;
 
-          setVideoList((list) =>
+          setLayer((list) =>
             list.map((item) => {
-              if (item.id === 'search')
-                return {
+              if (item.id === 'search') {
+                const data = {
                   ...item,
-                  content: result.items,
-                  nextPageToken: result.nextPageToken,
+                  contents: items,
                 };
+
+                data.contents.nextPageToken = items[0].nextPageToken;
+
+                return data;
+              }
 
               return item;
             })
@@ -138,7 +199,7 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
       {loginState.state === 'login' && (
         <div>
           <Navbar
-            menus={menus}
+            layer={layer}
             FontAwesome={FontAwesome}
             onMenu={onSetMenu}
             onSearch={onSearch}
@@ -148,14 +209,14 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
           />
           {videoPlay && (
             <Sections
-              videoList={videoList}
-              setVideoList={setVideoList}
+              layer={layer}
+              setLayer={setLayer}
               videoPlay={videoPlay}
-              menus={menus}
               onList={handleClickVideoList}
               onMyList={handleClickSaveVideo}
               youtube={youtube}
               query={query}
+              onMenu={onSetMenu}
             />
           )}
         </div>

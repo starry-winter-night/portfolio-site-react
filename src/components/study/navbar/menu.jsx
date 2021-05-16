@@ -1,7 +1,7 @@
-import React, { memo } from 'react';
+import React from 'react';
 import styles from './menu.module.css';
 
-const Menu = memo(({ onMenu, item }) => {
+const Menu = ({ onMenu, item }) => {
   const handleClickMenu = () => {
     onMenu(item.title);
   };
@@ -14,6 +14,6 @@ const Menu = memo(({ onMenu, item }) => {
       {item.title}
     </li>
   );
-});
+};
 
 export default Menu;

@@ -6,7 +6,9 @@ class InfiniteScroll {
     this.menuId = menuId;
     this.query = query;
   }
+
   on(element) {
+    console.log(this.menuId);
     const REQUEST_TRESHOLD = 0.9;
     const options = {
       root: null,
@@ -34,9 +36,7 @@ class InfiniteScroll {
                   nextPageToken,
                   this.setVideoList
                 );
-              }
-
-              if (this.menuId === 'search') {
+              } else if (this.menuId === 'search') {
                 loadNextSearchList(
                   this.youtube,
                   nextPageToken,
@@ -57,6 +57,7 @@ class InfiniteScroll {
 }
 
 function loadNextDevelopList(youtube, nextPageToken, setVideoList) {
+  console.log(`리스트 실행!!`);
   youtube
     .developList(nextPageToken, 10) //
     .then((result) => {
@@ -80,25 +81,33 @@ function loadNextDevelopList(youtube, nextPageToken, setVideoList) {
 
 function loadNextSearchList(youtube, nextPageToken, setVideoList, query) {
   if (query) {
-    youtube
-      .search(query, nextPageToken, 25) //
-      .then((result) => {
-        if (!result) return;
+    console.log(`${query} 실행!!`);
+    // youtube
+    //   .search(query, nextPageToken, 25) //
+    //   .then((result) => {
+    //     if (!result) return;
+    //     return result.items.map((item) => ({
+    //       ...item,
+    //       id: item.id.videoId,
+    //       nextPageToken: result.nextPageToken,
+    //     }));
+    //   })
+    //   .then((items) => {
+    //     if (!items) return;
 
-        setVideoList((list) =>
-          list.map((item) => {
-            if (item.id === 'search') {
-              return {
-                ...item,
-                content: [...item.content, ...result.items],
-                nextPageToken: result.nextPageToken,
-              };
-            }
-
-            return item;
-          })
-        );
-      });
+    //     setVideoList((list) =>
+    //       list.map((item) => {
+    //         if (item.id === 'search') {
+    //           return {
+    //             ...item,
+    //             content: [...item.content, ...items],
+    //             nextPageToken: items[0].nextPageToken,
+    //           };
+    //         }
+    //         return item;
+    //       })
+    //     );
+    //   });
   }
 }
 
