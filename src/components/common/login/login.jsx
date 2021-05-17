@@ -4,7 +4,7 @@ import styles from './login.module.css';
 import Logo from '../logo/logo';
 import Goback from '../goback/goback';
 
-const Login = ({ FontAwesome, authService, loginState }) => {
+const Login = ({ FontAwesome, authService, login, setLogin }) => {
   const history = useHistory();
 
   const onLogin = (e) => {
@@ -19,9 +19,13 @@ const Login = ({ FontAwesome, authService, loginState }) => {
       .login(loginType)
       .then((data) => {
         // console.log(data.user.uid);
+
+        setLogin(true);
         history.push('/study');
       })
       .catch((e) => {
+        setLogin(false);
+        
         e.code === 'auth/account-exists-with-different-credential' &&
           alert(
             `같은 이메일 주소가 등록되어 있습니다. 기존의 등록한 방식으로 로그인하여 주십시오. ${e.email}`
@@ -30,16 +34,12 @@ const Login = ({ FontAwesome, authService, loginState }) => {
   };
 
   useEffect(() => {
-    authService.loginUserCheck((user) => {
-      if (user) {
-        history.push('/study');
-      }
-    });
-  }, [authService, history]);
+    login && history.push('/study');
+  }, [login, history]);
 
   return (
     <section className={styles.section}>
-      {loginState.state === 'nonLogin' && (
+      {!login && (
         <>
           <header className={styles.header}>
             <Goback FontAwesome={FontAwesome} backBox={styles.backBox} />

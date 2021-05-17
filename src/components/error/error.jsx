@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router';
-import { useEffect } from 'react/cjs/react.development';
 import Goback from '../common/goback/goback';
 import styles from './error.module.css';
-const Error = ({ FontAwesome, authService }) => {
+const Error = ({ FontAwesome, authService, login, setLogin }) => {
   const location = useLocation();
 
   const code = location.state?.code;
@@ -25,7 +24,10 @@ const Error = ({ FontAwesome, authService }) => {
 
   const hadleLogout = () => {
     authService.logout();
-    history.push('/');
+
+    setLogin(false);
+
+    history.push('/login');
   };
   return (
     <>
@@ -34,9 +36,11 @@ const Error = ({ FontAwesome, authService }) => {
           <header className={styles.header}>
             <Goback FontAwesome={FontAwesome} backBox={styles.backBox} />
             <div>
-              <button className={styles.logout} onClick={hadleLogout}>
-                logout
-              </button>
+              {login && (
+                <button className={styles.logout} onClick={hadleLogout}>
+                  logout
+                </button>
+              )}
             </div>
           </header>
           <section className={styles.section}>

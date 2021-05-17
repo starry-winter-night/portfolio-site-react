@@ -26,11 +26,11 @@
 .section {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 94%;
 }
 .error {
   position: absolute;
-  top: 10%;
+  top: 15%;
   left: 50%;
   right: 0;
   text-align: center;
@@ -40,7 +40,7 @@
 }
 .code {
   position: absolute;
-  top: 40%;
+  top: 45%;
   left: 50%;
   right: 0;
   text-align: center;
@@ -51,7 +51,7 @@
 
 .alert {
   position: absolute;
-  top: 30%;
+  top: 35%;
   left: 50%;
   text-align: center;
   transform: translate(-50%, -50%);
@@ -64,7 +64,7 @@
   text-align: center;
   font-size: var(--font-regular);
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   right: 0;
   text-align: center;
@@ -82,7 +82,7 @@
   font-family: 'Josefin Sans', sans-serif;
   font-weight: 300;
   text-align: center;
-  padding: 60px 0 45px 0;
+  padding: 30px 0 30px 0;
   font-size: var(--font-micro);
   user-select: none;
   background: var(--color-background);

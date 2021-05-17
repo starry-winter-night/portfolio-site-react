@@ -13,25 +13,18 @@ const App = ({
   moveSection,
   youtube,
   authService,
-  smpChat,
 }) => {
-  const [loginState, setLogoinState] = useState({ state: null });
+  const [login, setLogin] = useState(null);
 
   useEffect(() => {
     authService.loginUserCheck((user) => {
       if (user) {
-        setLogoinState((item) => {
-          return { ...item, state: 'login' };
-        });
-
-        smpChat.load(user.uid);
+        setLogin(true);
       } else {
-        setLogoinState((item) => {
-          return { ...item, state: 'nonLogin' };
-        });
+        setLogin(false);
       }
     });
-  }, [authService, smpChat]);
+  }, [authService]);
 
   return (
     <Router>
@@ -49,7 +42,8 @@ const App = ({
           <Login
             FontAwesome={FontAwesomeIcon}
             authService={authService}
-            loginState={loginState}
+            login={login}
+            setLogin={setLogin}
           />
         </Route>
         <Route path="/study">
@@ -57,12 +51,25 @@ const App = ({
             FontAwesome={FontAwesomeIcon}
             youtube={youtube}
             authService={authService}
-            loginState={loginState}
+            login={login}
+            setLogin={setLogin}
           />
         </Route>
         <Route path="/error">
-          <Error FontAwesome={FontAwesomeIcon} authService={authService} />
+          <Error
+            FontAwesome={FontAwesomeIcon}
+            authService={authService}
+            login={login}
+            setLogin={setLogin}
+          />
         </Route>
+        {/* <Route path="*">
+          <Error
+            FontAwesome={FontAwesomeIcon}
+            authService={authService}
+            loginState={loginState}
+          />
+        </Route> */}
       </Switch>
     </Router>
   );

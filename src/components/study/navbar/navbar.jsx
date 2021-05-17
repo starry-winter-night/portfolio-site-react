@@ -1,9 +1,9 @@
 import React, { useRef, memo } from 'react';
-import { useHistory } from 'react-router';
 import styles from './navbar.module.css';
 import Menu from './menu';
 import Goback from '../../common/goback/goback';
 import { faSearch, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { useHistory } from 'react-router';
 
 const Navbar = memo(
   ({
@@ -14,6 +14,7 @@ const Navbar = memo(
     onDropbox,
     etcToggle,
     authService,
+    setLogin,
   }) => {
     const input = useRef();
     const history = useHistory();
@@ -34,7 +35,9 @@ const Navbar = memo(
 
     const hadleLogout = () => {
       authService.logout();
-      history.push('/');
+      setLogin(false);
+
+      history.push('/login');
     };
 
     return (

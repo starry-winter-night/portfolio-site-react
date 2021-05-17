@@ -27,9 +27,8 @@ ReactDOM.render(
       moveSection={moveSection}
       youtube={youtube}
       authService={authService}
-      smpChat={smpChat}
     />
-    <Smpchat AuthService={AuthService} />
+    <Smpchat authService={authService} smpChat={smpChat} />
   </>,
   // </React.StrictMode>,
   document.getElementById('root')

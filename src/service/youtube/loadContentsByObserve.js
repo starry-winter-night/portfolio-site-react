@@ -62,10 +62,14 @@ function loadNextDevelopList(
   setLoading
 ) {
   setLoading(true);
+
   youtube
     .developList(nextPageToken, 10) //
     .then((result) => {
-      if (!result) return;
+      if (!result) {
+        setLoading(false);
+        return;
+      }
 
       if (result.error) {
         history.push({
@@ -116,13 +120,17 @@ function loadNextSearchList(
         }));
       })
       .then((items) => {
-        if (!items) return;
+        if (!items) {
+          setLoading(false);
+          return;
+        }
 
         if (items.error) {
           history.push({
             pathname: '/error',
             state: { code: items.error.code },
           });
+
           return;
         }
 

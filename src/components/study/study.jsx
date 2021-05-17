@@ -6,7 +6,7 @@ import Loading from '../common/loading/loading';
 import styles from './study.module.css';
 import _ from 'lodash';
 
-const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
+const Study = memo(({ FontAwesome, youtube, authService, login, setLogin }) => {
   const [etcToggle, setEtcToggle] = useState('off');
   const [videoPlay, setVideoPlay] = useState(null);
   const [query, setQuery] = useState(null);
@@ -34,55 +34,52 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
     },
   ]);
 
-  console.log(loading);
   const history = useHistory();
 
   useEffect(() => {
-    authService.loginUserCheck((user) => {
-      if (!user) history.push('/login');
-    });
-  }, [authService, history]);
+    !login && history.push('/login');
+  });
 
   useEffect(() => {
-    if (loginState.state === 'login') {
-      setLoading(true);
+    setLoading(true);
 
-      youtube
-        .developList() //
-        .then((result) => {
-          if (!result) {
-            return;
-          }
-          if (result.error) {
-            history.push({
-              pathname: '/error',
-              state: { code: result.error.code },
-            });
-            return;
-          }
-
-          setLayer((list) =>
-            list.map((item) => {
-              if (item.id === 'smpark') {
-                return {
-                  ...item,
-                  contents: {
-                    videoList: result.items,
-                    nextPageToken: result.nextPageToken,
-                  },
-                  view: 'on',
-                };
-              }
-
-              return { ...item, view: 'off' };
-            })
-          );
-
-          setVideoPlay(result.items[0]);
+    youtube
+      .developList() //
+      .then((result) => {
+        if (!result) {
           setLoading(false);
-        });
-    }
-  }, [youtube, loginState.state, history]);
+          return;
+        }
+
+        if (result.error) {
+          history.push({
+            pathname: '/error',
+            state: { code: result.error.code },
+          });
+          return;
+        }
+
+        setLayer((list) =>
+          list.map((item) => {
+            if (item.id === 'smpark') {
+              return {
+                ...item,
+                contents: {
+                  videoList: result.items,
+                  nextPageToken: result.nextPageToken,
+                },
+                view: 'on',
+              };
+            }
+
+            return { ...item, view: 'off' };
+          })
+        );
+
+        setVideoPlay(result.items[0]);
+        setLoading(false);
+      });
+  }, [youtube, history]);
 
   const handleClickSaveVideo = useCallback((selectedList) => {
     setLayer((list) =>
@@ -142,7 +139,10 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
           }));
         })
         .then((items) => {
-          if (!items) return;
+          if (!items) {
+            setLoading(false);
+            return;
+          }
 
           if (items.error) {
             history.push({
@@ -196,9 +196,9 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
   };
 
   return (
-    <div onClick={onStudyClick}>
-      {loginState.state === 'login' && (
-        <div>
+    <>
+      {login && (
+        <div onClick={onStudyClick}>
           <Navbar
             layer={layer}
             FontAwesome={FontAwesome}
@@ -207,6 +207,7 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
             onDropbox={onDropbox}
             etcToggle={etcToggle}
             authService={authService}
+            setLogin={setLogin}
           />
           {loading && <Loading styles={styles} />}
           {videoPlay && (
@@ -222,7 +223,7 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
           )}
         </div>
       )}
-    </div>
+    </>
   );
 });
 export default Study;
