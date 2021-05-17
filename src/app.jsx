@@ -55,7 +55,7 @@ const App = ({
             setLogin={setLogin}
           />
         </Route>
-        <Route path="/error">
+        <Route path={['/error', '*']}>
           <Error
             FontAwesome={FontAwesomeIcon}
             authService={authService}
@@ -63,13 +63,6 @@ const App = ({
             setLogin={setLogin}
           />
         </Route>
-        {/* <Route path="*">
-          <Error
-            FontAwesome={FontAwesomeIcon}
-            authService={authService}
-            loginState={loginState}
-          />
-        </Route> */}
       </Switch>
     </Router>
   );

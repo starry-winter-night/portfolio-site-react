@@ -1,26 +1,26 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useLocation, useHistory } from 'react-router';
 import Goback from '../common/goback/goback';
 import styles from './error.module.css';
 const Error = ({ FontAwesome, authService, login, setLogin }) => {
   const location = useLocation();
 
-  const code = location.state?.code;
+  let code = location.state?.code;
+
+  if (!code) code = 404;
 
   let description = null;
 
   if (code === 403) {
-    description = `죄송합니다. 유튜브에 컨텐츠를 요청할 수 있는 1일 할당 포인트가 모두 소진 되었습니다. 
-할당량은 오후 4시에 재할당 됩니다.`;
+    description = `죄송합니다. 유튜브에 콘텐츠를 요청할 수 있는 1일 할당 포인트가 모두 소진되었습니다. 
+포인트는 오후 4시에 재할당 됩니다.`;
+  } else if (code === 404) {
+    description = `입력하신 페이지를 찾을 수 없습니다.`;
   } else {
-    description = `죄송합니다. 서버에 문제가 발생했습니다. 오류가 계속되면 관리자에게 채팅 메시지 또는 이메일을 보내주세요. smpark7723@gmail.com`;
+    description = `죄송합니다. 서버에서 문제가 발생했습니다. 오류가 계속되면 관리자에게 채팅 메시지 또는 이메일을 보내주세요. smpark7723@gmail.com`;
   }
 
   const history = useHistory();
-
-  useEffect(() => {
-    !code && history.push('/');
-  }, [code, history]);
 
   const hadleLogout = () => {
     authService.logout();
