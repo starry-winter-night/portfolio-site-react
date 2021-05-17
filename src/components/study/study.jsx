@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback, memo } from 'react';
 import { useHistory } from 'react-router';
 import Navbar from './navbar/navbar';
 import Sections from './sections/sections';
-import InfiniteScroll from '../../service/infiniteScroll/infiniteScroll.js';
 import _ from 'lodash';
 
 const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
@@ -14,41 +13,23 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
       id: 'search',
       title: 'Search',
       view: null,
-      contents: { videoList: [], nextPageToken: null, lastElement: null },
+      contents: { videoList: [], nextPageToken: null },
       nextPageToken: null,
     },
     {
       id: 'mylist',
       title: 'My List',
       view: null,
-      contents: { videoList: [], nextPageToken: null, lastElement: null },
+      contents: { videoList: [], nextPageToken: null },
       nextPageToken: null,
     },
     {
       id: 'smpark',
       title: "Smpark's Picks",
       view: null,
-      contents: { videoList: [], nextPageToken: null, lastElement: null },
+      contents: { videoList: [], nextPageToken: null },
     },
   ]);
-
-  // 메뉴의 컨텐츠에 라스트 리스트를 가져와야 한다.
-  useEffect(() => {
-    layer.forEach((item) => {
-      if (item.view === 'on') {
-        const infiniteScroll = new InfiniteScroll(
-          youtube,
-          layer,
-          setLayer,
-          item.id,
-          query
-        );
-
-        // infiniteScroll.on(LastElement);
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [layer]);
 
   const history = useHistory();
 
@@ -63,7 +44,17 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
       youtube
         .developList() //
         .then((result) => {
-          if (!result) return;
+          if (!result) {
+            return;
+          }
+          if (result.error) {
+            history.push({
+              pathname: '/error',
+              state: { code: result.error.code },
+            });
+            return;
+          }
+
           setLayer((list) =>
             list.map((item) => {
               if (item.id === 'smpark') {
@@ -84,15 +75,15 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
           setVideoPlay(result.items[0]);
         });
     }
-  }, [youtube, loginState.state]);
+  }, [youtube, loginState.state, history]);
 
   const handleClickSaveVideo = useCallback((selectedList) => {
     setLayer((list) =>
       list.map((item) => {
         if (item.id === 'mylist') {
           let check = null;
-          item.content.forEach((contents) => {
-            if (contents.etag === selectedList.etag) {
+          item.contents.videoList.forEach((item) => {
+            if (item.id === selectedList.id) {
               check = 'exist';
               return;
             }
@@ -102,7 +93,12 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
             alert('이미 존재하는 video입니다.');
           } else {
             alert('저장 되었습니다.');
-            return { ...item, content: [...item.content, selectedList] };
+
+            const cloneItem = _.cloneDeep(item);
+
+            cloneItem.contents.videoList.push(selectedList);
+
+            return cloneItem;
           }
         }
         return item;
@@ -118,22 +114,6 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
         }
 
         return { ...item, view: 'off' };
-      })
-    );
-  }, []);
-
-  const getLastElement = useCallback((ref) => {
-    setLayer((list) =>
-      list.map((item) => {
-        if (item.view === 'on') {
-          const cloneItem = _.cloneDeep(item);
-
-          cloneItem.contents.lastElement = ref;
-
-          return cloneItem;
-        }
-
-        return item;
       })
     );
   }, []);
@@ -155,6 +135,13 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
         .then((items) => {
           if (!items) return;
 
+          if (items.error) {
+            history.push({
+              pathname: '/error',
+              state: { code: items.error.code },
+            });
+            return;
+          }
           setLayer((list) =>
             list.map((item) => {
               if (item.id === 'search') {
@@ -173,7 +160,7 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
           );
         });
     },
-    [youtube]
+    [youtube, history]
   );
 
   const onDropbox = useCallback(() => {
@@ -217,7 +204,6 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
               onMyList={handleClickSaveVideo}
               youtube={youtube}
               query={query}
-              lastElementRef={getLastElement}
             />
           )}
         </div>

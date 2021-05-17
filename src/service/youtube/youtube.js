@@ -23,8 +23,13 @@ class Youtube {
       data.params.pageToken = pageToken;
     }
 
-    const response = await this.youtube.get('playlistItems', data);
-    return response.data;
+    try {
+      const response = await this.youtube.get('playlistItems', data);
+
+      return response.data;
+    } catch (error) {
+      return error.response.data;
+    }
   }
 
   async search(query, pageToken, maxResults = 25) {
@@ -42,7 +47,6 @@ class Youtube {
     if (pageToken) {
       data.params.pageToken = pageToken;
     }
-
     const response = await this.youtube.get('search', data);
 
     return response.data;

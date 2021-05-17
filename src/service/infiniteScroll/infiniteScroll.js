@@ -1,14 +1,16 @@
+import _ from 'lodash';
 class InfiniteScroll {
-  constructor(youtube, videoList, setVideoList, menuId, query) {
+  constructor(youtube, setLayer, token = 'none', id, query) {
     this.youtube = youtube;
-    this.videoList = videoList;
-    this.setVideoList = setVideoList;
-    this.menuId = menuId;
+    this.setLayer = setLayer;
+    this.token = token;
+    this.id = id;
     this.query = query;
+
+    console.log('in');
   }
 
   on(element) {
-    console.log(this.menuId);
     const REQUEST_TRESHOLD = 0.9;
     const options = {
       root: null,
@@ -24,90 +26,88 @@ class InfiniteScroll {
     return (entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          this.videoList.forEach((item) => {
-            if (this.menuId === item.id) {
-              const nextPageToken = !item.nextPageToken
-                ? 'none'
-                : item.nextPageToken;
+          if (this.id === 'smpark') {
+            loadNextDevelopList(this.youtube, this.token, this.setLayer);
+          } else if (this.id === 'search') {
+            loadNextSearchList(
+              this.youtube,
+              this.token,
+              this.setLayer,
+              this.query
+            );
+          }
 
-              if (this.menuId === 'smpark') {
-                loadNextDevelopList(
-                  this.youtube,
-                  nextPageToken,
-                  this.setVideoList
-                );
-              } else if (this.menuId === 'search') {
-                loadNextSearchList(
-                  this.youtube,
-                  nextPageToken,
-                  this.setVideoList,
-                  this.query
-                );
-              }
-
-              observer.disconnect();
-            }
-          });
-
-          return;
+          observer.disconnect();
         }
       });
     };
   }
 }
 
-function loadNextDevelopList(youtube, nextPageToken, setVideoList) {
+function loadNextDevelopList(youtube, nextPageToken, setLayer) {
   console.log(`리스트 실행!!`);
   youtube
     .developList(nextPageToken, 10) //
     .then((result) => {
       if (!result) return;
-
-      setVideoList((list) =>
+      setLayer((list) =>
         list.map((item) => {
           if (item.id === 'smpark') {
-            return {
-              ...item,
-              content: [...item.content, ...result.items],
-              nextPageToken: result.nextPageToken,
-            };
+            const cloneItem = _.cloneDeep(item);
+
+            result.items.forEach((item) => {
+              cloneItem.contents.videoList.push(item);
+            });
+            cloneItem.contents.nextPageToken = result.nextPageToken;
+
+            return cloneItem;
           }
 
-          return item;
+          return _.cloneDeep(item);
         })
       );
     });
 }
 
-function loadNextSearchList(youtube, nextPageToken, setVideoList, query) {
+function loadNextSearchList(youtube, nextPageToken, setLayer, query) {
   if (query) {
     console.log(`${query} 실행!!`);
-    // youtube
-    //   .search(query, nextPageToken, 25) //
-    //   .then((result) => {
-    //     if (!result) return;
-    //     return result.items.map((item) => ({
-    //       ...item,
-    //       id: item.id.videoId,
-    //       nextPageToken: result.nextPageToken,
-    //     }));
-    //   })
-    //   .then((items) => {
-    //     if (!items) return;
+    youtube
+      .search(query, nextPageToken, 25) //
+      .then((result) => {
+        if (!result) return;
+        return result.items.map((item) => ({
+          ...item,
+          id: item.id.videoId,
+          nextPageToken: result.nextPageToken,
+        }));
+      })
+      .then((items) => {
+        if (!items) return;
 
-    //     setVideoList((list) =>
-    //       list.map((item) => {
-    //         if (item.id === 'search') {
-    //           return {
-    //             ...item,
-    //             content: [...item.content, ...items],
-    //             nextPageToken: items[0].nextPageToken,
-    //           };
-    //         }
-    //         return item;
-    //       })
-    //     );
-    //   });
+        setLayer((list) =>
+          list.map((item) => {
+            if (item.id === 'search') {
+              const cloneItem = _.cloneDeep(item);
+
+              items.forEach((item) => {
+                cloneItem.contents.videoList.push(item);
+              });
+              cloneItem.contents.nextPageToken = items[0].nextPageToken;
+
+              const result = cloneItem.contents.videoList.filter(
+                (item, index) => {
+                  return cloneItem.contents.videoList.indexOf(item) === index;
+                }
+              );
+
+              return result;
+            }
+
+            return _.cloneDeep(item);
+          })
+        );
+      });
   }
 }
 

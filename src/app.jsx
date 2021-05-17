@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Portfolio from './components/portfolio/portfolio';
 import Study from './components/study/study';
 import Login from './components/common/login/login';
+import Error from './components/error/error';
 
 const App = ({
   starryNight,
@@ -58,6 +59,9 @@ const App = ({
             authService={authService}
             loginState={loginState}
           />
+        </Route>
+        <Route path="/error">
+          <Error FontAwesome={FontAwesomeIcon} authService={authService} />
         </Route>
       </Switch>
     </Router>

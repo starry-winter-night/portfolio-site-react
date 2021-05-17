@@ -8,7 +8,6 @@ const Sections = ({
   videoPlay,
   layer,
   onList,
-  lastElementRef,
   onMyList,
   youtube,
   query,
@@ -22,7 +21,6 @@ const Sections = ({
         youtube={youtube}
         setLayer={setLayer}
         query={query}
-        lastElementRef={lastElementRef}
       />
     </div>
   );

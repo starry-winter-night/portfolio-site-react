@@ -2,8 +2,7 @@ import React from 'react';
 import styles from './directory.module.css';
 import List from './list';
 
-const Directory = ({ layer, onList, lastElementRef }) => {
-  console.log(layer);
+const Directory = ({ layer, onList, youtube, setLayer, query }) => {
   return (
     <section className={styles.directory}>
       {layer.map(
@@ -14,7 +13,10 @@ const Directory = ({ layer, onList, lastElementRef }) => {
               videoList={item.contents.videoList}
               id={item.id}
               onList={onList}
-              lastElementRef={lastElementRef}
+              token={item.contents.nextPageToken}
+              youtube={youtube}
+              setLayer={setLayer}
+              query={query}
             />
           )
       )}
