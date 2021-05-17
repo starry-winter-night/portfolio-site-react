@@ -1,11 +1,13 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useState, useCallback } from 'react';
 import Item from './item';
-import InfiniteScroll from '../../../../service/infiniteScroll/infiniteScroll.js';
-import { useCallback } from 'react/cjs/react.development';
+import LoadContentsByObserve from '../../../../service/youtube/loadContentsByObserve';
+import { useHistory } from 'react-router';
 
 const List = memo(
   ({ videoList, onList, token, id, youtube, setLayer, query }) => {
     const [last, setLast] = useState(null);
+
+    const history = useHistory();
 
     const getLastElement = useCallback((ref) => {
       setLast(ref);
@@ -14,15 +16,16 @@ const List = memo(
     useEffect(() => {
       if (last) {
         const nextPageToken = token;
-        const infiniteScroll = new InfiniteScroll(
+        const loadContentsByObserve = new LoadContentsByObserve(
           youtube,
           setLayer,
           nextPageToken,
           id,
-          query
+          query,
+          history
         );
 
-        infiniteScroll.on(last);
+        loadContentsByObserve.on(last);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [last]);

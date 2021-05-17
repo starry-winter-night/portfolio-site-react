@@ -4,8 +4,10 @@ import styles from './contents.module.css';
 const Contents = memo(({ videoPlay, onMyList }) => {
   const video = videoPlay.snippet;
   const developVideoId = video?.resourceId?.videoId;
-  const searchVideoId = videoPlay.id.videoId;
-  const videoId = developVideoId ? developVideoId : searchVideoId;
+  const searchVideoId = videoPlay.id;
+  let videoId = developVideoId;
+
+  if (!videoId) videoId = searchVideoId;
 
   const onVideoSave = (e) => {
     e.preventDefault();

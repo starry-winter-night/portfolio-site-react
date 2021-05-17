@@ -36,6 +36,7 @@
   padding: 0.5rem;
   font-weight: var(--weight-bold);
   margin: 0;
+  white-space: pre-wrap;
 }
 
 .projcet__description span {

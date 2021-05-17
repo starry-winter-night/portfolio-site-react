@@ -1,13 +1,12 @@
 import _ from 'lodash';
-class InfiniteScroll {
-  constructor(youtube, setLayer, token = 'none', id, query) {
+class LoadContentsByObserve {
+  constructor(youtube, setLayer, token = 'none', id, query, history) {
     this.youtube = youtube;
     this.setLayer = setLayer;
     this.token = token;
     this.id = id;
     this.query = query;
-
-    console.log('in');
+    this.history = history;
   }
 
   on(element) {
@@ -27,13 +26,19 @@ class InfiniteScroll {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           if (this.id === 'smpark') {
-            loadNextDevelopList(this.youtube, this.token, this.setLayer);
+            loadNextDevelopList(
+              this.youtube,
+              this.token,
+              this.setLayer,
+              this.history
+            );
           } else if (this.id === 'search') {
             loadNextSearchList(
               this.youtube,
               this.token,
               this.setLayer,
-              this.query
+              this.query,
+              this.history
             );
           }
 
@@ -44,12 +49,20 @@ class InfiniteScroll {
   }
 }
 
-function loadNextDevelopList(youtube, nextPageToken, setLayer) {
-  console.log(`리스트 실행!!`);
+function loadNextDevelopList(youtube, nextPageToken, setLayer, history) {
   youtube
     .developList(nextPageToken, 10) //
     .then((result) => {
       if (!result) return;
+
+      if (result.error) {
+        history.push({
+          pathname: '/error',
+          state: { code: result.error.code },
+        });
+        return;
+      }
+
       setLayer((list) =>
         list.map((item) => {
           if (item.id === 'smpark') {
@@ -59,7 +72,6 @@ function loadNextDevelopList(youtube, nextPageToken, setLayer) {
               cloneItem.contents.videoList.push(item);
             });
             cloneItem.contents.nextPageToken = result.nextPageToken;
-
             return cloneItem;
           }
 
@@ -69,9 +81,8 @@ function loadNextDevelopList(youtube, nextPageToken, setLayer) {
     });
 }
 
-function loadNextSearchList(youtube, nextPageToken, setLayer, query) {
+function loadNextSearchList(youtube, nextPageToken, setLayer, query, history) {
   if (query) {
-    console.log(`${query} 실행!!`);
     youtube
       .search(query, nextPageToken, 25) //
       .then((result) => {
@@ -85,23 +96,36 @@ function loadNextSearchList(youtube, nextPageToken, setLayer, query) {
       .then((items) => {
         if (!items) return;
 
+        if (items.error) {
+          history.push({
+            pathname: '/error',
+            state: { code: items.error.code },
+          });
+          return;
+        }
+
         setLayer((list) =>
           list.map((item) => {
             if (item.id === 'search') {
               const cloneItem = _.cloneDeep(item);
 
-              items.forEach((item) => {
-                cloneItem.contents.videoList.push(item);
+              items.forEach((newItem) => {
+                const newId = newItem.id;
+                let state = true;
+                cloneItem.contents.videoList.forEach((item) => {
+                  if (newId === item.id) {
+                    state = false;
+                  }
+                });
+
+                if (state) {
+                  cloneItem.contents.videoList.push(newItem);
+                }
               });
+
               cloneItem.contents.nextPageToken = items[0].nextPageToken;
 
-              const result = cloneItem.contents.videoList.filter(
-                (item, index) => {
-                  return cloneItem.contents.videoList.indexOf(item) === index;
-                }
-              );
-
-              return result;
+              return cloneItem;
             }
 
             return _.cloneDeep(item);
@@ -111,4 +135,4 @@ function loadNextSearchList(youtube, nextPageToken, setLayer, query) {
   }
 }
 
-export default InfiniteScroll;
+export default LoadContentsByObserve;

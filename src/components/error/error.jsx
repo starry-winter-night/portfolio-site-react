@@ -11,7 +11,7 @@ const Error = ({ FontAwesome, authService }) => {
   let description = null;
 
   if (code === 403) {
-    description = `죄송합니다. 유튜브에 컨텐츠를 요청할 수 있는 1일 할당 포인트가 초과 되었습니다. 
+    description = `죄송합니다. 유튜브에 컨텐츠를 요청할 수 있는 1일 할당 포인트가 모두 소진 되었습니다. 
 할당량은 오후 4시에 재할당 됩니다.`;
   } else {
     description = `죄송합니다. 서버에 문제가 발생했습니다. 오류가 계속되면 관리자에게 채팅 메시지 또는 이메일을 보내주세요. smpark7723@gmail.com`;

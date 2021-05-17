@@ -46,7 +46,7 @@ const work = ({ sectionRefs }) => {
     },
     {
       id: 7,
-      title: 'Create Id Card',
+      title: 'Create Study Card',
       url: 'https://smpark.dev',
       type: 'frontend',
       imgUrl: 'imgs/smpark.jpg',

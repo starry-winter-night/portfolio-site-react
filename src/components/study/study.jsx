@@ -140,6 +140,7 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
               pathname: '/error',
               state: { code: items.error.code },
             });
+
             return;
           }
           setLayer((list) =>
@@ -169,6 +170,8 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
 
   const handleClickVideoList = useCallback((video) => {
     setVideoPlay({ ...video });
+    
+    window.scrollTo({ top: 0 });
   }, []);
 
   const onStudyClick = (e) => {
