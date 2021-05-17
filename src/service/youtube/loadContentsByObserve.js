@@ -9,19 +9,22 @@ class LoadContentsByObserve {
     this.history = history;
   }
 
-  on(element) {
+  on(element, setLoading) {
     const REQUEST_TRESHOLD = 0.9;
     const options = {
       root: null,
       rootMargin: '0px',
       threshold: REQUEST_TRESHOLD,
     };
-    const observer = new IntersectionObserver(this._callback(), options);
+    const observer = new IntersectionObserver(
+      this._callback(setLoading),
+      options
+    );
 
     if (element) observer.observe(element);
   }
 
-  _callback() {
+  _callback(setLoading) {
     return (entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -30,7 +33,8 @@ class LoadContentsByObserve {
               this.youtube,
               this.token,
               this.setLayer,
-              this.history
+              this.history,
+              setLoading
             );
           } else if (this.id === 'search') {
             loadNextSearchList(
@@ -38,7 +42,8 @@ class LoadContentsByObserve {
               this.token,
               this.setLayer,
               this.query,
-              this.history
+              this.history,
+              setLoading
             );
           }
 
@@ -49,7 +54,14 @@ class LoadContentsByObserve {
   }
 }
 
-function loadNextDevelopList(youtube, nextPageToken, setLayer, history) {
+function loadNextDevelopList(
+  youtube,
+  nextPageToken,
+  setLayer,
+  history,
+  setLoading
+) {
+  setLoading(true);
   youtube
     .developList(nextPageToken, 10) //
     .then((result) => {
@@ -78,11 +90,21 @@ function loadNextDevelopList(youtube, nextPageToken, setLayer, history) {
           return _.cloneDeep(item);
         })
       );
+
+      setLoading(false);
     });
 }
 
-function loadNextSearchList(youtube, nextPageToken, setLayer, query, history) {
+function loadNextSearchList(
+  youtube,
+  nextPageToken,
+  setLayer,
+  query,
+  history,
+  setLoading
+) {
   if (query) {
+    setLoading(true);
     youtube
       .search(query, nextPageToken, 25) //
       .then((result) => {
@@ -131,6 +153,8 @@ function loadNextSearchList(youtube, nextPageToken, setLayer, query, history) {
             return _.cloneDeep(item);
           })
         );
+
+        setLoading(false);
       });
   }
 }

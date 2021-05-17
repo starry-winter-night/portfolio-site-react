@@ -1,7 +1,9 @@
-/* .playList {
-  display: none;
-} */
+.loadingBox {
+  position: fixed;
+  bottom: 20%;
+  right: 10%;
+}
 
-/* .playList.view {
-  display: block;
-} */
+.loading {
+  width: 50px;
+}

@@ -2,12 +2,15 @@ import React, { useEffect, useState, useCallback, memo } from 'react';
 import { useHistory } from 'react-router';
 import Navbar from './navbar/navbar';
 import Sections from './sections/sections';
+import Loading from '../common/loading/loading';
+import styles from './study.module.css';
 import _ from 'lodash';
 
 const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
   const [etcToggle, setEtcToggle] = useState('off');
   const [videoPlay, setVideoPlay] = useState(null);
   const [query, setQuery] = useState(null);
+  const [loading, setLoading] = useState(null);
   const [layer, setLayer] = useState([
     {
       id: 'search',
@@ -31,6 +34,7 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
     },
   ]);
 
+  console.log(loading);
   const history = useHistory();
 
   useEffect(() => {
@@ -41,6 +45,8 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
 
   useEffect(() => {
     if (loginState.state === 'login') {
+      setLoading(true);
+
       youtube
         .developList() //
         .then((result) => {
@@ -73,6 +79,7 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
           );
 
           setVideoPlay(result.items[0]);
+          setLoading(false);
         });
     }
   }, [youtube, loginState.state, history]);
@@ -122,6 +129,8 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
     (query) => {
       setQuery(query);
 
+      setLoading(true);
+
       youtube
         .search(query) //
         .then((result) => {
@@ -159,6 +168,7 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
               return { ...item, view: 'off' };
             })
           );
+          setLoading(false);
         });
     },
     [youtube, history]
@@ -170,7 +180,7 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
 
   const handleClickVideoList = useCallback((video) => {
     setVideoPlay({ ...video });
-    
+
     window.scrollTo({ top: 0 });
   }, []);
 
@@ -198,6 +208,7 @@ const Study = memo(({ FontAwesome, youtube, authService, loginState }) => {
             etcToggle={etcToggle}
             authService={authService}
           />
+          {loading && <Loading styles={styles} />}
           {videoPlay && (
             <Sections
               layer={layer}

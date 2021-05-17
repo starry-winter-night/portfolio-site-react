@@ -2,11 +2,13 @@ import React, { memo, useEffect, useState, useCallback } from 'react';
 import Item from './item';
 import LoadContentsByObserve from '../../../../service/youtube/loadContentsByObserve';
 import { useHistory } from 'react-router';
+import styles from './list.module.css';
+import Loading from '../../../common/loading/loading';
 
 const List = memo(
   ({ videoList, onList, token, id, youtube, setLayer, query }) => {
     const [last, setLast] = useState(null);
-
+    const [loading, setLoading] = useState(null);
     const history = useHistory();
 
     const getLastElement = useCallback((ref) => {
@@ -25,13 +27,15 @@ const List = memo(
           history
         );
 
-        loadContentsByObserve.on(last);
+        loadContentsByObserve.on(last, setLoading);
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [last]);
 
     return (
       <ul>
+        {loading && <Loading styles={styles} />}
+
         {videoList &&
           videoList.map((item, index) => {
             if (index === videoList.length - 1) {
