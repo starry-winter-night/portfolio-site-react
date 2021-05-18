@@ -1,86 +1,111 @@
-import React, { memo, useState } from 'react';
+import React, { memo, useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import styles from './aside.module.css';
 import menuStyles from './menu.module.css';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Menu from './menu';
-const Aside = memo(({ observe, onMenu, FontAwesome, authService }) => {
-  const [menuIconToggle, setMenuIconToggle] = useState('off');
-  const history = useHistory();
+const Aside = memo(
+  ({ highLightMenu, FontAwesome, authService, sectionsRef, moveSection }) => {
+    const menus = [
+      { id: 'home', title: 'Home' },
+      { id: 'about', title: 'About' },
+      { id: 'skills', title: 'Skills' },
+      { id: 'work', title: 'Work' },
+      { id: 'contact', title: 'Contact' },
+    ];
 
-  const menus = [
-    { id: 'home', title: 'Home' },
-    { id: 'about', title: 'About' },
-    { id: 'skills', title: 'Skills' },
-    { id: 'work', title: 'Work' },
-    { id: 'contact', title: 'Contact' },
-  ];
+    const [sections, setSections] = useState([]);
+    const [observe, setObserve] = useState(null);
+    const [menuIconToggle, setMenuIconToggle] = useState('off');
 
-  const changeClassName = (id, observe) => {
-    if (observe) {
-      if (observe === id) {
-        return menuStyles.itemView;
+    const history = useHistory();
+
+    useEffect(() => {
+      highLightMenu.on([...sections], setObserve);
+    }, [highLightMenu, sections]);
+
+    useEffect(() => {
+      const ref = sectionsRef.current;
+
+      for (let i = 0; i < ref.childNodes.length; i++) {
+        setSections((item) => [...item, ref.childNodes[i]]);
       }
+    }, [sectionsRef]);
 
-      if (observe !== id) {
-        return menuStyles.item;
+    const handleClickMenu = useCallback(
+      (id) => moveSection.start(id, [...sections]),
+      [moveSection, sections]
+    );
+
+    const changeClassName = (id, observe) => {
+      if (observe) {
+        if (observe === id) {
+          return menuStyles.itemView;
+        }
+
+        if (observe !== id) {
+          return menuStyles.item;
+        }
       }
-    }
-  };
+    };
 
-  const handleMenuIconClick = (e) => {
-    e.preventDefault();
+    const handleMenuIconClick = (e) => {
+      e.preventDefault();
 
-    if (menuIconToggle === 'off') {
-      setMenuIconToggle('on');
-    } else {
-      setMenuIconToggle('off');
-    }
-  };
+      if (menuIconToggle === 'off') {
+        setMenuIconToggle('on');
+      } else {
+        setMenuIconToggle('off');
+      }
+    };
 
-  const handleStudyButtonClick = (e) => {
-    e.preventDefault();
-    authService.loginUserCheck((user) => {
-      !user ? history.push('/login') : history.push('/study');
-    });
-  };
+    const handleStudyButtonClick = (e) => {
+      e.preventDefault();
 
-  return (
-    <aside
-      id="aside"
-      className={`${styles.aside} ${menuIconToggle === 'on' && styles.active}`}
-    >
-      <button className={styles.menu__btn} onClick={handleMenuIconClick}>
-        <FontAwesome icon={faBars} />
-      </button>
-      <ul
-        className={`${styles.menu} ${menuIconToggle === 'on' && styles.active}`}
-      >
-        {menus.map((item) => (
-          <Menu
-            key={item.id}
-            menu={item}
-            onMenu={onMenu}
-            effect={changeClassName(item.id, observe)}
-          />
-        ))}
-      </ul>
-      <div
-        className={`${styles.studyPage} ${
+      authService.loginUserCheck((user) => {
+        !user ? history.push('/login') : history.push('/study');
+      });
+    };
+
+    return (
+      <aside
+        id="aside"
+        className={`${styles.aside} ${
           menuIconToggle === 'on' && styles.active
         }`}
       >
-        <button className={styles.itemButton} onClick={handleStudyButtonClick}>
-          Study
+        <button className={styles.menu__btn} onClick={handleMenuIconClick}>
+          <FontAwesome icon={faBars} />
         </button>
-        {/* <img
-          src="imgs/message.png"
-          alt="chatting"
-          className={styles.smpchat_icon}
-        /> */}
-      </div>
-    </aside>
-  );
-});
+        <ul
+          className={`${styles.menu} ${
+            menuIconToggle === 'on' && styles.active
+          }`}
+        >
+          {menus.map((item) => (
+            <Menu
+              key={item.id}
+              menu={item}
+              onMenu={handleClickMenu}
+              effect={changeClassName(item.id, observe)}
+            />
+          ))}
+        </ul>
+        <div
+          className={`${styles.studyPage} ${
+            menuIconToggle === 'on' && styles.active
+          }`}
+        >
+          <button
+            className={styles.itemButton}
+            onClick={handleStudyButtonClick}
+          >
+            Study
+          </button>
+        </div>
+      </aside>
+    );
+  }
+);
 
 export default Aside;

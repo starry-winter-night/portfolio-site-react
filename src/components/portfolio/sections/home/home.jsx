@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './home.module.css';
 
-const Home = ({ sectionRefs }) => (
-  <section id="home" className={`${styles.home} section`} ref={sectionRefs}>
+const Home = () => (
+  <section id="home" className={`${styles.home} section`}>
     <h1 className={styles.title}>
       smpark's portfolio <br />
     </h1>

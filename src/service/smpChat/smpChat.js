@@ -20,11 +20,19 @@ class SmpChat {
       link.href = 'http://localhost:5000/smpChat/chatService.css';
       document.body.appendChild(link);
 
+      const position = {
+        top: 'initial',
+        bottom: '85px',
+        left: '5%',
+        right: 'initial',
+      };
+
       script.addEventListener('load', () => {
         const chat = new window.smpChat.setting.chatService(
           clientId,
           apiKey,
-          this.socketIo
+          this.socketIo,
+          position
         );
 
         chat.init(userId, 'smpChat');

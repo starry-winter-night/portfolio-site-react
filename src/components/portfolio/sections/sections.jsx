@@ -5,14 +5,14 @@ import Skills from '../sections/skills/skills';
 import Work from '../sections/work/work';
 import Contact from '../sections/contact/contact';
 
-const Sections = memo(({ sectionRefs, FontAwesome }) => {
+const Sections = memo(({ FontAwesome }) => {
   return (
     <>
-      <Home sectionRefs={sectionRefs} />
-      <About sectionRefs={sectionRefs} FontAwesome={FontAwesome} />
-      <Skills sectionRefs={sectionRefs} />
-      <Work sectionRefs={sectionRefs} />
-      <Contact sectionRefs={sectionRefs} FontAwesome={FontAwesome} />
+      <Home />
+      <About FontAwesome={FontAwesome} />
+      <Skills />
+      <Work />
+      <Contact FontAwesome={FontAwesome} />
     </>
   );
 });

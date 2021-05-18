@@ -9,6 +9,7 @@ const Navbar = memo(() => {
     const rocketGuide = new RocketGuide(guide.current);
     rocketGuide.start();
   }, [guide]);
+  
 
   return (
     <nav className={styles.navbar}>

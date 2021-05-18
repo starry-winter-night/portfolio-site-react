@@ -18,15 +18,15 @@ export function randomStarColor() {
   const number = Math.floor((Math.random() + 0.3) * 12);
 
   // ornage
-  if (number === 3) return "#FFA500";
+  if (number === 3) return '#FFA500';
   // gold
-  else if (number === 4) return "#FFD700";
+  else if (number === 4) return '#FFD700';
   // purple
-  else if (number === 5) return "#800080";
+  else if (number === 5) return '#800080';
   // green
-  else if (number === 6) return "#008000";
+  else if (number === 6) return '#008000';
   // sky blue
-  else if (number === 7) return "#87CEEB";
+  else if (number === 7) return '#87CEEB';
   // white
-  else return "#FFFFFF";
+  else return '#FFFFFF';
 }
