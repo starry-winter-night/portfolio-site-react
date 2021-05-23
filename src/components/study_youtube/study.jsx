@@ -37,49 +37,51 @@ const Study = memo(({ FontAwesome, youtube, authService, login, setLogin }) => {
   const history = useHistory();
 
   useEffect(() => {
-    !login && history.push('/login');
-  });
+    login === 'nonLogin' && history.push('/login');
+  }, [login, history]);
 
   useEffect(() => {
-    setLoading(true);
+    if (login === 'login') {
+      setLoading(true);
 
-    youtube
-      .developList() //
-      .then((result) => {
-        if (!result) {
+      youtube
+        .developList() //
+        .then((result) => {
+          if (!result) {
+            setLoading(false);
+            return;
+          }
+
+          if (result.error) {
+            history.push({
+              pathname: '/error',
+              state: { code: result.error.code },
+            });
+            return;
+          }
+
+          setLayer((list) =>
+            list.map((item) => {
+              if (item.id === 'smpark') {
+                return {
+                  ...item,
+                  contents: {
+                    videoList: result.items,
+                    nextPageToken: result.nextPageToken,
+                  },
+                  view: 'on',
+                };
+              }
+
+              return { ...item, view: 'off' };
+            })
+          );
+
+          setVideoPlay(result.items[0]);
           setLoading(false);
-          return;
-        }
-
-        if (result.error) {
-          history.push({
-            pathname: '/error',
-            state: { code: result.error.code },
-          });
-          return;
-        }
-
-        setLayer((list) =>
-          list.map((item) => {
-            if (item.id === 'smpark') {
-              return {
-                ...item,
-                contents: {
-                  videoList: result.items,
-                  nextPageToken: result.nextPageToken,
-                },
-                view: 'on',
-              };
-            }
-
-            return { ...item, view: 'off' };
-          })
-        );
-
-        setVideoPlay(result.items[0]);
-        setLoading(false);
-      });
-  }, [youtube, history]);
+        });
+    }
+  }, [login, youtube, history]);
 
   const handleClickSaveVideo = useCallback((selectedList) => {
     setLayer((list) =>
@@ -94,7 +96,7 @@ const Study = memo(({ FontAwesome, youtube, authService, login, setLogin }) => {
           });
 
           if (check === 'exist') {
-            alert('이미 존재하는 video입니다.');
+            alert('이미 등록된 영상입니다.');
           } else {
             alert('저장 되었습니다.');
 
@@ -197,7 +199,7 @@ const Study = memo(({ FontAwesome, youtube, authService, login, setLogin }) => {
 
   return (
     <>
-      {login && (
+      {login === 'login' && (
         <div onClick={onStudyClick}>
           <Navbar
             layer={layer}

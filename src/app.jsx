@@ -3,7 +3,7 @@ import './app.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Portfolio from './components/portfolio/portfolio';
-import Study from './components/study/study';
+import Study from './components/study_youtube/study';
 import Login from './components/common/login/login';
 import Error from './components/error/error';
 
@@ -19,9 +19,9 @@ const App = ({
   useEffect(() => {
     authService.loginUserCheck((user) => {
       if (user) {
-        setLogin(true);
+        setLogin('login');
       } else {
-        setLogin(false);
+        setLogin('nonLogin');
       }
     });
   }, [authService]);

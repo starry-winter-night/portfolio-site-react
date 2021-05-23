@@ -36,7 +36,7 @@ const Error = ({ FontAwesome, authService, login, setLogin }) => {
           <header className={styles.header}>
             <Goback FontAwesome={FontAwesome} backBox={styles.backBox} />
             <div>
-              {login && (
+              {login === 'login' && (
                 <button className={styles.logout} onClick={hadleLogout}>
                   logout
                 </button>

@@ -6,8 +6,10 @@ const Contents = memo(({ videoPlay, onMyList }) => {
   const developVideoId = video?.resourceId?.videoId;
   const searchVideoId = videoPlay.id;
   let videoId = developVideoId;
+  let channelId = video.videoOwnerChannelId;
 
   if (!videoId) videoId = searchVideoId;
+  if (!channelId) channelId = video.channelId;
 
   const onVideoSave = (e) => {
     e.preventDefault();
@@ -35,7 +37,7 @@ const Contents = memo(({ videoPlay, onMyList }) => {
         </button>
         <a
           className={styles.channel}
-          href={`https://www.youtube.com/channel/${video.videoOwnerChannelId}/videos`}
+          href={`https://www.youtube.com/channel/${video.channelId}/videos`}
           target="noopener"
         >
           채널방문

@@ -2,14 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './app';
-import StarryNight from './service/starryNight/main';
-import HighLightMenu from './service/menuControl/highlightMenuList.js';
-import MoveSection from './service/menuControl/moveMenuSection';
+import StarryNight from './service/starry_night/main';
+import HighLightMenu from './service/menu_control/highlightMenuList.js';
+import MoveSection from './service/menu_control/moveMenuSection';
 import Youtube from './service/youtube/youtube';
 import AuthService from './service/firebase/auth_service';
-import SmpChat from './service/smpChat/smpChat';
+import SmpChat from './service/smp_chat/smpChat';
+
 import socketIo from 'socket.io-client';
-import Smpchat from './components/common/smpChat/smpChat';
+
+import Smpchat from './components/common/smp_chat/smpChat';
 
 const starryNight = new StarryNight();
 const highLightMenu = new HighLightMenu();

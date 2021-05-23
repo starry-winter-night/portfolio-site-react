@@ -25,7 +25,7 @@ const Login = ({ FontAwesome, authService, login, setLogin }) => {
       })
       .catch((e) => {
         setLogin(false);
-        
+
         e.code === 'auth/account-exists-with-different-credential' &&
           alert(
             `같은 이메일 주소가 등록되어 있습니다. 기존의 등록한 방식으로 로그인하여 주십시오. ${e.email}`
@@ -34,12 +34,12 @@ const Login = ({ FontAwesome, authService, login, setLogin }) => {
   };
 
   useEffect(() => {
-    login && history.push('/study');
+    login === 'login' && history.push('/study');
   }, [login, history]);
 
   return (
     <section className={styles.section}>
-      {!login && (
+      {login === 'nonLogin' && (
         <>
           <header className={styles.header}>
             <Goback FontAwesome={FontAwesome} backBox={styles.backBox} />

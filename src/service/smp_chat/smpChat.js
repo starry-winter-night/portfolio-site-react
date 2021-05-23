@@ -21,21 +21,20 @@ class SmpChat {
       document.body.appendChild(link);
 
       const position = {
-        top: 'initial',
-        bottom: '85px',
-        left: '5%',
-        right: 'initial',
+        icon: { x: '80px', y: '85%' },
+        modal: { x: '50px', y: '20%' },
       };
 
       script.addEventListener('load', () => {
         const chat = new window.smpChat.setting.chatService(
           clientId,
           apiKey,
-          this.socketIo,
-          position
+          this.socketIo
         );
 
         chat.init(userId, 'smpChat');
+
+        chat.setPosition(position);
       });
     }
   }
