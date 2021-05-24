@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation, useHistory } from 'react-router';
 import Goback from '../common/goback/goback';
 import styles from './error.module.css';
-const Error = ({ FontAwesome, authService, login, setLogin }) => {
+const Error = ({ FontAwesome, auth, onLogout }) => {
   const location = useLocation();
 
   let code = location.state?.code;
@@ -23,9 +23,7 @@ const Error = ({ FontAwesome, authService, login, setLogin }) => {
   const history = useHistory();
 
   const hadleLogout = () => {
-    authService.logout();
-
-    setLogin(false);
+    onLogout();
 
     history.push('/login');
   };
@@ -36,7 +34,7 @@ const Error = ({ FontAwesome, authService, login, setLogin }) => {
           <header className={styles.header}>
             <Goback FontAwesome={FontAwesome} backBox={styles.backBox} />
             <div>
-              {login === 'login' && (
+              {auth === 'login' && (
                 <button className={styles.logout} onClick={hadleLogout}>
                   logout
                 </button>

@@ -6,7 +6,7 @@ import Loading from '../common/loading/loading';
 import styles from './study.module.css';
 import _ from 'lodash';
 
-const Study = memo(({ FontAwesome, youtube, authService, login, setLogin }) => {
+const Study = memo(({ FontAwesome, youtube, auth, onLogout }) => {
   const [etcToggle, setEtcToggle] = useState('off');
   const [videoPlay, setVideoPlay] = useState(null);
   const [query, setQuery] = useState(null);
@@ -37,11 +37,7 @@ const Study = memo(({ FontAwesome, youtube, authService, login, setLogin }) => {
   const history = useHistory();
 
   useEffect(() => {
-    login === 'nonLogin' && history.push('/login');
-  }, [login, history]);
-
-  useEffect(() => {
-    if (login === 'login') {
+    if (auth === 'login') {
       setLoading(true);
 
       youtube
@@ -80,8 +76,14 @@ const Study = memo(({ FontAwesome, youtube, authService, login, setLogin }) => {
           setVideoPlay(result.items[0]);
           setLoading(false);
         });
+      return;
     }
-  }, [login, youtube, history]);
+    if (auth === 'nonLogin') {
+      history.push('/login');
+
+      return;
+    }
+  }, [auth, youtube, history]);
 
   const handleClickSaveVideo = useCallback((selectedList) => {
     setLayer((list) =>
@@ -96,7 +98,7 @@ const Study = memo(({ FontAwesome, youtube, authService, login, setLogin }) => {
           });
 
           if (check === 'exist') {
-            alert('이미 등록된 영상입니다.');
+            alert('이미 등록되어 있는 영상입니다.');
           } else {
             alert('저장 되었습니다.');
 
@@ -176,9 +178,9 @@ const Study = memo(({ FontAwesome, youtube, authService, login, setLogin }) => {
     [youtube, history]
   );
 
-  const onDropbox = useCallback(() => {
+  const onDropbox = () => {
     etcToggle === 'on' ? setEtcToggle('off') : setEtcToggle('on');
-  }, [etcToggle]);
+  };
 
   const handleClickVideoList = useCallback((video) => {
     setVideoPlay({ ...video });
@@ -199,7 +201,7 @@ const Study = memo(({ FontAwesome, youtube, authService, login, setLogin }) => {
 
   return (
     <>
-      {login === 'login' && (
+      {auth === 'login' && (
         <div onClick={onStudyClick}>
           <Navbar
             layer={layer}
@@ -208,8 +210,7 @@ const Study = memo(({ FontAwesome, youtube, authService, login, setLogin }) => {
             onSearch={onSearch}
             onDropbox={onDropbox}
             etcToggle={etcToggle}
-            authService={authService}
-            setLogin={setLogin}
+            onLogout={onLogout}
           />
           {loading && <Loading styles={styles} />}
           {videoPlay && (

@@ -13,8 +13,7 @@ const Navbar = memo(
     onSearch,
     onDropbox,
     etcToggle,
-    authService,
-    setLogin,
+    onLogout,
   }) => {
     const input = useRef();
     const history = useHistory();
@@ -34,8 +33,7 @@ const Navbar = memo(
     };
 
     const hadleLogout = () => {
-      authService.logout();
-      setLogin(false);
+      onLogout();
 
       history.push('/login');
     };

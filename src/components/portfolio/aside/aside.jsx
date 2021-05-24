@@ -5,7 +5,7 @@ import menuStyles from './menu.module.css';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Menu from './menu';
 const Aside = memo(
-  ({ highLightMenu, FontAwesome, authService, sectionsRef, moveSection }) => {
+  ({ highLightMenu, FontAwesome, auth, sectionsRef, moveSection }) => {
     const menus = [
       { id: 'home', title: 'Home' },
       { id: 'about', title: 'About' },
@@ -62,9 +62,17 @@ const Aside = memo(
     const handleStudyButtonClick = (e) => {
       e.preventDefault();
 
-      authService.loginUserCheck((user) => {
-        !user ? history.push('/login') : history.push('/study');
-      });
+      if (auth === 'login') {
+        history.push('/study');
+
+        return;
+      }
+
+      if (auth === 'nonLogin') {
+        history.push('/login');
+
+        return;
+      }
     };
 
     return (

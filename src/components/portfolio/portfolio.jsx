@@ -5,7 +5,7 @@ import Aside from './aside/aside';
 import Sections from './sections/sections';
 
 const Portfolio = memo(
-  ({ starryNight, highLightMenu, moveSection, FontAwesome, authService }) => {
+  ({ starryNight, highLightMenu, moveSection, FontAwesome, auth }) => {
     const canvasRef = useRef();
     const sectionsRef = useRef();
 
@@ -20,9 +20,9 @@ const Portfolio = memo(
         <Aside
           highLightMenu={highLightMenu}
           FontAwesome={FontAwesome}
-          authService={authService}
           sectionsRef={sectionsRef}
           moveSection={moveSection}
+          auth={auth}
         />
         <div ref={sectionsRef}>
           <Sections FontAwesome={FontAwesome} />
