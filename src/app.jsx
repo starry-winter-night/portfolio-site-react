@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Portfolio from './components/portfolio/portfolio';
 import Study from './components/study_youtube/study';
-import Login from './components/common/login/login';
+import Login from './components/common/auth/login';
 import Summary from './components/summary_card/summary';
 import Error from './components/error/error';
 
@@ -64,7 +64,8 @@ const App = ({
         </Route>
         <Route path="/summary">
           <Summary
-            auth={auth} //
+            FontAwesome={FontAwesomeIcon}
+            auth={auth}
             onLogout={onLogout}
           />
         </Route>

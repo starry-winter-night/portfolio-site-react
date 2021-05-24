@@ -1,13 +1,14 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router';
 import styles from './contents.module.css';
 
-const Contents = memo(({ videoPlay, onMyList }) => {
+const Contents = ({ videoPlay, onMyList }) => {
   const history = useHistory();
 
   const video = videoPlay.snippet;
   const developVideoId = video?.resourceId?.videoId;
   const searchVideoId = videoPlay.id;
+
   let videoId = developVideoId;
   let channelId = video.videoOwnerChannelId;
 
@@ -22,7 +23,7 @@ const Contents = memo(({ videoPlay, onMyList }) => {
 
   const onSummary = (e) => {
     e.preventDefault();
-    
+
     history.push({
       pathname: '/summary',
       state: { videoId, title: video.title },
@@ -60,6 +61,6 @@ const Contents = memo(({ videoPlay, onMyList }) => {
       </div>
     </section>
   );
-});
+};
 
 export default Contents;

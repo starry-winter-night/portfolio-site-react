@@ -203,26 +203,28 @@ const Study = memo(({ FontAwesome, youtube, auth, onLogout }) => {
     <>
       {auth === 'login' && (
         <div onClick={onStudyClick}>
-          <Navbar
-            layer={layer}
-            FontAwesome={FontAwesome}
-            onMenu={onSetMenu}
-            onSearch={onSearch}
-            onDropbox={onDropbox}
-            etcToggle={etcToggle}
-            onLogout={onLogout}
-          />
           {loading && <Loading styles={styles} />}
-          {videoPlay && (
-            <Sections
-              layer={layer}
-              setLayer={setLayer}
-              videoPlay={videoPlay}
-              onList={handleClickVideoList}
-              onMyList={handleClickSaveVideo}
-              youtube={youtube}
-              query={query}
-            />
+          {videoPlay && !loading && (
+            <>
+              <Navbar
+                layer={layer}
+                FontAwesome={FontAwesome}
+                onMenu={onSetMenu}
+                onSearch={onSearch}
+                onDropbox={onDropbox}
+                etcToggle={etcToggle}
+                onLogout={onLogout}
+              />
+              <Sections
+                layer={layer}
+                setLayer={setLayer}
+                videoPlay={videoPlay}
+                onList={handleClickVideoList}
+                onMyList={handleClickSaveVideo}
+                youtube={youtube}
+                query={query}
+              />
+            </>
           )}
         </div>
       )}

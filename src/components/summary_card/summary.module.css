@@ -1,0 +1,17 @@
+.navbar {
+  height: 56px;
+  padding: 0 24px;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-background);
+  position: fixed;
+  width: 100%;
+}
+
+.backBox {
+  width: 20%;
+}

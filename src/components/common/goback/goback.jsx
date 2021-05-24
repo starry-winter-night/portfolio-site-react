@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { useHistory } from 'react-router';
 import styles from './goback.module.css';
-const Goback = ({ FontAwesome, backBox }) => {
+
+const Goback = memo(({ FontAwesome, backBox }) => {
   const history = useHistory();
 
   const handleGoBack = () => {
@@ -18,6 +19,6 @@ const Goback = ({ FontAwesome, backBox }) => {
       />
     </div>
   );
-};
+});
 
 export default Goback;

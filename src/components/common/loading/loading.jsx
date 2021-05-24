@@ -1,5 +1,6 @@
-import React from 'react';
-const Loading = ({ styles }) => {
+import React, { memo } from 'react';
+
+const Loading = memo(({ styles }) => {
   return (
     <div className={styles.loadingBox}>
       <img
@@ -9,6 +10,6 @@ const Loading = ({ styles }) => {
       ></img>
     </div>
   );
-};
+});
 
 export default Loading;

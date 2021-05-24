@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styles from './item.module.css';
 
-const Item = ({ item, onList, lastElementRef }) => {
+const Item = memo(({ item, onList, onLastRef }) => {
   const video = item.snippet;
   const channelTitle = video.videoOwnerChannelTitle
     ? video.videoOwnerChannelTitle
@@ -15,7 +15,7 @@ const Item = ({ item, onList, lastElementRef }) => {
     <li
       className={styles.youtubeList}
       onClick={handleClickVideoList}
-      ref={lastElementRef}
+      ref={onLastRef}
     >
       <div className={styles.thumnailBox}>
         <img
@@ -30,6 +30,6 @@ const Item = ({ item, onList, lastElementRef }) => {
       </div>
     </li>
   );
-};
+});
 
 export default Item;

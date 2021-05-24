@@ -1,7 +1,9 @@
 import React from 'react';
-import { useLocation, useHistory } from 'react-router';
+import { useLocation } from 'react-router';
 import Goback from '../common/goback/goback';
+import Logout from '../common/auth/logout';
 import styles from './error.module.css';
+
 const Error = ({ FontAwesome, auth, onLogout }) => {
   const location = useLocation();
 
@@ -20,13 +22,6 @@ const Error = ({ FontAwesome, auth, onLogout }) => {
     description = `죄송합니다. 서버에서 문제가 발생했습니다. 오류가 계속되면 관리자에게 채팅 메시지 또는 이메일을 보내주세요. smpark7723@gmail.com`;
   }
 
-  const history = useHistory();
-
-  const hadleLogout = () => {
-    onLogout();
-
-    history.push('/login');
-  };
   return (
     <>
       {code && (
@@ -34,10 +29,8 @@ const Error = ({ FontAwesome, auth, onLogout }) => {
           <header className={styles.header}>
             <Goback FontAwesome={FontAwesome} backBox={styles.backBox} />
             <div>
-              {auth === 'login' && (
-                <button className={styles.logout} onClick={hadleLogout}>
-                  logout
-                </button>
+              {auth === 'login' && ( //
+                <Logout onLogout={onLogout} />
               )}
             </div>
           </header>
