@@ -3,11 +3,15 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { useHistory } from 'react-router';
 import styles from './goback.module.css';
 
-const Goback = memo(({ FontAwesome, backBox }) => {
+const Goback = memo(({ FontAwesome, backBox, move }) => {
   const history = useHistory();
 
   const handleGoBack = () => {
-    history.push('/');
+    if (move) {
+      history.push(move);
+    } else {
+      history.push('/');
+    }
   };
 
   return (

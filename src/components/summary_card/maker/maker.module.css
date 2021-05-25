@@ -1,0 +1,12 @@
+.maker {
+  flex-basis: 50%;
+  text-align: center;
+  border-right: 1px solid var(--color-orange);
+  padding: 0.5em 2em;
+}
+
+.title {
+  margin: 15px 0 30px 0;
+  font-size: 2rem;
+  user-select: none;
+}

@@ -24,9 +24,9 @@ const Portfolio = memo(
           moveSection={moveSection}
           auth={auth}
         />
-        <div ref={sectionsRef}>
+        <main ref={sectionsRef}>
           <Sections FontAwesome={FontAwesome} />
-        </div>
+        </main>
       </>
     );
   }

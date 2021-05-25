@@ -11,7 +11,7 @@ const Logout = ({ onLogout }) => {
   };
   return (
     <button className={styles.logout} onClick={hadleLogout}>
-      logout
+      Logout
     </button>
   );
 };

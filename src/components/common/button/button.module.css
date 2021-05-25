@@ -1,0 +1,12 @@
+.button {
+  background-color: var(--color-background);
+  cursor: pointer;
+  font-size: 0.8rem;
+  flex: 1 1 50;
+  padding: 0.5em;
+  font-weight: bold;
+}
+
+.button:hover {
+  opacity: 0.8;
+}

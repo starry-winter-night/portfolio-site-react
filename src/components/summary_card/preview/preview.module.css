@@ -1,0 +1,11 @@
+.preview {
+  flex-basis: 50%;
+  text-align: center;
+}
+
+.title {
+  margin: 20px 0;
+  font-size: 2rem;
+  user-select: none;
+
+}
