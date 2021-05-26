@@ -1,21 +1,21 @@
 import React from 'react';
-import styles from './edit.module.css';
+import styles from './add.module.css';
 import Button from '../../common/button/button';
 import ImageInput from '../../common/button/imageInput';
 import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 
-const Edit = ({ title, subtitle }) => {
+const Add = () => {
   const onSubmit = () => {};
+
   return (
     <form className={styles.form}>
       <input
         className={styles.title}
         type="text"
         name="title"
-        placeholder="title"
-        value={title}
+        placeholder="Title"
       ></input>
       <select className={styles.select}>
         <option value="light">light</option>
@@ -23,32 +23,33 @@ const Edit = ({ title, subtitle }) => {
         <option value="colorful">colorful</option>
       </select>
       <div className={styles.fileInput}>
-        <ImageInput name="Logo" />
+        <ImageInput
+          name="Logo Image"
+          imageInputButton={styles.imageInputButton}
+        />
       </div>
       <input
         className={styles.subtitle}
         type="text"
         name="subtitle"
-        placeholder="subtitle"
-        value={subtitle}
+        placeholder="Subtitle"
       ></input>
-
-      <Editor
-        className={styles.toastEditor}
-        initialValue=""
-        height="auto"
-        previewStyle="tab"
-        previewHighlight={false}
-        initialEditType="wysiwyg"
-        useCommandShortcut={true}
-        usageStatistics={true}
-      />
-
-      <div className={styles.deleteButton}>
-        <Button name="Delete" onClick={onSubmit} />
+      <div className={styles.editor}>
+        <Editor
+          className={styles.toastEditor}
+          initialValue=""
+          height="auto"
+          previewStyle="tab"
+          previewHighlight={false}
+          initialEditType="wysiwyg"
+          useCommandShortcut={true}
+          usageStatistics={true}
+        />
       </div>
+
+      <Button name="Add" addButton={styles.addButton} onClick={onSubmit} />
     </form>
   );
 };
 
-export default Edit;
+export default Add;

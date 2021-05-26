@@ -1,11 +1,13 @@
 import React from 'react';
 import styles from './maker.module.css';
-import Edit from './edit';
+import Add from './add';
 
-const Maker = (props) => (
+const Maker = ({ cards }) => (
   <section className={styles.maker}>
     <h1 className={styles.title}>Card Maker</h1>
-    <Edit />
+    <ul>
+      <Add />
+    </ul>
   </section>
 );
 

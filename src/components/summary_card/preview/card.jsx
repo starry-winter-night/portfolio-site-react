@@ -3,7 +3,7 @@ import styles from './card.module.css';
 const Card = ({ card }) => {
   const { title, subTitle, logoURL, description } = card;
 
-  const DEFAULT_IMAGE = 'imgs/default_logo.png';
+  const DEFAULT_IMAGE = 'imgs/note.png';
   const url = logoURL || DEFAULT_IMAGE;
 
   return (

@@ -82,7 +82,7 @@ const Summary = ({ FontAwesome, auth, onLogout }) => {
             <Logout onLogout={onLogout} />
           </nav>
           <main className={styles.main}>
-            <Maker />
+            <Maker cards={cards}/>
             <Preview cards={cards} />
           </main>
         </>
