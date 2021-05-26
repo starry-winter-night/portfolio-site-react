@@ -4,9 +4,8 @@
   flex-wrap: wrap;
   margin: 0 auto;
   justify-content: center;
-  padding: 0 20px;
   background-color: var(--color-backgroundTransparency);
-  padding: 20px;
+  padding: 20px 20px 0 20px;
   width: 100%;
   margin: 0 auto 30px auto;
   border-radius: 15px;
@@ -47,14 +46,14 @@
 
 .subTitle {
   flex-basis: 100%;
-  margin-top: 10px 0 0 0;
+  margin: 15px 0 0 0;
 }
 
 .subTitle::after {
   content: '';
   display: block;
-  width: 60%;
-  margin: 20px auto;
+  width: 100%;
+  margin: 20px auto 0 auto;
   height: 2px;
   background-color: var(--color-dark-grey);
 }
@@ -62,4 +61,10 @@
 .description {
   margin: 0;
   padding: 0 1em 1em 1em;
+  text-align: left;
+  width: 100%;
+}
+
+.description p {
+  font-size: var(--font-micro);
 }

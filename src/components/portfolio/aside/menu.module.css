@@ -2,6 +2,7 @@
   cursor: pointer;
   font-size: var(--font-regular);
   font-weight: 700;
+  color: var(--color-light-white);
 }
 
 .item:hover {
@@ -14,4 +15,3 @@
   font-size: var(--font-regular);
   font-weight: 700;
 }
-

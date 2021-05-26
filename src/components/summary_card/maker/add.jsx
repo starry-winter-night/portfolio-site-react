@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styles from './maker.module.css';
 import Button from '../../common/button/button';
 import ImageInput from '../../common/button/imageInput';
@@ -6,8 +6,20 @@ import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 
-const Add = () => {
-  const onSubmit = () => {};
+const Add = ({ onAdd }) => {
+  const titleRef = useRef();
+  const subtitleRef = useRef();
+  const editorRef = useRef();
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const title = titleRef.current.value;
+    const subTitle = subtitleRef.current.value;
+    const description = editorRef.current.getInstance().getHtml();
+
+    onAdd(title, subTitle, description);
+  };
 
   return (
     <form className={styles.form}>
@@ -16,6 +28,7 @@ const Add = () => {
         type="text"
         name="title"
         placeholder="Title"
+        ref={titleRef}
       ></input>
       <select className={styles.select}>
         <option value="light">light</option>
@@ -33,6 +46,7 @@ const Add = () => {
         type="text"
         name="subtitle"
         placeholder="Subtitle"
+        ref={subtitleRef}
       ></input>
       <div className={styles.editor}>
         <Editor
@@ -44,6 +58,7 @@ const Add = () => {
           initialEditType="wysiwyg"
           useCommandShortcut={true}
           usageStatistics={true}
+          ref={editorRef}
         />
       </div>
 

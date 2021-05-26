@@ -1,5 +1,6 @@
 .menu {
   cursor: pointer;
+  color: var(--color-light-white);
 }
 
 .menu.select {

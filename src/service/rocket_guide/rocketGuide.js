@@ -1,8 +1,8 @@
 export default class RocketGuide {
   constructor(element, portfoilo) {
     this.element = element;
-    this.prevHeight = 0;
     this.portfolio = portfoilo;
+    this.prevHeight = 0;
   }
 
   start() {

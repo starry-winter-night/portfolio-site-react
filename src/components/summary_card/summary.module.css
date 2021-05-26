@@ -11,6 +11,7 @@
 
 .backBox {
   width: 73px;
+  color: var(--color-light-white);
 }
 
 .logoBox {

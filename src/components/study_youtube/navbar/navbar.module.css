@@ -14,6 +14,7 @@
 
 .backBox {
   width: 20%;
+  color: var(--color-light-white);
 }
 
 .studyList {
@@ -30,6 +31,7 @@
   cursor: pointer;
   width: 20px;
   text-align: center;
+  color: var(--color-light-white);
 }
 
 .dropbox {

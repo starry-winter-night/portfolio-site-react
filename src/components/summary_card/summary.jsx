@@ -8,47 +8,56 @@ import styles from './summary.module.css';
 
 const Summary = ({ FontAwesome, auth, onLogout }) => {
   const [cards, setCards] = useState([
-    {
-      id: '1',
-      title: 'javascript',
-      subTitle: 'object 이해하기',
-      logoName: 'javascript',
-      logoURL: 'imgs/note.png',
-      description: `이전 영상(10.9)과이 영상 (10.10) 완성된 코드는 다음영상 (10.11) 에서 함께 공유해 드릴께요 :) id: '2',
-        title: 'react',
-        subTitle: 'map 이해하기',
-        logoName: 'react',
-        logoURL: 'imgs/mars.png',이전 영상(10.9)과이 영상 (10.10) 완성된 코드는 다음영상 (10.11) 에서 함께 공유해 드릴께요 :) id: '2',
-        title: 'react',
-        subTitle: 'map 이해하기',
-        logoName: 'react',
-        logoURL: 'imgs/mars.png',이전 영상(10.9)과이 영상 (10.10) 완성된 코드는 다음영상 (10.11) 에서 함께 공유해 드릴께요 :) id: '2',
-        title: 'react',
-        subTitle: 'map 이해하기',
-        logoName: 'react',
-        logoURL: 'imgs/mars.png',이전 영상(10.9)과이 영상 (10.10) 완성된 코드는 다음영상 (10.11) 에서 함께 공유해 드릴께요 :) id: '2',
-        title: 'react',
-        subTitle: 'map 이해하기',
-        logoName: 'react',
-        logoURL: 'imgs/mars.png',`,
-    },
-    {
-      id: '2',
-      title: 'react',
-      subTitle: 'map 이해하기',
-      logoName: 'react',
-      logoURL: 'imgs/mars.png',
-    },
-    {
-      id: '3',
-      title: 'nodejs',
-      subTitle: 'array 이해하기',
-      logoName: 'nodejs',
-      logoURL: 'imgs/earth.png',
-    },
+    // {
+    //   id: '1',
+    //   title: 'javascript',
+    //   subTitle: 'object 이해하기',
+    //   logoName: 'javascript',
+    //   logoURL: 'imgs/note.png',
+    //   description: `이전 영상(10.9)과이 영상 (10.10) 완성된 코드는 다음영상 (10.11) 에서 함께 공유해 드릴께요 :) id: '2',
+    //     title: 'react',
+    //     subTitle: 'map 이해하기',
+    //     logoName: 'react',
+    //     logoURL: 'imgs/mars.png',이전 영상(10.9)과이 영상 (10.10) 완성된 코드는 다음영상 (10.11) 에서 함께 공유해 드릴께요 :) id: '2',
+    //     title: 'react',
+    //     subTitle: 'map 이해하기',
+    //     logoName: 'react',
+    //     logoURL: 'imgs/mars.png',이전 영상(10.9)과이 영상 (10.10) 완성된 코드는 다음영상 (10.11) 에서 함께 공유해 드릴께요 :) id: '2',
+    //     title: 'react',
+    //     subTitle: 'map 이해하기',
+    //     logoName: 'react',
+    //     logoURL: 'imgs/mars.png',이전 영상(10.9)과이 영상 (10.10) 완성된 코드는 다음영상 (10.11) 에서 함께 공유해 드릴께요 :) id: '2',
+    //     title: 'react',
+    //     subTitle: 'map 이해하기',
+    //     logoName: 'react',
+    //     logoURL: 'imgs/mars.png',`,
+    // },
+    // {
+    //   id: '2',
+    //   title: 'react',
+    //   subTitle: 'map 이해하기',
+    //   logoName: 'react',
+    //   logoURL: 'imgs/mars.png',
+    // },
+    // {
+    //   id: '3',
+    //   title: 'nodejs',
+    //   subTitle: 'array 이해하기',
+    //   logoName: 'nodejs',
+    //   logoURL: 'imgs/earth.png',
+    // },
   ]);
 
+  const location = useLocation();
+
+  const videoId = location.state?.videoId;
+  const title = location.state?.title;
+
   const history = useHistory();
+
+  if (!videoId || !title) {
+    history.push('/study');
+  }
 
   useEffect(() => {
     if (auth === 'nonLogin') {
@@ -56,14 +65,13 @@ const Summary = ({ FontAwesome, auth, onLogout }) => {
     }
   }, [auth, history]);
 
-  const location = useLocation();
+  const onAdd = (title, subTitle, description) => {
+    setCards((item) => {
+      return [{ ...item, id: Date.now(), title, subTitle, description }];
+    });
+  };
 
-  const videoId = location.state?.videoId;
-  const title = location.state?.title;
-
-  if (!videoId || !title) {
-    history.push('/study');
-  }
+  console.log(cards);
 
   return (
     <>
@@ -82,7 +90,7 @@ const Summary = ({ FontAwesome, auth, onLogout }) => {
             <Logout onLogout={onLogout} />
           </nav>
           <main className={styles.main}>
-            <Maker cards={cards} videoId={videoId} />
+            <Maker cards={cards} videoId={videoId} onAdd={onAdd} />
             <Preview cards={cards} />
           </main>
         </>

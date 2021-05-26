@@ -41,6 +41,7 @@
 
 .tools__list li {
   padding: 0.8rem;
+  color: var(--color-light-white);
 }
 
 @media screen and (max-width: 768px) {
