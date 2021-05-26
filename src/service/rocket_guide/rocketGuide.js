@@ -1,19 +1,20 @@
 export default class RocketGuide {
-  constructor(element) {
+  constructor(element, portfoilo) {
     this.element = element;
     this.prevHeight = 0;
+    this.portfolio = portfoilo;
   }
 
   start() {
-    document.addEventListener('scroll', this._render(this.element));
+    this.portfolio.addEventListener('scroll', this._render(this.element));
   }
 
   _render(element) {
     return (e) => {
       const rocket = element.childNodes[1];
-      const currHeight = window.pageYOffset;
+      const currHeight = this.portfolio.scrollTop;
 
-      const distance = getRocketMoveDistancePixel(element);
+      const distance = getRocketMoveDistancePixel(element, this.portfolio);
 
       const rotate = getRocketRotate(this.prevHeight, currHeight);
 
@@ -25,14 +26,16 @@ export default class RocketGuide {
   }
 }
 
-function getScrollHeightPercent() {
-  const pageTotalHeight = document.documentElement.scrollHeight;
+function getScrollHeightPercent(portfolio) {
+  const pageTotalHeight = portfolio.scrollHeight;
+  const currHeight = portfolio.scrollTop;
+
   const currentViewHeight = window.innerHeight;
 
   const remainTotalHeight = pageTotalHeight - currentViewHeight;
 
   // y축의 스크롤 된 만큼의 % 구하기.
-  return Math.floor((window.pageYOffset / remainTotalHeight) * 100);
+  return Math.floor((currHeight / remainTotalHeight) * 100);
 }
 
 function getTravelLoadOnePercentPixel(element) {
@@ -48,8 +51,8 @@ function getTravelLoadOnePercentPixel(element) {
   return (travelRoadWidth - totalImgWidth) / 100;
 }
 
-function getRocketMoveDistancePixel(elements) {
-  const srollYPercent = getScrollHeightPercent();
+function getRocketMoveDistancePixel(elements, portfolio) {
+  const srollYPercent = getScrollHeightPercent(portfolio);
   const xOnePercentPixel = getTravelLoadOnePercentPixel(elements);
 
   return srollYPercent * xOnePercentPixel;

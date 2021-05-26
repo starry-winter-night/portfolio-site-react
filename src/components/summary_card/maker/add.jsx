@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './add.module.css';
+import styles from './maker.module.css';
 import Button from '../../common/button/button';
 import ImageInput from '../../common/button/imageInput';
 import 'codemirror/lib/codemirror.css';
@@ -12,7 +12,7 @@ const Add = () => {
   return (
     <form className={styles.form}>
       <input
-        className={styles.title}
+        className={styles.cardTitle}
         type="text"
         name="title"
         placeholder="Title"
@@ -29,7 +29,7 @@ const Add = () => {
         />
       </div>
       <input
-        className={styles.subtitle}
+        className={styles.cardSubtitle}
         type="text"
         name="subtitle"
         placeholder="Subtitle"

@@ -5,7 +5,14 @@ import menuStyles from './menu.module.css';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Menu from './menu';
 const Aside = memo(
-  ({ highLightMenu, FontAwesome, auth, sectionsRef, moveSection }) => {
+  ({
+    highLightMenu,
+    FontAwesome,
+    auth,
+    portfolioRef,
+    sectionsRef,
+    moveSection,
+  }) => {
     const menus = [
       { id: 'home', title: 'Home' },
       { id: 'about', title: 'About' },
@@ -33,8 +40,12 @@ const Aside = memo(
     }, [sectionsRef]);
 
     const handleClickMenu = useCallback(
-      (id) => moveSection.start(id, [...sections]),
-      [moveSection, sections]
+      (id) => {
+        const ref = portfolioRef.current;
+
+        moveSection.start(id, [...sections], ref);
+      },
+      [moveSection, portfolioRef, sections]
     );
 
     const changeClassName = (id, observe) => {

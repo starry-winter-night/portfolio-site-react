@@ -14,7 +14,7 @@ const Edit = ({ title, subtitle }) => {
         className={styles.title}
         type="text"
         name="title"
-        placeholder="title"
+        placeholder="Title"
         value={title}
       ></input>
       <select className={styles.select}>
@@ -23,26 +23,30 @@ const Edit = ({ title, subtitle }) => {
         <option value="colorful">colorful</option>
       </select>
       <div className={styles.fileInput}>
-        <ImageInput name="Logo" />
+        <ImageInput
+          name="Logo Image"
+          imageInputButton={styles.imageInputButton}
+        />
       </div>
       <input
         className={styles.subtitle}
         type="text"
         name="subtitle"
-        placeholder="subtitle"
+        placeholder="Subtitle"
         value={subtitle}
       ></input>
-
-      <Editor
-        className={styles.toastEditor}
-        initialValue=""
-        height="auto"
-        previewStyle="tab"
-        previewHighlight={false}
-        initialEditType="wysiwyg"
-        useCommandShortcut={true}
-        usageStatistics={true}
-      />
+      <div className={styles.editor}>
+        <Editor
+          className={styles.toastEditor}
+          initialValue=""
+          height="auto"
+          previewStyle="tab"
+          previewHighlight={false}
+          initialEditType="wysiwyg"
+          useCommandShortcut={true}
+          usageStatistics={true}
+        />
+      </div>
 
       <div className={styles.deleteButton}>
         <Button name="Delete" onClick={onSubmit} />

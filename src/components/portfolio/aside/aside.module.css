@@ -1,5 +1,5 @@
 .aside {
-  font-family: 'Didact Gothic';
+  /* font-family: 'Didact Gothic';
   position: fixed;
   top: 0;
   right: 0%;
@@ -10,10 +10,20 @@
   letter-spacing: 0.1rem;
   flex-direction: column;
   -webkit-touch-callout: none;
+  user-select: none; */
+  font-family: 'Didact Gothic';
+  position: sticky;
+  top: 0;
+  bottom: 0;
+  float: right;
+  width: 15%;
+  height: 100vh;
+  z-index: 3;
+  display: flex;
+  letter-spacing: 0.1rem;
+  flex-direction: column;
+  -webkit-touch-callout: none;
   -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 

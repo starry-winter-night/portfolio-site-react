@@ -6,6 +6,7 @@ import Sections from './sections/sections';
 
 const Portfolio = memo(
   ({ starryNight, highLightMenu, moveSection, FontAwesome, auth }) => {
+    const portfolioRef = useRef();
     const canvasRef = useRef();
     const sectionsRef = useRef();
 
@@ -14,20 +15,21 @@ const Portfolio = memo(
     }, [starryNight]);
 
     return (
-      <>
+      <div className="portfolio" ref={portfolioRef}>
         <canvas ref={canvasRef} className="canvas"></canvas>
-        <Navbar />
+        <Navbar portfolioRef={portfolioRef}/>
         <Aside
           highLightMenu={highLightMenu}
           FontAwesome={FontAwesome}
           sectionsRef={sectionsRef}
+          portfolioRef={portfolioRef}
           moveSection={moveSection}
           auth={auth}
         />
         <main ref={sectionsRef}>
           <Sections FontAwesome={FontAwesome} />
         </main>
-      </>
+      </div>
     );
   }
 );

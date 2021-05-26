@@ -202,7 +202,7 @@ const Study = memo(({ FontAwesome, youtube, auth, onLogout }) => {
   return (
     <>
       {auth === 'login' && (
-        <div onClick={onStudyClick}>
+        <div className={styles.study} onClick={onStudyClick}>
           {loading && <Loading styles={styles} />}
           {videoPlay && !loading && (
             <>

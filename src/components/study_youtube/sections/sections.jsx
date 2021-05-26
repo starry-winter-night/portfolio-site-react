@@ -13,7 +13,7 @@ const Sections = ({
   query,
 }) => {
   return (
-    <div className={styles.container}>
+    <main className={styles.main}>
       <Contents videoPlay={videoPlay} onMyList={onMyList} />
       <Directory
         layer={layer}
@@ -22,7 +22,7 @@ const Sections = ({
         setLayer={setLayer}
         query={query}
       />
-    </div>
+    </main>
   );
 };
 

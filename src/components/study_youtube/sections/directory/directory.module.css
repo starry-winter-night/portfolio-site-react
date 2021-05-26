@@ -1,5 +1,8 @@
 .directory {
-  width: 25%;
+  width: 29%;
   min-width: 300px;
   padding-bottom: 30px;
+
+  overflow-y: scroll;
+  height: 90vh;
 }

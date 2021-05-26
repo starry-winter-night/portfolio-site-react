@@ -10,7 +10,7 @@ const List = ({ videoList, onList, token, id, youtube, setLayer, query }) => {
   const [loading, setLoading] = useState(null);
   const history = useHistory();
 
-  const getLastElement = useCallback((ref) => {
+  const lastElement = useCallback((ref) => {
     setLast(ref);
   }, []);
 
@@ -43,7 +43,7 @@ const List = ({ videoList, onList, token, id, youtube, setLayer, query }) => {
                 key={item.id}
                 item={item}
                 onList={onList}
-                lastElementRef={getLastElement}
+                onLastRef={lastElement}
               />
             );
           } else {

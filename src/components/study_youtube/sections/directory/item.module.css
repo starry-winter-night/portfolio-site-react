@@ -2,6 +2,8 @@
   display: flex;
   cursor: pointer;
   margin-bottom: 8px;
+
+  padding-right: 24px;
 }
 
 .thumbnail {

@@ -1,6 +1,8 @@
 .contents {
   width: 75%;
-  padding-right: 24px;
+  padding-right: 12px;
+  overflow-y: scroll;
+  height: 90vh;
 }
 
 .contentBox {
