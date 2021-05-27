@@ -7,31 +7,22 @@ import Preview from './preview/preview';
 import styles from './summary.module.css';
 
 const Summary = ({ FontAwesome, auth, onLogout }) => {
-  const [cards, setCards] = useState([
-    // {
-    //   id: '1',
-    //   title: 'javascript',
-    //   subTitle: 'object 이해하기',
-    //   logoName: 'javascript',
-    //   logoURL: 'imgs/note.png',
-    //   description: `이전 영상(10.9)과이 영상 (10.10) 완성된 코드는 다음영상 (10.11) 에서 함께 공유해 드릴께요 :) id: '2',
-    //     title: 'react',
-    //     subTitle: 'map 이해하기',
-    //     logoName: 'react',
-    //     logoURL: 'imgs/mars.png',이전 영상(10.9)과이 영상 (10.10) 완성된 코드는 다음영상 (10.11) 에서 함께 공유해 드릴께요 :) id: '2',
-    //     title: 'react',
-    //     subTitle: 'map 이해하기',
-    //     logoName: 'react',
-    //     logoURL: 'imgs/mars.png',이전 영상(10.9)과이 영상 (10.10) 완성된 코드는 다음영상 (10.11) 에서 함께 공유해 드릴께요 :) id: '2',
-    //     title: 'react',
-    //     subTitle: 'map 이해하기',
-    //     logoName: 'react',
-    //     logoURL: 'imgs/mars.png',이전 영상(10.9)과이 영상 (10.10) 완성된 코드는 다음영상 (10.11) 에서 함께 공유해 드릴께요 :) id: '2',
-    //     title: 'react',
-    //     subTitle: 'map 이해하기',
-    //     logoName: 'react',
-    //     logoURL: 'imgs/mars.png',`,
-    // },
+  const [cards, setCards] = useState(
+    {
+      1: {
+        id: '1',
+        title: 'javascript',
+        subTitle: 'object 이해하기',
+        logoName: 'javascript',
+        logoURL: 'imgs/note.png',
+        description: `이전 영상(10.9)과이 영상 (10.10) 완성된 코드는 다음영상 (10.11) 에서 함께 공유해 드릴께요 :) id: '2',
+        title: 'react',
+        subTitle: 'map 이해하기',
+        logoName: 'react',
+        logoURL: 'imgs/mars.png'`,
+      },
+    }
+
     // {
     //   id: '2',
     //   title: 'react',
@@ -46,7 +37,7 @@ const Summary = ({ FontAwesome, auth, onLogout }) => {
     //   logoName: 'nodejs',
     //   logoURL: 'imgs/earth.png',
     // },
-  ]);
+  );
 
   const location = useLocation();
 
@@ -65,13 +56,26 @@ const Summary = ({ FontAwesome, auth, onLogout }) => {
     }
   }, [auth, history]);
 
-  const onAdd = (title, subTitle, description) => {
+  const onAddCard = (card) => {
     setCards((item) => {
-      return [{ ...item, id: Date.now(), title, subTitle, description }];
+      const updated = { ...item };
+      updated[card.id] = card;
+
+      return updated;
     });
   };
 
-  console.log(cards);
+  const onUpdateCard = (id, card) => {
+    console.log(id);
+    if (id === 'preview') {
+      setCards((item) => {
+        const updated = { ...item };
+        updated[id] = card;
+  
+        return updated;
+      });
+    }
+  };
 
   return (
     <>
@@ -90,7 +94,13 @@ const Summary = ({ FontAwesome, auth, onLogout }) => {
             <Logout onLogout={onLogout} />
           </nav>
           <main className={styles.main}>
-            <Maker cards={cards} videoId={videoId} onAdd={onAdd} />
+            <Maker
+              cards={cards}
+              videoId={videoId}
+              onAddCard={onAddCard}
+              onUpdateCard={onUpdateCard}
+              cardId={null}
+            />
             <Preview cards={cards} />
           </main>
         </>

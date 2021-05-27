@@ -9,9 +9,7 @@ const Card = ({ card }) => {
   const descriptionRef = useRef();
 
   useEffect(() => {
-    if (description) {
-      descriptionRef.current.innerHTML = description;
-    }
+    descriptionRef.current.innerHTML = description;
   }, [description]);
 
   return (
@@ -20,7 +18,7 @@ const Card = ({ card }) => {
       <img className={styles.logo} src={url} alt="card Logo" />
       <h1 className={styles.title}>{title}</h1>
       <h3 className={styles.subTitle}>{subTitle}</h3>
-      <p ref={descriptionRef} className={styles.description}></p>
+      <p className={styles.description} ref={descriptionRef}></p>
     </li>
   );
 };

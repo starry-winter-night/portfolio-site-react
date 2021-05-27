@@ -6,31 +6,79 @@ import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 
-const Add = ({ onAdd }) => {
+const Add = ({ cards, onAddCard, onUpdateCard, selectCard }) => {
   const titleRef = useRef();
   const subtitleRef = useRef();
   const editorRef = useRef();
+  const bookmarkRef = useRef();
+  const formRef = useRef();
+
+  const { title, subTitle, description, bookmark } = cards;
+  const id = !selectCard ? 'preview' : selectCard;
+
+  const onChange = (e) => {
+    if (e.currentTarget || e.source) {
+      if (e.source) {
+        const NAME = 'description';
+
+        onUpdateCard(id, {
+          ...cards[id],
+          [NAME]: editorRef.current.getInstance().getHtml(),
+        });
+
+        return;
+      }
+
+      if (e.currentTarget) {
+        e.preventDefault();
+
+        const name = e.currentTarget.name;
+
+        onUpdateCard(id, {
+          ...cards[id],
+          [name]: e.currentTarget.value,
+        });
+
+        return;
+      }
+    }
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const title = titleRef.current.value;
-    const subTitle = subtitleRef.current.value;
-    const description = editorRef.current.getInstance().getHtml();
+    const card = {
+      id: Date.now(),
+      title: titleRef.current.value || '',
+      subTitle: subtitleRef.current.value || '',
+      description: editorRef.current.getInstance().getHtml() || '',
+      bookmark: bookmarkRef.current.value,
+    };
 
-    onAdd(title, subTitle, description);
+    formRef.current.reset();
+    editorRef.current.getInstance().setHtml('');
+
+    onAddCard(card);
   };
 
   return (
-    <form className={styles.form}>
+    <form className={styles.form} ref={formRef}>
       <input
         className={styles.cardTitle}
         type="text"
         name="title"
         placeholder="Title"
         ref={titleRef}
+        value={title}
+        onChange={onChange}
       ></input>
-      <select className={styles.select}>
+      <select
+        className={styles.select}
+        name="bookmark"
+        ref={bookmarkRef}
+        value={bookmark}
+        onChange={onChange}
+      >
         <option value="light">light</option>
         <option value="pink">pink</option>
         <option value="colorful">colorful</option>
@@ -44,14 +92,16 @@ const Add = ({ onAdd }) => {
       <input
         className={styles.cardSubtitle}
         type="text"
-        name="subtitle"
+        name="subTitle"
         placeholder="Subtitle"
         ref={subtitleRef}
+        vlaue={subTitle}
+        onChange={onChange}
       ></input>
       <div className={styles.editor}>
         <Editor
           className={styles.toastEditor}
-          initialValue=""
+          initialValue={description}
           height="auto"
           previewStyle="tab"
           previewHighlight={false}
@@ -59,6 +109,7 @@ const Add = ({ onAdd }) => {
           useCommandShortcut={true}
           usageStatistics={true}
           ref={editorRef}
+          onChange={onChange}
         />
       </div>
 
