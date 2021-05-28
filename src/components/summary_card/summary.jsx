@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import Goback from '../common/goback/goback';
 import Logout from '../common/auth/logout';
@@ -19,6 +19,9 @@ const Summary = ({ auth, onLogout }) => {
     },
   });
   const [cardId, setCardId] = useState('preview');
+  const [scrollTop, setScrollTop] = useState(0);
+
+  const sectionRef = useRef();
 
   const location = useLocation();
 
@@ -49,7 +52,13 @@ const Summary = ({ auth, onLogout }) => {
       return updated;
     });
 
-    if (type === 'Edit') setCardId('preview');
+    if (type === 'Edit') {
+      setCardId('preview');
+    }
+
+    if (type === 'Add') {
+      setScrollTop(sectionRef.current.scrollHeight);
+    }
   };
 
   const onEditCard = (cardId) => {
@@ -75,7 +84,12 @@ const Summary = ({ auth, onLogout }) => {
               onAddOrUpdateCard={onAddOrUpdateCard}
               cardId={cardId}
             />
-            <Preview cards={cards} onEditCard={onEditCard} />
+            <Preview
+              cards={cards}
+              onEditCard={onEditCard}
+              ref={sectionRef}
+              scrollTop={scrollTop}
+            />
           </main>
         </>
       )}
