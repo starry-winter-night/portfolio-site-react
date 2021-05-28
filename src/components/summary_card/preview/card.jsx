@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 import styles from './card.module.css';
 
-const Card = ({ card, onEditCard }) => {
+const Card = ({ card, onEditCard, onDeleteCard }) => {
   const { id, title, subTitle, logoName, logoURL, description } = card;
 
   const DEFAULT_IMAGE = 'imgs/note.png';
@@ -15,7 +15,9 @@ const Card = ({ card, onEditCard }) => {
     onEditCard(id);
   };
 
-  const onClickDelete = () => {};
+  const onClickDelete = () => {
+    onDeleteCard(id);
+  };
 
   useEffect(() => {
     descriptionRef.current.innerHTML = description || '';

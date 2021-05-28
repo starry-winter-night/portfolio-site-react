@@ -65,6 +65,16 @@ const Summary = ({ auth, onLogout }) => {
     setCardId(cardId);
   };
 
+  const onDeleteCard = (cardId) => {
+    setCards((item) => {
+      const deleted = { ...item };
+
+      delete deleted[cardId];
+
+      return deleted;
+    });
+  };
+
   return (
     <>
       {auth === 'login' && (
@@ -87,6 +97,7 @@ const Summary = ({ auth, onLogout }) => {
             <Preview
               cards={cards}
               onEditCard={onEditCard}
+              onDeleteCard={onDeleteCard}
               ref={sectionRef}
               scrollTop={scrollTop}
             />
