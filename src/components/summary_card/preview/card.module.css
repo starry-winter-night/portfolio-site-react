@@ -10,6 +10,22 @@
   margin: 0 auto 30px auto;
   border-radius: 15px;
   position: relative;
+  word-break: break-all;
+}
+
+.card:nth-child(1)::after {
+  content: '';
+  display: block;
+  width: 20%;
+  margin: 20px auto 0 auto;
+  height: 3px;
+  background-color: var(--color-blue);
+  position: absolute;
+  bottom: -25px;
+}
+
+.card:nth-child(2) {
+  margin-top: 40px;
 }
 
 .bookmark {
@@ -74,9 +90,9 @@
 .subTitle::after {
   content: '';
   display: block;
-  width: 100%;
+  width: 30%;
   margin: 20px auto 0 auto;
-  height: 2px;
+  height: 3px;
   background-color: var(--color-dark-grey);
 }
 

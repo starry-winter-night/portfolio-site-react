@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './maker.module.css';
-import Add from './add';
+import Write from './write';
 import Video from '../../common/youtube/video';
 
 const Maker = ({ cards, videoId, onAddOrUpdateCard, cardId }) => (
@@ -8,7 +8,7 @@ const Maker = ({ cards, videoId, onAddOrUpdateCard, cardId }) => (
     <h1 className={styles.title}>Card Maker</h1>
     <Video videoId={videoId} height="400px" />
     <ul>
-      <Add
+      <Write
         cards={cards}
         selectCardId={cardId}
         onAddOrUpdateCard={onAddOrUpdateCard}

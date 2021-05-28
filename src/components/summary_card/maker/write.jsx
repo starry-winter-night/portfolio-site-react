@@ -6,7 +6,7 @@ import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 
-const Add = ({ cards, onAddOrUpdateCard, selectCardId }) => {
+const Write = ({ cards, onAddOrUpdateCard, selectCardId }) => {
   const titleRef = useRef();
   const subtitleRef = useRef();
   const editorRef = useRef();
@@ -14,7 +14,8 @@ const Add = ({ cards, onAddOrUpdateCard, selectCardId }) => {
   const formRef = useRef();
 
   const selectedId = selectCardId === 'preview' ? 'preview' : selectCardId;
-  const buttonValue = selectCardId === 'preview' ? 'Add' : 'Edit';
+  const buttonValue = selectCardId === 'preview' ? 'Save' : 'Edit';
+  const addStyle = buttonValue === 'Edit' ? styles.edit : '';
 
   useEffect(() => {
     if (!cards[selectedId]) return;
@@ -44,8 +45,6 @@ const Add = ({ cards, onAddOrUpdateCard, selectCardId }) => {
         name = e.currentTarget.name;
         value = e.currentTarget.value;
       }
-
-      if (value === '') return;
 
       onAddOrUpdateCard({
         ...cards[selectedId],
@@ -97,7 +96,11 @@ const Add = ({ cards, onAddOrUpdateCard, selectCardId }) => {
         <option value="colorful">colorful</option>
       </select>
       <div className={styles.fileInput}>
-        <ImageInput name="Logo" imageInputButton={styles.imageInputButton} />
+        <ImageInput
+          name="Logo"
+          imageInputStyle={styles.imageInputButton}
+          imageInputAddStyle={addStyle}
+        />
       </div>
       <input
         className={styles.cardSubtitle}
@@ -124,10 +127,11 @@ const Add = ({ cards, onAddOrUpdateCard, selectCardId }) => {
       <Button
         value={buttonValue}
         buttonStyle={styles.submitButton}
+        buttonAddStyle={addStyle}
         onClick={onSubmit}
       />
     </form>
   );
 };
 
-export default Add;
+export default Write;

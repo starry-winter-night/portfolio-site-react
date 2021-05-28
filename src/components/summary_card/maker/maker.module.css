@@ -8,17 +8,18 @@
 }
 
 .title {
-  margin: 15px 0 30px 0;
+  margin: 30px 0;
   font-size: 2rem;
   user-select: none;
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 .form {
   display: flex;
   width: 100%;
   flex-wrap: wrap;
-  border-top: 1px solid var(--color-blue);
-  border-left: 1px solid var(--color-blue);
+  border-top: 1px solid #27272a;
+  border-left: 1px solid #27272a;
   margin-bottom: 1em;
   margin-top: 1em;
 }
@@ -34,8 +35,8 @@
   border: 0;
   padding: 0.5em;
   min-height: 35px;
-  border-bottom: 1px solid var(--color-blue);
-  border-right: 1px solid var(--color-blue);
+  border-bottom: 1px solid #27272a;
+  border-right: 1px solid #27272a;
 }
 
 .cardTitle,
@@ -60,8 +61,8 @@
   font-size: 0.8rem;
   border: 0;
   min-height: 35px;
-  border-bottom: 1px solid var(--color-blue);
-  border-right: 1px solid var(--color-blue);
+  border-bottom: 1px solid #27272a;
+  border-right: 1px solid #27272a;
 }
 
 .description,
@@ -75,7 +76,20 @@
   padding: 0;
   margin: 0;
   background-color: var(--color-orange);
+  transition: ease all 200ms;
   font-weight: 700;
+}
+
+.imageInputButton:hover {
+  background-color: #de5528;
+}
+
+.imageInputButton.edit {
+  background-color: var(--color-blue);
+}
+
+.imageInputButton.edit:hover {
+  background-color: #6a9bbd;
 }
 
 .submitButton {
@@ -87,16 +101,29 @@
   font-size: 0.9rem;
   border: 0;
   min-height: 35px;
-  border-bottom: 1px solid var(--color-blue);
-  border-right: 1px solid var(--color-blue);
+  border-bottom: 1px solid #27272a;
+  border-right: 1px solid #27272a;
   background-color: var(--color-orange);
   font-weight: 700;
   font-family: 'Open Sans';
+  transition: ease all 200ms;
+}
+
+.submitButton:hover {
+  background-color: #de5528;
+}
+
+.submitButton.edit {
+  background-color: var(--color-blue);
+}
+
+.submitButton.edit:hover {
+  background-color: #6a9bbd;
 }
 
 .editor {
   width: 100%;
   border: 0;
-  border-bottom: 1px solid var(--color-blue);
-  border-right: 1px solid var(--color-blue);
+  border-bottom: 1px solid #27272a;
+  border-right: 1px solid #27272a;
 }
