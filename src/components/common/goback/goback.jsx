@@ -1,9 +1,10 @@
 import React, { memo } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { useHistory } from 'react-router';
 import styles from './goback.module.css';
 
-const Goback = memo(({ FontAwesome, backBox, move }) => {
+const Goback = memo(({  backBox, move }) => {
   const history = useHistory();
 
   const handleGoBack = () => {
@@ -16,7 +17,7 @@ const Goback = memo(({ FontAwesome, backBox, move }) => {
 
   return (
     <div className={backBox}>
-      <FontAwesome
+      <FontAwesomeIcon
         className={styles.backIcon}
         icon={faArrowLeft}
         onClick={handleGoBack}

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './app.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Portfolio from './components/portfolio/portfolio';
 import Study from './components/study_youtube/study';
@@ -40,7 +39,6 @@ const App = ({
       <Switch>
         <Route exact path="/">
           <Portfolio
-            FontAwesome={FontAwesomeIcon}
             starryNight={starryNight}
             highLightMenu={highLightMenu}
             moveSection={moveSection}
@@ -48,33 +46,16 @@ const App = ({
           />
         </Route>
         <Route path="/login">
-          <Login
-            FontAwesome={FontAwesomeIcon}
-            authService={authService}
-            auth={auth}
-          />
+          <Login authService={authService} auth={auth} />
         </Route>
         <Route path="/study">
-          <Study
-            FontAwesome={FontAwesomeIcon}
-            youtube={youtube}
-            auth={auth}
-            onLogout={onLogout}
-          />
+          <Study youtube={youtube} auth={auth} onLogout={onLogout} />
         </Route>
         <Route path="/summary">
-          <Summary
-            FontAwesome={FontAwesomeIcon}
-            auth={auth}
-            onLogout={onLogout}
-          />
+          <Summary auth={auth} onLogout={onLogout} />
         </Route>
         <Route path={['/error', '*']}>
-          <Error
-            FontAwesome={FontAwesomeIcon}
-            auth={auth}
-            onLogout={onLogout}
-          />
+          <Error auth={auth} onLogout={onLogout} />
         </Route>
       </Switch>
     </Router>

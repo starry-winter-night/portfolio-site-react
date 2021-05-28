@@ -1,22 +1,23 @@
 import React from 'react';
 import Info from './info';
 import styles from './contact.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAt } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
-const contact = ({ FontAwesome }) => {
+const contact = () => {
   const infos = [
     {
       id: 1,
       title: 'E-mail Adress',
-      icon: <FontAwesome icon={faAt} />,
+      icon: <FontAwesomeIcon icon={faAt} />,
       url: 'mailto:smpark7723@gmail.com',
       content: 'smpark7723@gmail.com',
     },
     {
       id: 2,
       title: 'GitHub Link',
-      icon: <FontAwesome icon={faGithub} />,
+      icon: <FontAwesomeIcon icon={faGithub} />,
       url: 'https://github.com/starry-winter-night',
       content: 'github.com/starry-winter-night',
     },

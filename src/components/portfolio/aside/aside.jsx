@@ -1,18 +1,13 @@
 import React, { memo, useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import styles from './aside.module.css';
-import menuStyles from './menu.module.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Menu from './menu';
+import styles from './aside.module.css';
+import menuStyles from './menu.module.css';
+
 const Aside = memo(
-  ({
-    highLightMenu,
-    FontAwesome,
-    auth,
-    portfolioRef,
-    sectionsRef,
-    moveSection,
-  }) => {
+  ({ highLightMenu, auth, portfolioRef, sectionsRef, moveSection }) => {
     const menus = [
       { id: 'home', title: 'Home' },
       { id: 'about', title: 'About' },
@@ -94,7 +89,7 @@ const Aside = memo(
         }`}
       >
         <button className={styles.menu__btn} onClick={handleMenuIconClick}>
-          <FontAwesome icon={faBars} />
+          <FontAwesomeIcon icon={faBars} />
         </button>
         <ul
           className={`${styles.menu} ${

@@ -6,7 +6,7 @@ import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 
-const Add = ({ cards, onAddCard, onUpdateCard, selectCard }) => {
+const Add = ({ cards, onAddOrUpdateCard, selectCard }) => {
   const titleRef = useRef();
   const subtitleRef = useRef();
   const editorRef = useRef();
@@ -21,9 +21,10 @@ const Add = ({ cards, onAddCard, onUpdateCard, selectCard }) => {
       if (e.source) {
         const NAME = 'description';
 
-        onUpdateCard(id, {
+        onAddOrUpdateCard({
           ...cards[id],
           [NAME]: editorRef.current.getInstance().getHtml(),
+          id,
         });
 
         return;
@@ -34,9 +35,10 @@ const Add = ({ cards, onAddCard, onUpdateCard, selectCard }) => {
 
         const name = e.currentTarget.name;
 
-        onUpdateCard(id, {
+        onAddOrUpdateCard({
           ...cards[id],
           [name]: e.currentTarget.value,
+          id,
         });
 
         return;
@@ -58,7 +60,7 @@ const Add = ({ cards, onAddCard, onUpdateCard, selectCard }) => {
     formRef.current.reset();
     editorRef.current.getInstance().setHtml('');
 
-    onAddCard(card);
+    onAddOrUpdateCard(card);
   };
 
   return (

@@ -21,8 +21,8 @@ class SmpChat {
       document.body.appendChild(link);
 
       const position = {
-        icon: { x: '80px', y: '85%' },
-        modal: { x: '50px', y: '20%' },
+        icon: { x: '30px', y: '90%' },
+        modal: { x: '30px', y: '20%' },
       };
 
       script.addEventListener('load', () => {

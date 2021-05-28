@@ -1,8 +1,9 @@
 import React, { memo, useRef } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import styles from './search.module.css';
 
-const Search = memo(({ FontAwesome, onSearch, logoName }) => {
+const Search = memo(({ onSearch, logoName }) => {
   const input = useRef();
 
   const handleSubmitSearch = (e) => {
@@ -30,7 +31,7 @@ const Search = memo(({ FontAwesome, onSearch, logoName }) => {
         placeholder="검색"
       ></input>
       <button className={styles.searchButton}>
-        <FontAwesome className={styles.searchIcon} icon={faSearch} />
+        <FontAwesomeIcon className={styles.searchIcon} icon={faSearch} />
       </button>
     </form>
   );

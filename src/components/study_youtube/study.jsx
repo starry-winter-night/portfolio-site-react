@@ -6,7 +6,7 @@ import Loading from '../common/loading/loading';
 import styles from './study.module.css';
 import _ from 'lodash';
 
-const Study = memo(({ FontAwesome, youtube, auth, onLogout }) => {
+const Study = memo(({ youtube, auth, onLogout }) => {
   const [etcToggle, setEtcToggle] = useState('off');
   const [videoPlay, setVideoPlay] = useState(null);
   const [query, setQuery] = useState(null);
@@ -208,7 +208,6 @@ const Study = memo(({ FontAwesome, youtube, auth, onLogout }) => {
             <>
               <Navbar
                 layer={layer}
-                FontAwesome={FontAwesome}
                 onMenu={onSetMenu}
                 onSearch={onSearch}
                 onDropbox={onDropbox}

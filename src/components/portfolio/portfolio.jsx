@@ -17,17 +17,16 @@ const Portfolio = memo(
     return (
       <div className="portfolio" ref={portfolioRef}>
         <canvas ref={canvasRef} className="canvas"></canvas>
-        <Navbar portfolioRef={portfolioRef}/>
+        <Navbar portfolioRef={portfolioRef} />
         <Aside
           highLightMenu={highLightMenu}
-          FontAwesome={FontAwesome}
           sectionsRef={sectionsRef}
           portfolioRef={portfolioRef}
           moveSection={moveSection}
           auth={auth}
         />
         <main ref={sectionsRef}>
-          <Sections FontAwesome={FontAwesome} />
+          <Sections />
         </main>
       </div>
     );

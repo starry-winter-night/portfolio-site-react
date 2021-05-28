@@ -4,7 +4,7 @@ import styles from './login.module.css';
 import Logo from '../logo/logo';
 import Goback from '../goback/goback';
 
-const Login = ({ FontAwesome, authService, auth }) => {
+const Login = ({ authService, auth }) => {
   const history = useHistory();
 
   const onLogin = (e) => {
@@ -39,7 +39,7 @@ const Login = ({ FontAwesome, authService, auth }) => {
       {auth === 'nonLogin' && (
         <>
           <header className={styles.header}>
-            <Goback FontAwesome={FontAwesome} backBox={styles.backBox} />
+            <Goback backBox={styles.backBox} />
             <Logo logo={styles.logo} />
             <h1 className={styles.title}>Study Page Login</h1>
           </header>

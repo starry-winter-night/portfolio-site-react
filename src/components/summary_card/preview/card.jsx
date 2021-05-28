@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './card.module.css';
+
 const Card = ({ card }) => {
   const { title, subTitle, logoURL, description } = card;
 
