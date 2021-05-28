@@ -10,7 +10,7 @@ const Maker = ({ cards, videoId, onAddOrUpdateCard, cardId }) => (
     <ul>
       <Add
         cards={cards}
-        selectCard={cardId}
+        selectCardId={cardId}
         onAddOrUpdateCard={onAddOrUpdateCard}
       />
     </ul>

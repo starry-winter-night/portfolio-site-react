@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styles from './maker.module.css';
 import Button from '../../common/button/button';
 import ImageInput from '../../common/button/imageInput';
@@ -6,51 +6,62 @@ import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 
-const Add = ({ cards, onAddOrUpdateCard, selectCard }) => {
+const Add = ({ cards, onAddOrUpdateCard, selectCardId }) => {
   const titleRef = useRef();
   const subtitleRef = useRef();
   const editorRef = useRef();
   const bookmarkRef = useRef();
   const formRef = useRef();
 
-  const { title, subTitle, description, bookmark } = cards;
-  const id = !selectCard ? 'preview' : selectCard;
+  const selectedId = selectCardId === 'preview' ? 'preview' : selectCardId;
+  const buttonValue = selectCardId === 'preview' ? 'Add' : 'Edit';
+
+  useEffect(() => {
+    if (!cards[selectedId]) return;
+    const selectedCard = cards[selectedId];
+
+    titleRef.current.value = selectedCard.title || '';
+    subtitleRef.current.value = selectedCard.subTitle || '';
+    editorRef.current.getInstance().setHtml(selectedCard.description);
+
+    if (selectedCard.bookmark) {
+      bookmarkRef.current.value = selectedCard.bookmark;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedId]);
 
   const onChange = (e) => {
     if (e.currentTarget || e.source) {
+      let name = '';
+      let value = '';
+
       if (e.source) {
-        const NAME = 'description';
-
-        onAddOrUpdateCard({
-          ...cards[id],
-          [NAME]: editorRef.current.getInstance().getHtml(),
-          id,
-        });
-
-        return;
-      }
-
-      if (e.currentTarget) {
+        name = 'description';
+        value = editorRef.current.getInstance().getHtml();
+      } else if (e.currentTarget) {
         e.preventDefault();
 
-        const name = e.currentTarget.name;
-
-        onAddOrUpdateCard({
-          ...cards[id],
-          [name]: e.currentTarget.value,
-          id,
-        });
-
-        return;
+        name = e.currentTarget.name;
+        value = e.currentTarget.value;
       }
+
+      if (value === '') return;
+
+      onAddOrUpdateCard({
+        ...cards[selectedId],
+        [name]: value,
+        id: selectedId,
+      });
     }
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
 
+    const id = selectedId === 'preview' ? Date.now() : selectedId;
+
     const card = {
-      id: Date.now(),
+      id: id,
       title: titleRef.current.value || '',
       subTitle: subtitleRef.current.value || '',
       description: editorRef.current.getInstance().getHtml() || '',
@@ -58,9 +69,11 @@ const Add = ({ cards, onAddOrUpdateCard, selectCard }) => {
     };
 
     formRef.current.reset();
-    editorRef.current.getInstance().setHtml('');
+    editorRef.current.getInstance().setHtml();
 
-    onAddOrUpdateCard(card);
+    const submitType = buttonValue;
+
+    onAddOrUpdateCard(card, submitType);
   };
 
   return (
@@ -71,14 +84,12 @@ const Add = ({ cards, onAddOrUpdateCard, selectCard }) => {
         name="title"
         placeholder="Title"
         ref={titleRef}
-        value={title}
         onChange={onChange}
       ></input>
       <select
         className={styles.select}
         name="bookmark"
         ref={bookmarkRef}
-        value={bookmark}
         onChange={onChange}
       >
         <option value="light">light</option>
@@ -86,10 +97,7 @@ const Add = ({ cards, onAddOrUpdateCard, selectCard }) => {
         <option value="colorful">colorful</option>
       </select>
       <div className={styles.fileInput}>
-        <ImageInput
-          name="Logo Image"
-          imageInputButton={styles.imageInputButton}
-        />
+        <ImageInput name="Logo" imageInputButton={styles.imageInputButton} />
       </div>
       <input
         className={styles.cardSubtitle}
@@ -97,13 +105,11 @@ const Add = ({ cards, onAddOrUpdateCard, selectCard }) => {
         name="subTitle"
         placeholder="Subtitle"
         ref={subtitleRef}
-        vlaue={subTitle}
         onChange={onChange}
       ></input>
       <div className={styles.editor}>
         <Editor
           className={styles.toastEditor}
-          initialValue={description}
           height="auto"
           previewStyle="tab"
           previewHighlight={false}
@@ -115,7 +121,11 @@ const Add = ({ cards, onAddOrUpdateCard, selectCard }) => {
         />
       </div>
 
-      <Button name="Add" addButton={styles.addButton} onClick={onSubmit} />
+      <Button
+        value={buttonValue}
+        buttonStyle={styles.submitButton}
+        onClick={onSubmit}
+      />
     </form>
   );
 };

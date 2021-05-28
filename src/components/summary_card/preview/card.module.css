@@ -32,6 +32,26 @@
   border-left: 8px solid #232326;
 }
 
+.iconBox {
+  position: absolute;
+  top: 3%;
+  right: 3%;
+  font-size: 20px;
+}
+
+.edit,
+.delete {
+  color: #ddd;
+  margin: 5px 0 0 30px;
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.edit:hover,
+.delete:hover {
+  transform: scale(1.2);
+}
+
 .logo {
   max-width: 60px;
   max-height: 60px;

@@ -7,22 +7,18 @@ import Preview from './preview/preview';
 import styles from './summary.module.css';
 
 const Summary = ({ auth, onLogout }) => {
-  const [cards, setCards] = useState({});
-
-  // {
-  //   id: '2',
-  //   title: 'react',
-  //   subTitle: 'map 이해하기',
-  //   logoName: 'react',
-  //   logoURL: 'imgs/mars.png',
-  // },
-  // {
-  //   id: '3',
-  //   title: 'nodejs',
-  //   subTitle: 'array 이해하기',
-  //   logoName: 'nodejs',
-  //   logoURL: 'imgs/earth.png',
-  // },
+  const [cards, setCards] = useState({
+    preview: {
+      id: 'preview',
+      title: '',
+      subTitle: '',
+      logoName: '',
+      logoURL: '',
+      bookmark: '',
+      description: '',
+    },
+  });
+  const [cardId, setCardId] = useState('preview');
 
   const location = useLocation();
 
@@ -41,13 +37,23 @@ const Summary = ({ auth, onLogout }) => {
     }
   }, [auth, history]);
 
-  const onAddOrUpdateCard = (card) => {
+  const onAddOrUpdateCard = (card, type) => {
     setCards((item) => {
       const updated = { ...item };
       updated[card.id] = card;
 
+      if (card.id !== 'preview') {
+        updated['preview'] = { id: 'preview' };
+      }
+
       return updated;
     });
+
+    if (type === 'Edit') setCardId('preview');
+  };
+
+  const onEditCard = (cardId) => {
+    setCardId(cardId);
   };
 
   return (
@@ -67,9 +73,9 @@ const Summary = ({ auth, onLogout }) => {
               cards={cards}
               videoId={videoId}
               onAddOrUpdateCard={onAddOrUpdateCard}
-              cardId={null}
+              cardId={cardId}
             />
-            <Preview cards={cards} />
+            <Preview cards={cards} onEditCard={onEditCard} />
           </main>
         </>
       )}
