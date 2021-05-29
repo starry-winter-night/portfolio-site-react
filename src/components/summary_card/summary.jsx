@@ -56,7 +56,7 @@ const Summary = ({ auth, onLogout }) => {
       setCardId('preview');
     }
 
-    if (type === 'Save') {
+    if (type === 'Add') {
       setScrollTop(sectionRef.current.scrollHeight);
     }
   };

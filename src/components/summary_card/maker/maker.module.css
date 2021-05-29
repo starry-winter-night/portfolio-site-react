@@ -41,11 +41,11 @@
 
 .cardTitle,
 .cardSubtitle {
-  flex: 1 1 80%;
+  flex-basis: 100%;
 }
 
 .select {
-  flex-basis: 20%;
+  flex-basis: 30%;
 }
 
 .cardTitle:focus,
@@ -56,13 +56,27 @@
 }
 
 .fileInput {
-  flex-basis: 20%;
+  flex-basis: 70%;
   padding: 0;
   font-size: 0.8rem;
   border: 0;
-  min-height: 35px;
+  max-height: 35px;
   border-bottom: 1px solid #27272a;
   border-right: 1px solid #27272a;
+  background-color: var(--color-orange);
+  transition: ease all 200ms;
+}
+
+.fileInput:hover {
+  background-color: #de5528;
+}
+
+.fileInput.edit {
+  background-color: var(--color-blue);
+}
+
+.fileInput.edit:hover {
+  background-color: #6a9bbd;
 }
 
 .description,
@@ -70,26 +84,19 @@
   flex-basis: 100%;
 }
 
-.imageInputButton {
+.imageLabel {
   width: 100%;
-  height: 100%;
+  height: 35px;
+  line-height: 35px;
   padding: 0;
   margin: 0;
-  background-color: var(--color-orange);
-  transition: ease all 200ms;
   font-weight: 700;
-}
-
-.imageInputButton:hover {
-  background-color: #de5528;
-}
-
-.imageInputButton.edit {
-  background-color: var(--color-blue);
-}
-
-.imageInputButton.edit:hover {
-  background-color: #6a9bbd;
+  color: #f5f5f6;
+  cursor: pointer;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .submitButton {
@@ -126,4 +133,5 @@
   border: 0;
   border-bottom: 1px solid #27272a;
   border-right: 1px solid #27272a;
+  text-align: left;
 }

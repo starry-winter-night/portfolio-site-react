@@ -6,6 +6,25 @@
   height: 95vh;
 }
 
+.info {
+  font-family: 'Nanum Gothic Coding', monospace;
+  line-height: 25px;
+  color: #f5f5f6;
+}
+
+.info > span:nth-child(1) {
+  font-family: 'Open Sans';
+}
+
+.info > span:nth-child(2) {
+  color: var(--color-orange);
+}
+
+.info > span:nth-last-child(1) {
+  color: var(--color-blue);
+  font-family: 'Open Sans';
+}
+
 .title {
   margin: 30px 0;
   font-size: 2rem;

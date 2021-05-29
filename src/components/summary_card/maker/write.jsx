@@ -11,22 +11,34 @@ const Write = ({ cards, onAddOrUpdateCard, selectCardId }) => {
   const subtitleRef = useRef();
   const editorRef = useRef();
   const bookmarkRef = useRef();
+  const imageRef = useRef();
+  const labelRef = useRef();
   const formRef = useRef();
 
   const selectedId = selectCardId === 'preview' ? 'preview' : selectCardId;
-  const buttonValue = selectCardId === 'preview' ? 'Save' : 'Edit';
+  const buttonValue = selectCardId === 'preview' ? 'Add' : 'Edit';
   const addStyle = buttonValue === 'Edit' ? styles.edit : '';
 
   useEffect(() => {
     if (!cards[selectedId]) return;
-    const selectedCard = cards[selectedId];
 
-    titleRef.current.value = selectedCard.title || '';
-    subtitleRef.current.value = selectedCard.subTitle || '';
-    editorRef.current.getInstance().setHtml(selectedCard.description);
+    const {
+      title, //
+      subTitle,
+      description,
+      logoName,
+      logoURL,
+      bookmark,
+    } = cards[selectedId];
 
-    if (selectedCard.bookmark) {
-      bookmarkRef.current.value = selectedCard.bookmark;
+    titleRef.current.value = title || '';
+    subtitleRef.current.value = subTitle || '';
+    editorRef.current.getInstance().setHtml(description || '');
+    labelRef.current.innerText = logoName || 'No Image';
+    imageRef.current.src = logoURL || '';
+
+    if (bookmark) {
+      bookmarkRef.current.value = bookmark;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedId]);
@@ -39,11 +51,38 @@ const Write = ({ cards, onAddOrUpdateCard, selectCardId }) => {
       if (e.source) {
         name = 'description';
         value = editorRef.current.getInstance().getHtml();
-      } else if (e.currentTarget) {
+      }
+
+      if (e.currentTarget) {
         e.preventDefault();
 
-        name = e.currentTarget.name;
-        value = e.currentTarget.value;
+        name = e.currentTarget?.name;
+        value = e.currentTarget?.value;
+
+        if (e.currentTarget.files) {
+          const reader = new FileReader();
+
+          reader.addEventListener(
+            'load',
+            () => {
+              name = 'logoURL';
+              value = reader.result;
+
+              onAddOrUpdateCard({
+                ...cards[selectedId],
+                [name]: value,
+                id: selectedId,
+              });
+            },
+            false
+          );
+
+          labelRef.current.innerText = e.currentTarget.files[0].name;
+
+          reader.readAsDataURL(e.currentTarget.files[0]);
+
+          return;
+        }
       }
 
       onAddOrUpdateCard({
@@ -51,6 +90,7 @@ const Write = ({ cards, onAddOrUpdateCard, selectCardId }) => {
         [name]: value,
         id: selectedId,
       });
+      return;
     }
   };
 
@@ -58,21 +98,51 @@ const Write = ({ cards, onAddOrUpdateCard, selectCardId }) => {
     e.preventDefault();
 
     const id = selectedId === 'preview' ? Date.now() : selectedId;
+    const title = titleRef.current.value || '';
+    const subTitle = subtitleRef.current.value || '';
+    const logo = imageRef.current.files[0] || '';
+    const description = editorRef.current.getInstance().getHtml() || '';
+    const bookmark = bookmarkRef.current.value;
 
     const card = {
-      id: id,
-      title: titleRef.current.value || '',
-      subTitle: subtitleRef.current.value || '',
-      description: editorRef.current.getInstance().getHtml() || '',
-      bookmark: bookmarkRef.current.value,
+      id,
+      title,
+      subTitle,
+      logoName: logo.name,
+      description,
+      bookmark,
     };
 
     formRef.current.reset();
+    labelRef.current.innerText = 'No Image';
     editorRef.current.getInstance().setHtml();
 
     const submitType = buttonValue;
 
-    onAddOrUpdateCard(card, submitType);
+    if (!logo) {
+      if (buttonValue === 'Edit') {
+        card.logoName = cards[id].logoName;
+        card.logoURL = cards[id].logoURL;
+      }
+
+      onAddOrUpdateCard(card, submitType);
+
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.addEventListener(
+      'load',
+      () => {
+        card.logoURL = reader.result;
+
+        onAddOrUpdateCard(card, submitType);
+      },
+      false
+    );
+
+    reader.readAsDataURL(logo);
   };
 
   return (
@@ -85,6 +155,23 @@ const Write = ({ cards, onAddOrUpdateCard, selectCardId }) => {
         ref={titleRef}
         onChange={onChange}
       ></input>
+      <input
+        className={styles.cardSubtitle}
+        type="text"
+        name="subTitle"
+        placeholder="Subtitle"
+        ref={subtitleRef}
+        onChange={onChange}
+      ></input>
+      <div className={`${styles.fileInput} ${addStyle}`}>
+        <ImageInput
+          word="No Image"
+          imageLabelStyle={styles.imageLabel}
+          name="logoImage"
+          onChange={onChange}
+          ref={{ imageRef, labelRef }}
+        />
+      </div>
       <select
         className={styles.select}
         name="bookmark"
@@ -95,21 +182,7 @@ const Write = ({ cards, onAddOrUpdateCard, selectCardId }) => {
         <option value="pink">pink</option>
         <option value="colorful">colorful</option>
       </select>
-      <div className={styles.fileInput}>
-        <ImageInput
-          name="Logo"
-          imageInputStyle={styles.imageInputButton}
-          imageInputAddStyle={addStyle}
-        />
-      </div>
-      <input
-        className={styles.cardSubtitle}
-        type="text"
-        name="subTitle"
-        placeholder="Subtitle"
-        ref={subtitleRef}
-        onChange={onChange}
-      ></input>
+
       <div className={styles.editor}>
         <Editor
           className={styles.toastEditor}
