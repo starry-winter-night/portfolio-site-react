@@ -1,4 +1,4 @@
-import * as starFunc from "./starFunction.js";
+import * as starFunc from "./star_function.js";
 
 const BACK_GROUND_COLOR = "rgba(2, 2, 14, 0.3)";
 

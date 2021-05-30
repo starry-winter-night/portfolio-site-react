@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react/cjs/react.development';
+import React, { useEffect, useState } from 'react';
 
 const SmpChat = ({ authService, smpChat }) => {
   const [login, setLogin] = useState(false);

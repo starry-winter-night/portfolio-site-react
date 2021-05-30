@@ -1,4 +1,4 @@
-import * as starFunc from "./starFunction.js";
+import * as starFunc from "./star_function.js";
 
 export default class ShootingStarBuilder {
   starSize(size) {

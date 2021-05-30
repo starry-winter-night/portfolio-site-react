@@ -6,7 +6,7 @@ import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 
-const Write = ({ cards, onAddOrUpdateCard, selectCardId }) => {
+const Write = ({ cards, onAddOrUpdateCard, selectCardId, cloudinary }) => {
   const titleRef = useRef();
   const subtitleRef = useRef();
   const editorRef = useRef();
@@ -138,6 +138,7 @@ const Write = ({ cards, onAddOrUpdateCard, selectCardId }) => {
         card.logoURL = reader.result;
 
         onAddOrUpdateCard(card, submitType);
+        cloudinary.imageUpload(reader.result);
       },
       false
     );

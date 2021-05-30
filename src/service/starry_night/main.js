@@ -1,5 +1,5 @@
-import MilkyWayBuilder from './milkyWay.js';
-import ShootingStarBuilder from './shootingStar.js';
+import MilkyWayBuilder from './milky_way.js';
+import ShootingStarBuilder from './shooting_star.js';
 
 export default class StarryNight {
   draw(canvas) {

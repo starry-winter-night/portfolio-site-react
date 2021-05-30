@@ -1,7 +1,7 @@
 import React, { memo, useRef, useEffect } from 'react';
 import styles from './navbar.module.css';
 import Logo from '../../common/logo/logo';
-import RocketGuide from '../../../service/rocket_guide/rocketGuide';
+import RocketGuide from '../../../service/rocket_guide/rocket_guide';
 const Navbar = memo(({ portfolioRef }) => {
   const guide = useRef();
 

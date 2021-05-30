@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Item from './item';
-import LoadContentsByObserve from '../../../../service/youtube/loadContentsByObserve';
+import LoadContentsByObserve from '../../../../service/youtube/load_contents_by_observe';
 import { useHistory } from 'react-router';
 import styles from './list.module.css';
 import Loading from '../../../common/loading/loading';

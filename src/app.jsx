@@ -13,6 +13,7 @@ const App = ({
   moveSection,
   youtube,
   authService,
+  cloudinary
 }) => {
   const [auth, setAuth] = useState(null);
 
@@ -52,7 +53,7 @@ const App = ({
           <Study youtube={youtube} auth={auth} onLogout={onLogout} />
         </Route>
         <Route path="/summary">
-          <Summary auth={auth} onLogout={onLogout} />
+          <Summary auth={auth} onLogout={onLogout} cloudinary={cloudinary}/>
         </Route>
         <Route path={['/error', '*']}>
           <Error auth={auth} onLogout={onLogout} />

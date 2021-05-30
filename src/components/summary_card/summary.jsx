@@ -6,7 +6,7 @@ import Maker from './maker/maker';
 import Preview from './preview/preview';
 import styles from './summary.module.css';
 
-const Summary = ({ auth, onLogout }) => {
+const Summary = ({ auth, onLogout, cloudinary }) => {
   const [cards, setCards] = useState({
     preview: {
       id: 'preview',
@@ -93,6 +93,7 @@ const Summary = ({ auth, onLogout }) => {
               videoId={videoId}
               onAddOrUpdateCard={onAddOrUpdateCard}
               cardId={cardId}
+              cloudinary={cloudinary}
             />
             <Preview
               cards={cards}
