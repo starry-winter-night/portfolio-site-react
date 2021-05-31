@@ -3,8 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 import styles from './card.module.css';
 import Modal from '../../common/modal/modal';
+import Loading from '../../common/loading/loading';
 
-const Card = ({ card, onEditCard, onDeleteCard }) => {
+const Card = ({ card, onEditCard, onDeleteCard, loading, onLoadingEnd }) => {
   const [modalTitle, setModalTitle] = useState('');
   const [modalWord, setModalWord] = useState('');
   const [openModal, setOpenModal] = useState('');
@@ -15,7 +16,9 @@ const Card = ({ card, onEditCard, onDeleteCard }) => {
   const DEFAULT_IMAGE = 'imgs/note.png';
   const url = logoURL || DEFAULT_IMAGE;
 
+  const cardRef = useRef();
   const descriptionRef = useRef();
+  const logoRef = useRef();
 
   const onClickEdit = () => {
     onEditCard(id);
@@ -41,12 +44,32 @@ const Card = ({ card, onEditCard, onDeleteCard }) => {
   };
 
   useEffect(() => {
-    descriptionRef.current.innerHTML = description || '';
+    if (descriptionRef.current) {
+      descriptionRef.current.innerHTML = description || '';
+    }
   }, [description]);
+
+  useEffect(() => {
+    if (logoRef.current) {
+      onLoadingEnd();
+      logoRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [logoURL]);
+
+  useEffect(() => {
+    console.log(card);
+    cardRef.current.scrollIntoView({ behavior: 'smooth' });
+  }, [card]);
 
   return (
     <>
-      <li className={styles.card}>
+      <li className={styles.card} ref={cardRef}>
+        {(loading.type === 'Add' && loading.state && id === 'preview' && (
+          <Loading styles={styles} />
+        )) ||
+          (loading.type === 'Edit' && loading.state && id === loading.key && (
+            <Loading styles={styles} />
+          ))}
         <div className={styles.bookmark}></div>
         <div className={styles.iconBox}>
           {id !== 'preview' && (
@@ -64,7 +87,7 @@ const Card = ({ card, onEditCard, onDeleteCard }) => {
             </>
           )}
         </div>
-        <img className={styles.logo} src={url} alt={logoName} />
+        <img className={styles.logo} src={url} alt={logoName} ref={logoRef} />
         <h1 className={styles.title}>{title}</h1>
         <h3 className={styles.subTitle}>{subTitle}</h3>
         <p className={styles.description} ref={descriptionRef}></p>

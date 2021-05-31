@@ -7,20 +7,19 @@ class Cloudinary {
     });
   }
   async imageUpload(file) {
-    const data = {
-      file,
-      upload_preset: `${process.env.REACT_APP_CLOUDINARY_CLOUD_UNSIGNED_NAME}`,
-    };
+    const data = new FormData();
 
-    console.log(data);
+    data.append('file', file);
+    data.append(
+      'upload_preset',
+      `${process.env.REACT_APP_CLOUDINARY_CLOUD_UNSIGNED_NAME}`
+    );
+
     try {
-      const response = await this.cloudinary.post('/image/upload', data);
-
-      console.log(response);
-
+      const response = await this.cloudinary.post('upload', data);
+      
       return response.data;
     } catch (error) {
-      console.log(error.response.data);
       return error.response.data;
     }
   }

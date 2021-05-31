@@ -1,21 +1,11 @@
-import React, { forwardRef, useEffect } from 'react';
+import React, { memo } from 'react';
 import styles from './preview.module.css';
 import Card from './card';
 
-const Preview = forwardRef(
-  ({ cards, onEditCard, onDeleteCard, scrollTop }, ref) => {
-    const section = ref.current;
-
-    useEffect(() => {
-      return () => {
-        if (section) {
-          section.scrollTop = scrollTop;
-        }
-      };
-    }, [scrollTop, section]);
-
+const Preview = memo(
+  ({ cards, onEditCard, onDeleteCard, onLoadingEnd, loading }) => {
     return (
-      <section ref={ref} className={styles.preview}>
+      <section className={styles.preview}>
         <h1 className={styles.title}>Card Preview</h1>
         <p className={styles.info}>
           <span>Card Maker</span>에서 카드를 작성할 시 <span>실시간</span>으로
@@ -23,14 +13,18 @@ const Preview = forwardRef(
           눌러주세요.
         </p>
         <ul>
-          {Object.keys(cards).map((key) => (
-            <Card
-              key={key}
-              card={cards[key]}
-              onEditCard={onEditCard}
-              onDeleteCard={onDeleteCard}
-            />
-          ))}
+          {Object.keys(cards)
+            .sort()
+            .map((key) => (
+              <Card
+                key={key}
+                card={cards[key]}
+                onEditCard={onEditCard}
+                onDeleteCard={onDeleteCard}
+                loading={loading}
+                onLoadingEnd={onLoadingEnd}
+              />
+            ))}
         </ul>
       </section>
     );

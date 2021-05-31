@@ -12,7 +12,6 @@ import Cloudinary from './service/cloudinary/cloudinary'
 
 import socketIo from 'socket.io-client';
 
-
 import Smpchat from './components/common/smp_chat/smp_chat';
 
 const starryNight = new StarryNight();

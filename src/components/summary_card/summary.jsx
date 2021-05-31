@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import Goback from '../common/goback/goback';
 import Logout from '../common/auth/logout';
@@ -19,9 +19,11 @@ const Summary = ({ auth, onLogout, cloudinary }) => {
     },
   });
   const [cardId, setCardId] = useState('preview');
-  const [scrollTop, setScrollTop] = useState(0);
-
-  const sectionRef = useRef();
+  const [loading, setLoading] = useState({
+    state: false,
+    key: null,
+    type: null,
+  });
 
   const location = useLocation();
 
@@ -45,6 +47,9 @@ const Summary = ({ auth, onLogout, cloudinary }) => {
       const updated = { ...item };
       updated[card.id] = card;
 
+      console.log(type);
+      // 여러번 찍히는걸 고쳐야할듯..
+
       if (card.id !== 'preview') {
         updated['preview'] = { id: 'preview' };
       }
@@ -55,17 +60,13 @@ const Summary = ({ auth, onLogout, cloudinary }) => {
     if (type === 'Edit') {
       setCardId('preview');
     }
-
-    if (type === 'Add') {
-      setScrollTop(sectionRef.current.scrollHeight);
-    }
   };
 
-  const onEditCard = (cardId) => {
+  const onEditCard = useCallback((cardId) => {
     setCardId(cardId);
-  };
+  }, []);
 
-  const onDeleteCard = (cardId) => {
+  const onDeleteCard = useCallback((cardId) => {
     setCards((item) => {
       const deleted = { ...item };
 
@@ -73,7 +74,19 @@ const Summary = ({ auth, onLogout, cloudinary }) => {
 
       return deleted;
     });
-  };
+  }, []);
+
+  const onLoadingStart = useCallback((id, type) => {
+    setLoading((item) => {
+      return { ...item, state: true, key: id, type };
+    });
+  }, []);
+
+  const onLoadingEnd = useCallback(() => {
+    setLoading((item) => {
+      return { ...item, state: false, key: null, type: null };
+    });
+  }, []);
 
   return (
     <>
@@ -94,13 +107,15 @@ const Summary = ({ auth, onLogout, cloudinary }) => {
               onAddOrUpdateCard={onAddOrUpdateCard}
               cardId={cardId}
               cloudinary={cloudinary}
+              onLoadingStart={onLoadingStart}
             />
             <Preview
               cards={cards}
               onEditCard={onEditCard}
               onDeleteCard={onDeleteCard}
-              ref={sectionRef}
-              scrollTop={scrollTop}
+              onLoadingEnd={onLoadingEnd}
+              loading={loading}
+              cardId={cardId}
             />
           </main>
         </>

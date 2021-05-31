@@ -1,12 +1,18 @@
 import React, { useEffect, useRef } from 'react';
-import styles from './maker.module.css';
-import Button from '../../common/button/button';
-import ImageInput from '../../common/button/imageInput';
 import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
+import Button from '../../common/button/button';
+import ImageInput from '../../common/button/imageInput';
+import styles from './maker.module.css';
 
-const Write = ({ cards, onAddOrUpdateCard, selectCardId, cloudinary }) => {
+const Write = ({
+  cards,
+  onAddOrUpdateCard,
+  selectCardId,
+  cloudinary,
+  onLoadingStart,
+}) => {
   const titleRef = useRef();
   const subtitleRef = useRef();
   const editorRef = useRef();
@@ -45,6 +51,7 @@ const Write = ({ cards, onAddOrUpdateCard, selectCardId, cloudinary }) => {
 
   const onChange = (e) => {
     if (e.currentTarget || e.source) {
+      const type = buttonValue;
       let name = '';
       let value = '';
 
@@ -68,11 +75,13 @@ const Write = ({ cards, onAddOrUpdateCard, selectCardId, cloudinary }) => {
               name = 'logoURL';
               value = reader.result;
 
-              onAddOrUpdateCard({
+              const card = {
                 ...cards[selectedId],
                 [name]: value,
                 id: selectedId,
-              });
+              };
+
+              onAddOrUpdateCard(card, type);
             },
             false
           );
@@ -85,16 +94,18 @@ const Write = ({ cards, onAddOrUpdateCard, selectCardId, cloudinary }) => {
         }
       }
 
-      onAddOrUpdateCard({
+      const card = {
         ...cards[selectedId],
         [name]: value,
         id: selectedId,
-      });
+      };
+
+      onAddOrUpdateCard(card, type);
       return;
     }
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
     const id = selectedId === 'preview' ? Date.now() : selectedId;
@@ -103,12 +114,12 @@ const Write = ({ cards, onAddOrUpdateCard, selectCardId, cloudinary }) => {
     const logo = imageRef.current.files[0] || '';
     const description = editorRef.current.getInstance().getHtml() || '';
     const bookmark = bookmarkRef.current.value;
+    const submitType = buttonValue;
 
     const card = {
       id,
       title,
       subTitle,
-      logoName: logo.name,
       description,
       bookmark,
     };
@@ -117,33 +128,21 @@ const Write = ({ cards, onAddOrUpdateCard, selectCardId, cloudinary }) => {
     labelRef.current.innerText = 'No Image';
     editorRef.current.getInstance().setHtml();
 
-    const submitType = buttonValue;
-
     if (!logo) {
       if (buttonValue === 'Edit') {
         card.logoName = cards[id].logoName;
         card.logoURL = cards[id].logoURL;
       }
+    } else {
+      onLoadingStart(id, submitType);
 
-      onAddOrUpdateCard(card, submitType);
+      const uloaded = await cloudinary.imageUpload(logo);
 
-      return;
+      card.logoName = uloaded.original_filename;
+      card.logoURL = uloaded.url;
     }
 
-    const reader = new FileReader();
-
-    reader.addEventListener(
-      'load',
-      () => {
-        card.logoURL = reader.result;
-
-        onAddOrUpdateCard(card, submitType);
-        cloudinary.imageUpload(reader.result);
-      },
-      false
-    );
-
-    reader.readAsDataURL(logo);
+    onAddOrUpdateCard(card, submitType);
   };
 
   return (
