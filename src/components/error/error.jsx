@@ -4,7 +4,7 @@ import Goback from '../common/goback/goback';
 import Logout from '../common/auth/logout';
 import styles from './error.module.css';
 
-const Error = ({ FontAwesome, auth, onLogout }) => {
+const Error = ({ FontAwesome, onLogout }) => {
   const location = useLocation();
 
   let code = location.state?.code;
@@ -29,9 +29,7 @@ const Error = ({ FontAwesome, auth, onLogout }) => {
           <header className={styles.header}>
             <Goback FontAwesome={FontAwesome} backBox={styles.backBox} />
             <div>
-              {auth === 'login' && ( //
-                <Logout onLogout={onLogout} />
-              )}
+              <Logout onLogout={onLogout} />
             </div>
           </header>
           <section className={styles.section}>

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import Goback from '../common/goback/goback';
 import Logout from '../common/auth/logout';
@@ -6,7 +6,9 @@ import Maker from './maker/maker';
 import Preview from './preview/preview';
 import styles from './summary.module.css';
 
-const Summary = ({ auth, onLogout, cloudinary }) => {
+const Summary = ({ onLogout, cloudinary }) => {
+  console.log('in');
+
   const [cards, setCards] = useState({
     preview: {
       id: 'preview',
@@ -36,22 +38,21 @@ const Summary = ({ auth, onLogout, cloudinary }) => {
     history.push('/study');
   }
 
-  useEffect(() => {
-    if (auth === 'nonLogin') {
-      history.push('/login');
-    }
-  }, [auth, history]);
-
   const onAddOrUpdateCard = (card, type) => {
     setCards((item) => {
       const updated = { ...item };
       updated[card.id] = card;
 
-      console.log(type);
-      // 여러번 찍히는걸 고쳐야할듯..
-
       if (card.id !== 'preview') {
-        updated['preview'] = { id: 'preview' };
+        updated['preview'] = {
+          id: 'preview',
+          title: '',
+          subTitle: '',
+          logoName: '',
+          logoURL: '',
+          bookmark: '',
+          description: '',
+        };
       }
 
       return updated;
@@ -90,36 +91,32 @@ const Summary = ({ auth, onLogout, cloudinary }) => {
 
   return (
     <>
-      {auth === 'login' && (
-        <>
-          <nav className={styles.navbar}>
-            <Goback backBox={styles.backBox} move="/study" />
-            <div className={styles.logoBox}>
-              <img className={styles.logo} src="imgs/note.png" alt="note"></img>
-              <h3 className={styles.title}>Summary Card</h3>
-            </div>
-            <Logout onLogout={onLogout} />
-          </nav>
-          <main className={styles.main}>
-            <Maker
-              cards={cards}
-              videoId={videoId}
-              onAddOrUpdateCard={onAddOrUpdateCard}
-              cardId={cardId}
-              cloudinary={cloudinary}
-              onLoadingStart={onLoadingStart}
-            />
-            <Preview
-              cards={cards}
-              onEditCard={onEditCard}
-              onDeleteCard={onDeleteCard}
-              onLoadingEnd={onLoadingEnd}
-              loading={loading}
-              cardId={cardId}
-            />
-          </main>
-        </>
-      )}
+      <nav className={styles.navbar}>
+        <Goback backBox={styles.backBox} move="/study" />
+        <div className={styles.logoBox}>
+          <img className={styles.logo} src="imgs/note.png" alt="note"></img>
+          <h3 className={styles.title}>Summary Card</h3>
+        </div>
+        <Logout onLogout={onLogout} />
+      </nav>
+      <main className={styles.main}>
+        <Maker
+          cards={cards}
+          videoId={videoId}
+          onAddOrUpdateCard={onAddOrUpdateCard}
+          cardId={cardId}
+          cloudinary={cloudinary}
+          onLoadingStart={onLoadingStart}
+        />
+        <Preview
+          cards={cards}
+          onEditCard={onEditCard}
+          onDeleteCard={onDeleteCard}
+          onLoadingEnd={onLoadingEnd}
+          loading={loading}
+          cardId={cardId}
+        />
+      </main>
     </>
   );
 };

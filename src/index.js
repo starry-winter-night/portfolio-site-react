@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './app';
@@ -8,7 +8,7 @@ import MoveSection from './service/menu_control/move_menu_section';
 import Youtube from './service/youtube/youtube';
 import AuthService from './service/firebase/auth_service';
 import SmpChat from './service/smp_chat/smp_chat';
-import Cloudinary from './service/cloudinary/cloudinary'
+import Cloudinary from './service/cloudinary/cloudinary';
 
 import socketIo from 'socket.io-client';
 

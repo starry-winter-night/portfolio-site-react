@@ -4,10 +4,10 @@ import styles from './login.module.css';
 import Logo from '../logo/logo';
 import Goback from '../goback/goback';
 
-const Login = ({ authService, auth }) => {
+const Login = ({ authService, auth, onLogin }) => {
   const history = useHistory();
 
-  const onLogin = (e) => {
+  const onClickLoginButton = (e) => {
     let loginType = e.target.dataset.name;
 
     if (!loginType) {
@@ -18,8 +18,8 @@ const Login = ({ authService, auth }) => {
     authService
       .login(loginType)
       .then((data) => {
-        // console.log(data.user.uid);
-        
+        onLogin(data.user.uid);
+
         history.push('/study');
       })
       .catch((e) => {
@@ -35,9 +35,9 @@ const Login = ({ authService, auth }) => {
   }, [auth, history]);
 
   return (
-    <section className={styles.section}>
+    <>
       {auth === 'nonLogin' && (
-        <>
+        <section className={styles.section}>
           <header className={styles.header}>
             <Goback backBox={styles.backBox} />
             <Logo logo={styles.logo} />
@@ -45,13 +45,13 @@ const Login = ({ authService, auth }) => {
           </header>
 
           <ul className={styles.loginButtons}>
-            <li data-name="Google" onClick={onLogin}>
+            <li data-name="Google" onClick={onClickLoginButton}>
               <button>Google</button>
             </li>
-            <li data-name="Github" onClick={onLogin}>
+            <li data-name="Github" onClick={onClickLoginButton}>
               <button>Github</button>
             </li>
-            <li data-name="Smpark" onClick={onLogin}>
+            <li data-name="Smpark" onClick={onClickLoginButton}>
               <button>SmPark</button>
             </li>
           </ul>
@@ -60,9 +60,9 @@ const Login = ({ authService, auth }) => {
               <li>2021 software engineer smpark - All rights reserved</li>
             </ul>
           </footer>
-        </>
+        </section>
       )}
-    </section>
+    </>
   );
 };
 

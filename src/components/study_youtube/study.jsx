@@ -6,7 +6,7 @@ import Loading from '../common/loading/loading';
 import styles from './study.module.css';
 import _ from 'lodash';
 
-const Study = memo(({ youtube, auth, onLogout }) => {
+const Study = memo(({ youtube, onLogout }) => {
   const [etcToggle, setEtcToggle] = useState('off');
   const [videoPlay, setVideoPlay] = useState(null);
   const [query, setQuery] = useState(null);
@@ -37,53 +37,46 @@ const Study = memo(({ youtube, auth, onLogout }) => {
   const history = useHistory();
 
   useEffect(() => {
-    if (auth === 'login') {
-      setLoading(true);
+    setLoading(true);
 
-      youtube
-        .developList() //
-        .then((result) => {
-          if (!result) {
-            setLoading(false);
-            return;
-          }
-
-          if (result.error) {
-            history.push({
-              pathname: '/error',
-              state: { code: result.error.code },
-            });
-            return;
-          }
-
-          setLayer((list) =>
-            list.map((item) => {
-              if (item.id === 'smpark') {
-                return {
-                  ...item,
-                  contents: {
-                    videoList: result.items,
-                    nextPageToken: result.nextPageToken,
-                  },
-                  view: 'on',
-                };
-              }
-
-              return { ...item, view: 'off' };
-            })
-          );
-
-          setVideoPlay(result.items[0]);
+    youtube
+      .developList() //
+      .then((result) => {
+        if (!result) {
           setLoading(false);
-        });
-      return;
-    }
-    if (auth === 'nonLogin') {
-      history.push('/login');
+          return;
+        }
 
-      return;
-    }
-  }, [auth, youtube, history]);
+        if (result.error) {
+          history.push({
+            pathname: '/error',
+            state: { code: result.error.code },
+          });
+          return;
+        }
+
+        setLayer((list) =>
+          list.map((item) => {
+            if (item.id === 'smpark') {
+              return {
+                ...item,
+                contents: {
+                  videoList: result.items,
+                  nextPageToken: result.nextPageToken,
+                },
+                view: 'on',
+              };
+            }
+
+            return { ...item, view: 'off' };
+          })
+        );
+
+        setVideoPlay(result.items[0]);
+        setLoading(false);
+      });
+    return;
+  }, [youtube, history]);
 
   const handleClickSaveVideo = useCallback((selectedList) => {
     setLayer((list) =>
@@ -200,34 +193,30 @@ const Study = memo(({ youtube, auth, onLogout }) => {
   };
 
   return (
-    <>
-      {auth === 'login' && (
-        <div className={styles.study} onClick={onStudyClick}>
-          {loading && <Loading styles={styles} />}
-          {videoPlay && !loading && (
-            <>
-              <Navbar
-                layer={layer}
-                onMenu={onSetMenu}
-                onSearch={onSearch}
-                onDropbox={onDropbox}
-                etcToggle={etcToggle}
-                onLogout={onLogout}
-              />
-              <Sections
-                layer={layer}
-                setLayer={setLayer}
-                videoPlay={videoPlay}
-                onList={handleClickVideoList}
-                onMyList={handleClickSaveVideo}
-                youtube={youtube}
-                query={query}
-              />
-            </>
-          )}
-        </div>
+    <div className={styles.study} onClick={onStudyClick}>
+      {loading && <Loading styles={styles} />}
+      {videoPlay && !loading && (
+        <>
+          <Navbar
+            layer={layer}
+            onMenu={onSetMenu}
+            onSearch={onSearch}
+            onDropbox={onDropbox}
+            etcToggle={etcToggle}
+            onLogout={onLogout}
+          />
+          <Sections
+            layer={layer}
+            setLayer={setLayer}
+            videoPlay={videoPlay}
+            onList={handleClickVideoList}
+            onMyList={handleClickSaveVideo}
+            youtube={youtube}
+            query={query}
+          />
+        </>
       )}
-    </>
+    </div>
   );
 });
 export default Study;

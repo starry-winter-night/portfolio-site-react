@@ -4,6 +4,7 @@ import Card from './card';
 
 const Preview = memo(
   ({ cards, onEditCard, onDeleteCard, onLoadingEnd, loading }) => {
+    console.log('in');
     return (
       <section className={styles.preview}>
         <h1 className={styles.title}>Card Preview</h1>

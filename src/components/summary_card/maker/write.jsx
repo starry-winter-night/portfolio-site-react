@@ -22,8 +22,8 @@ const Write = ({
   const formRef = useRef();
 
   const selectedId = selectCardId === 'preview' ? 'preview' : selectCardId;
-  const buttonValue = selectCardId === 'preview' ? 'Add' : 'Edit';
-  const addStyle = buttonValue === 'Edit' ? styles.edit : '';
+  const type = selectCardId === 'preview' ? 'Add' : 'Edit';
+  const addStyle = type === 'Edit' ? styles.edit : '';
 
   useEffect(() => {
     if (!cards[selectedId]) return;
@@ -51,18 +51,19 @@ const Write = ({
 
   const onChange = (e) => {
     if (e.currentTarget || e.source) {
-      const type = buttonValue;
       let name = '';
       let value = '';
 
       if (e.source) {
         name = 'description';
         value = editorRef.current.getInstance().getHtml();
+
+        if (!value) return;
       }
 
       if (e.currentTarget) {
         e.preventDefault();
-
+        
         name = e.currentTarget?.name;
         value = e.currentTarget?.value;
 
@@ -93,7 +94,6 @@ const Write = ({
           return;
         }
       }
-
       const card = {
         ...cards[selectedId],
         [name]: value,
@@ -114,7 +114,6 @@ const Write = ({
     const logo = imageRef.current.files[0] || '';
     const description = editorRef.current.getInstance().getHtml() || '';
     const bookmark = bookmarkRef.current.value;
-    const submitType = buttonValue;
 
     const card = {
       id,
@@ -126,15 +125,15 @@ const Write = ({
 
     formRef.current.reset();
     labelRef.current.innerText = 'No Image';
-    editorRef.current.getInstance().setHtml();
+    editorRef.current.getInstance().reset();
 
     if (!logo) {
-      if (buttonValue === 'Edit') {
+      if (type === 'Edit') {
         card.logoName = cards[id].logoName;
         card.logoURL = cards[id].logoURL;
       }
     } else {
-      onLoadingStart(id, submitType);
+      onLoadingStart(id, type);
 
       const uloaded = await cloudinary.imageUpload(logo);
 
@@ -142,7 +141,7 @@ const Write = ({
       card.logoURL = uloaded.url;
     }
 
-    onAddOrUpdateCard(card, submitType);
+    onAddOrUpdateCard(card, type);
   };
 
   return (
@@ -198,7 +197,7 @@ const Write = ({
       </div>
 
       <Button
-        value={buttonValue}
+        value={type}
         buttonStyle={styles.submitButton}
         buttonAddStyle={addStyle}
         onClick={onSubmit}

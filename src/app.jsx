@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import './app.css';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
 import Portfolio from './components/portfolio/portfolio';
 import Study from './components/study_youtube/study';
 import Login from './components/common/auth/login';
@@ -13,7 +18,7 @@ const App = ({
   moveSection,
   youtube,
   authService,
-  cloudinary
+  cloudinary,
 }) => {
   const [auth, setAuth] = useState(null);
 
@@ -26,6 +31,10 @@ const App = ({
       }
     });
   }, [authService]);
+
+  const onLogin = (uid) => {
+    setAuth('login');
+  };
 
   const onLogout = () => {
     authService.logout();
@@ -43,21 +52,35 @@ const App = ({
             starryNight={starryNight}
             highLightMenu={highLightMenu}
             moveSection={moveSection}
-            auth={auth}
           />
         </Route>
         <Route path="/login">
-          <Login authService={authService} auth={auth} />
+          {auth === 'nonLogin' ? (
+            <Login authService={authService} auth={auth} onLogin={onLogin} />
+          ) : (
+            <Redirect to="/study" />
+          )}
         </Route>
-        <Route path="/study">
-          <Study youtube={youtube} auth={auth} onLogout={onLogout} />
-        </Route>
-        <Route path="/summary">
-          <Summary auth={auth} onLogout={onLogout} cloudinary={cloudinary}/>
-        </Route>
-        <Route path={['/error', '*']}>
-          <Error auth={auth} onLogout={onLogout} />
-        </Route>
+
+        {auth === 'login' && (
+          <Route path="/study">
+            <Study youtube={youtube} onLogout={onLogout} />
+          </Route>
+        )}
+
+        {auth === 'login' && (
+          <Route path="/summary">
+            <Summary onLogout={onLogout} cloudinary={cloudinary} />
+          </Route>
+        )}
+
+        {auth === 'login' && (
+          <Route path={['/error', '*']}>
+            <Error onLogout={onLogout} />
+          </Route>
+        )}
+
+        {auth === 'nonLogin' && <Redirect to="/login" />}
       </Switch>
     </Router>
   );

@@ -7,7 +7,7 @@ import styles from './aside.module.css';
 import menuStyles from './menu.module.css';
 
 const Aside = memo(
-  ({ highLightMenu, auth, portfolioRef, sectionsRef, moveSection }) => {
+  ({ highLightMenu, portfolioRef, sectionsRef, moveSection }) => {
     const menus = [
       { id: 'home', title: 'Home' },
       { id: 'about', title: 'About' },
@@ -68,17 +68,7 @@ const Aside = memo(
     const handleStudyButtonClick = (e) => {
       e.preventDefault();
 
-      if (auth === 'login') {
-        history.push('/study');
-
-        return;
-      }
-
-      if (auth === 'nonLogin') {
-        history.push('/login');
-
-        return;
-      }
+      history.push('/study');
     };
 
     return (

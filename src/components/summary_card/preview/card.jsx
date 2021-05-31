@@ -43,6 +43,8 @@ const Card = ({ card, onEditCard, onDeleteCard, loading, onLoadingEnd }) => {
     setOpenModal('close');
   };
 
+  // console.log(card);
+
   useEffect(() => {
     if (descriptionRef.current) {
       descriptionRef.current.innerHTML = description || '';
@@ -57,7 +59,6 @@ const Card = ({ card, onEditCard, onDeleteCard, loading, onLoadingEnd }) => {
   }, [logoURL]);
 
   useEffect(() => {
-    console.log(card);
     cardRef.current.scrollIntoView({ behavior: 'smooth' });
   }, [card]);
 
