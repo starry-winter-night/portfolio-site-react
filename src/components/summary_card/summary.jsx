@@ -4,11 +4,11 @@ import Goback from '../common/goback/goback';
 import Logout from '../common/auth/logout';
 import Maker from './maker/maker';
 import Preview from './preview/preview';
+import Loading from '../common/loading/loading';
+
 import styles from './summary.module.css';
 
 const Summary = ({ onLogout, cloudinary }) => {
-  console.log('in');
-
   const [cards, setCards] = useState({
     preview: {
       id: 'preview',
@@ -20,7 +20,8 @@ const Summary = ({ onLogout, cloudinary }) => {
       description: '',
     },
   });
-  const [cardId, setCardId] = useState('preview');
+
+  const [selectedCard, setSelectedCard] = useState('preview');
   const [loading, setLoading] = useState({
     state: false,
     key: null,
@@ -38,36 +39,38 @@ const Summary = ({ onLogout, cloudinary }) => {
     history.push('/study');
   }
 
-  const onAddOrUpdateCard = (card, type) => {
+  const onUpdateCard = (card) => {
     setCards((item) => {
       const updated = { ...item };
+
       updated[card.id] = card;
 
-      if (card.id !== 'preview') {
-        updated['preview'] = {
-          id: 'preview',
-          title: '',
-          subTitle: '',
-          logoName: '',
-          logoURL: '',
-          bookmark: '',
-          description: '',
-        };
+      return updated;
+    });
+  };
+
+  const onAddCard = (card) => {
+    setCards((item) => {
+      const updated = { ...item };
+
+      if (card.id === 'preview') {
+        updated[card.id] = { ...updated['preview'], id: card.id };
+
+        updated['preview'] = { id: 'preview' };
+      } else {
+        updated[card.id] = card;
+        setSelectedCard('preview');
       }
 
       return updated;
     });
-
-    if (type === 'Edit') {
-      setCardId('preview');
-    }
   };
 
-  const onEditCard = useCallback((cardId) => {
-    setCardId(cardId);
+  const onEditButton = useCallback((cardId) => {
+    setSelectedCard(cardId);
   }, []);
 
-  const onDeleteCard = useCallback((cardId) => {
+  const onDeleteButton = useCallback((cardId) => {
     setCards((item) => {
       const deleted = { ...item };
 
@@ -103,20 +106,20 @@ const Summary = ({ onLogout, cloudinary }) => {
         <Maker
           cards={cards}
           videoId={videoId}
-          onAddOrUpdateCard={onAddOrUpdateCard}
-          cardId={cardId}
+          onAddCard={onAddCard}
+          onUpdateCard={onUpdateCard}
+          selectedCard={selectedCard}
           cloudinary={cloudinary}
           onLoadingStart={onLoadingStart}
         />
         <Preview
           cards={cards}
-          onEditCard={onEditCard}
-          onDeleteCard={onDeleteCard}
+          onEditButton={onEditButton}
+          onDeleteButton={onDeleteButton}
           onLoadingEnd={onLoadingEnd}
-          loading={loading}
-          cardId={cardId}
         />
       </main>
+      {loading.state && <Loading styles={styles} />}
     </>
   );
 };

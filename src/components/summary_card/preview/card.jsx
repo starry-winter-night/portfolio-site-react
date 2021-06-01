@@ -3,9 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
 import styles from './card.module.css';
 import Modal from '../../common/modal/modal';
-import Loading from '../../common/loading/loading';
 
-const Card = ({ card, onEditCard, onDeleteCard, loading, onLoadingEnd }) => {
+const Card = ({ card, onEditButton, onDeleteButton, onLoadingEnd }) => {
   const [modalTitle, setModalTitle] = useState('');
   const [modalWord, setModalWord] = useState('');
   const [openModal, setOpenModal] = useState('');
@@ -21,7 +20,7 @@ const Card = ({ card, onEditCard, onDeleteCard, loading, onLoadingEnd }) => {
   const logoRef = useRef();
 
   const onClickEdit = () => {
-    onEditCard(id);
+    onEditButton(id);
   };
 
   const onClickDelete = () => {
@@ -35,7 +34,7 @@ const Card = ({ card, onEditCard, onDeleteCard, loading, onLoadingEnd }) => {
 
   const onCheckModal = (type) => {
     if (type === 'delete') {
-      onDeleteCard(id);
+      onDeleteButton(id);
     }
   };
 
@@ -51,12 +50,18 @@ const Card = ({ card, onEditCard, onDeleteCard, loading, onLoadingEnd }) => {
     }
   }, [description]);
 
+  // useEffect(() => {
+  //   if (logoRef.current) {
+  //     onLoadingEnd();
+  //     logoRef.current.scrollIntoView({ behavior: 'smooth' });
+  //   }
+  // }, [logoURL]);
+
   useEffect(() => {
-    if (logoRef.current) {
-      onLoadingEnd();
-      logoRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (logoURL === logoRef.current.src) {
+      logoRef.current.addEventListener('load', onLoadingEnd);
     }
-  }, [logoURL]);
+  }, [onLoadingEnd]);
 
   useEffect(() => {
     cardRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -65,12 +70,12 @@ const Card = ({ card, onEditCard, onDeleteCard, loading, onLoadingEnd }) => {
   return (
     <>
       <li className={styles.card} ref={cardRef}>
-        {(loading.type === 'Add' && loading.state && id === 'preview' && (
+        {/* {(loading.type === 'Add' && loading.state && id === 'preview' && (
           <Loading styles={styles} />
         )) ||
           (loading.type === 'Edit' && loading.state && id === loading.key && (
             <Loading styles={styles} />
-          ))}
+          ))} */}
         <div className={styles.bookmark}></div>
         <div className={styles.iconBox}>
           {id !== 'preview' && (

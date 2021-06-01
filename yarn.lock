@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"1.0.1@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/1.0.1/-/1.0.1-1.0.0.tgz#efcf4a29389892a61fa912d26e6bbee158ae8469"
+  integrity sha1-789KKTiYkqYfqRLSbmu+4ViuhGk=
+
 "@babel/code-frame@7.10.4":
   version "7.10.4"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.10.4.tgz#168da1a36e90da68ae8d49c0f1b48c7c6249213a"
@@ -1991,6 +1996,25 @@
   integrity sha512-IR0iWbFkgd56Bu5ZI/ej8yQwrkCv8Qydx6RzwbKz9faXazR/+5tvYKsZQgyXJiwgpcva127YO6JcWy7YlCfofQ==
   dependencies:
     "@babel/runtime" "^7.12.5"
+
+"@toast-ui/editor-plugin-code-syntax-highlight@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@toast-ui/editor-plugin-code-syntax-highlight/-/editor-plugin-code-syntax-highlight-1.0.0.tgz#61898e4f721c63bb28f59e470804b8e62ef9cbe4"
+  integrity sha512-GFC+aAMfEUALw38vo3daOHWF9IO6X7lByXk0WZ6Kr6Bgp8JwsrVwMYPzWReDK+vQqwO7EVmMDltJKYr1Mjo6kA==
+  dependencies:
+    highlight.js "^9.18.1"
+
+"@toast-ui/editor-plugin-color-syntax@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@toast-ui/editor-plugin-color-syntax/-/editor-plugin-color-syntax-1.0.1.tgz#d88564310d549b822316c74128c8249404bad357"
+  integrity sha512-8ZnVFmgKGArthwLpNrnax5xx6q+WRlIUXUAev8rQEVKyXKFuK+U/YySixR8FT516779AUObQ2Fpt4KlV1bzUbA==
+  dependencies:
+    tui-color-picker "^2.2.6"
+
+"@toast-ui/editor-plugin-table-merged-cell@1.3.2":
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/@toast-ui/editor-plugin-table-merged-cell/-/editor-plugin-table-merged-cell-1.3.2.tgz#fa1e49f8591e612ff5b7098369fa2efcd899d9a6"
+  integrity sha512-80bz52MatN3LU9MD2RDkf/FWGhoioI5DQnhsn4CZz92jgnlJZycZOgX7hPycbIQqzNNZsvLlcpL8g+FRAr/4Xw==
 
 "@toast-ui/editor@^2.5.2":
   version "2.5.2"
@@ -5957,6 +5981,16 @@ hex-color-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/hex-color-regex/-/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
   integrity sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==
 
+highlight.js@^11.0.0:
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-11.0.0.tgz#e22ac9ca45edc4f87a2187685d591a108ceb8449"
+  integrity sha512-ByaTMfsSuoqerTwemOgpIhfULEIaK52JJYhky/sK7/Yqc0+t7Uh5DHay9vIC94YXSupnQ1Vqfc9VXrYP4eXW3Q==
+
+highlight.js@^9.18.1:
+  version "9.18.5"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-9.18.5.tgz#d18a359867f378c138d6819edfc2a8acd5f29825"
+  integrity sha512-a5bFyofd/BHCX52/8i8uJkjr9DYwXIPnM/plwI6W7ezItLGqzt7X2G2nXuYSfsIJdkwwj/g9DG1LkcGJI/dDoA==
+
 history@^4.9.0:
   version "4.10.1"
   resolved "https://registry.yarnpkg.com/history/-/history-4.10.1.tgz#33371a65e3a83b267434e2b3f3b1b4c58aad4cf3"
@@ -6156,6 +6190,11 @@ human-signals@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-1.1.1.tgz#c5b1cd14f50aeae09ab6c59fe63ba3395fe4dfa3"
   integrity sha512-SEQu7vl8KjNL2eoGBLF3+wAjpsNfA9XMlXAYj/3EdaNfAlxKthD1xjEQfGOUhllCGGJVNY34bRr6lPINhNjyZw==
+
+i@^0.3.6:
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/i/-/i-0.3.6.tgz#d96c92732076f072711b6b10fd7d4f65ad8ee23d"
+  integrity sha1-2WyScyB28HJxG2sQ/X1PZa2O4j0=
 
 iconv-lite@0.4.24:
   version "0.4.24"
@@ -11312,6 +11351,18 @@ tty-browserify@0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/tty-browserify/-/tty-browserify-0.0.0.tgz#a157ba402da24e9bf957f9aa69d524eed42901a6"
   integrity sha1-oVe6QC2iTpv5V/mqadUk7tQpAaY=
+
+tui-code-snippet@^2.2.0:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/tui-code-snippet/-/tui-code-snippet-2.3.2.tgz#39eb3ce46ea92043b3244f155797248535880c5d"
+  integrity sha512-6jGbM/m7A2L59lJSripwMVp87awrWgJXezlLV8GuAha3s0k01E4+MndoU5WlXd4dauVRgzHhKguTVslx/jMehw==
+
+tui-color-picker@^2.2.6:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/tui-color-picker/-/tui-color-picker-2.2.6.tgz#bab54e47380e550bb3ac8ae974021b3cc2518aa9"
+  integrity sha512-+GBTUFGOkDaFiyYt/4IJTKA68Oj7fC9lU+RHs56luyFHYSO3gWuvsZntxAvFFeCGiZFFhu9XQQaZ0rVS5TUOmA==
+  dependencies:
+    tui-code-snippet "^2.2.0"
 
 tunnel-agent@^0.6.0:
   version "0.6.0"

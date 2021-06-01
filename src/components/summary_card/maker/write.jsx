@@ -2,14 +2,21 @@ import React, { useEffect, useRef } from 'react';
 import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
-import Button from '../../common/button/button';
+import 'tui-color-picker/dist/tui-color-picker.css';
+import hljs from 'highlight.js/lib/common';
+import 'highlight.js/styles/github.css';
+import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
+import tableMergedCell from '@toast-ui/editor-plugin-table-merged-cell';
+import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
+
 import ImageInput from '../../common/button/imageInput';
 import styles from './maker.module.css';
 
 const Write = ({
   cards,
-  onAddOrUpdateCard,
-  selectCardId,
+  onAddCard,
+  onUpdateCard,
+  selectedCard,
   cloudinary,
   onLoadingStart,
 }) => {
@@ -21,12 +28,12 @@ const Write = ({
   const labelRef = useRef();
   const formRef = useRef();
 
-  const selectedId = selectCardId === 'preview' ? 'preview' : selectCardId;
-  const type = selectCardId === 'preview' ? 'Add' : 'Edit';
+  const key = selectedCard;
+  const type = selectedCard === 'preview' ? 'Add' : 'Edit';
   const addStyle = type === 'Edit' ? styles.edit : '';
 
   useEffect(() => {
-    if (!cards[selectedId]) return;
+    if (!cards[key]) return;
 
     const {
       title, //
@@ -35,8 +42,9 @@ const Write = ({
       logoName,
       logoURL,
       bookmark,
-    } = cards[selectedId];
-
+    } = cards[key];
+    const dd = editorRef.current.getInstance();
+    console.log(dd);
     titleRef.current.value = title || '';
     subtitleRef.current.value = subTitle || '';
     editorRef.current.getInstance().setHtml(description || '');
@@ -47,7 +55,7 @@ const Write = ({
       bookmarkRef.current.value = bookmark;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedId]);
+  }, [key]);
 
   const onChange = (e) => {
     if (e.currentTarget || e.source) {
@@ -63,85 +71,71 @@ const Write = ({
 
       if (e.currentTarget) {
         e.preventDefault();
-        
-        name = e.currentTarget?.name;
-        value = e.currentTarget?.value;
 
         if (e.currentTarget.files) {
+          const logo = e.currentTarget.files[0];
           const reader = new FileReader();
 
           reader.addEventListener(
             'load',
             () => {
-              name = 'logoURL';
-              value = reader.result;
+              const logoURL = reader.result;
 
               const card = {
-                ...cards[selectedId],
-                [name]: value,
-                id: selectedId,
+                ...cards[key],
+                logoURL,
+                logoName: logo.name,
+                id: key,
               };
 
-              onAddOrUpdateCard(card, type);
+              onUpdateCard(card);
             },
             false
           );
 
-          labelRef.current.innerText = e.currentTarget.files[0].name;
+          labelRef.current.innerText = logo.name;
 
-          reader.readAsDataURL(e.currentTarget.files[0]);
+          reader.readAsDataURL(logo);
 
           return;
         }
+
+        name = e.currentTarget?.name;
+        value = e.currentTarget?.value;
       }
+
       const card = {
-        ...cards[selectedId],
+        ...cards[key],
         [name]: value,
-        id: selectedId,
+        id: key,
       };
 
-      onAddOrUpdateCard(card, type);
-      return;
+      onUpdateCard(card);
     }
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const id = selectedId === 'preview' ? Date.now() : selectedId;
-    const title = titleRef.current.value || '';
-    const subTitle = subtitleRef.current.value || '';
     const logo = imageRef.current.files[0] || '';
-    const description = editorRef.current.getInstance().getHtml() || '';
-    const bookmark = bookmarkRef.current.value;
 
     const card = {
-      id,
-      title,
-      subTitle,
-      description,
-      bookmark,
+      id: key === 'preview' ? Date.now() : key,
     };
 
     formRef.current.reset();
     labelRef.current.innerText = 'No Image';
     editorRef.current.getInstance().reset();
 
-    if (!logo) {
-      if (type === 'Edit') {
-        card.logoName = cards[id].logoName;
-        card.logoURL = cards[id].logoURL;
-      }
-    } else {
-      onLoadingStart(id, type);
+    if (logo) {
+      onLoadingStart(card.id);
 
-      const uloaded = await cloudinary.imageUpload(logo);
-
-      card.logoName = uloaded.original_filename;
-      card.logoURL = uloaded.url;
+      await cloudinary.imageUpload(logo);
     }
 
-    onAddOrUpdateCard(card, type);
+    console.log(card);
+
+    onAddCard(card);
   };
 
   return (
@@ -185,23 +179,23 @@ const Write = ({
       <div className={styles.editor}>
         <Editor
           className={styles.toastEditor}
-          height="auto"
           previewStyle="tab"
+          height="250px"
           previewHighlight={false}
           initialEditType="wysiwyg"
           useCommandShortcut={true}
-          usageStatistics={true}
+          usageStatistics={false}
+          hideModeSwitch={true}
+          plugins={[
+            colorSyntax,
+            tableMergedCell,
+            codeSyntaxHighlight,
+            { hljs },
+          ]}
           ref={editorRef}
           onChange={onChange}
         />
       </div>
-
-      <Button
-        value={type}
-        buttonStyle={styles.submitButton}
-        buttonAddStyle={addStyle}
-        onClick={onSubmit}
-      />
     </form>
   );
 };

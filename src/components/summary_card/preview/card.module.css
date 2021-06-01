@@ -11,6 +11,7 @@
   border-radius: 15px;
   position: relative;
   word-break: break-all;
+  min-height: 258px;
 }
 
 .card:nth-last-child(2) {
@@ -261,4 +262,3 @@
 .loading {
   width: 100px;
 }
-

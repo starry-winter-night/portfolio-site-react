@@ -6,11 +6,11 @@ import Video from '../../common/youtube/video';
 const Maker = ({
   cards,
   videoId,
-  onAddOrUpdateCard,
-  cardId,
+  onAddCard,
+  onUpdateCard,
+  selectedCard,
   cloudinary,
   onLoadingStart,
-  onLoadingEnd,
 }) => (
   <section className={styles.maker}>
     <h1 className={styles.title}>Card Maker</h1>
@@ -18,8 +18,9 @@ const Maker = ({
     <ul>
       <Write
         cards={cards}
-        selectCardId={cardId}
-        onAddOrUpdateCard={onAddOrUpdateCard}
+        selectedCard={selectedCard}
+        onAddCard={onAddCard}
+        onUpdateCard={onUpdateCard}
         cloudinary={cloudinary}
         onLoadingStart={onLoadingStart}
       />
