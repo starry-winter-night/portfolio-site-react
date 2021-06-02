@@ -1,10 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faEdit, faPlus } from '@fortawesome/free-solid-svg-icons';
 import styles from './card.module.css';
 import Modal from '../../common/modal/modal';
 
-const Card = ({ card, onEditButton, onDeleteButton, onLoadingEnd }) => {
+const Card = ({
+  card,
+  onEditButton,
+  onDeleteButton,
+  onLoadingEnd,
+  onAddButton,
+  selectedCard,
+}) => {
   const [modalTitle, setModalTitle] = useState('');
   const [modalWord, setModalWord] = useState('');
   const [openModal, setOpenModal] = useState('');
@@ -21,6 +28,13 @@ const Card = ({ card, onEditButton, onDeleteButton, onLoadingEnd }) => {
 
   const onClickEdit = () => {
     onEditButton(id);
+  };
+
+  const onClickAdd = (e) => {
+    e.preventDefault();
+
+    console.log(card.id);
+    onAddButton(selectedCard.id);
   };
 
   const onClickDelete = () => {
@@ -41,8 +55,6 @@ const Card = ({ card, onEditButton, onDeleteButton, onLoadingEnd }) => {
   const onCloseModal = () => {
     setOpenModal('close');
   };
-
-  // console.log(card);
 
   useEffect(() => {
     if (descriptionRef.current) {
@@ -70,27 +82,31 @@ const Card = ({ card, onEditButton, onDeleteButton, onLoadingEnd }) => {
   return (
     <>
       <li className={styles.card} ref={cardRef}>
-        {/* {(loading.type === 'Add' && loading.state && id === 'preview' && (
-          <Loading styles={styles} />
-        )) ||
-          (loading.type === 'Edit' && loading.state && id === loading.key && (
-            <Loading styles={styles} />
-          ))} */}
         <div className={styles.bookmark}></div>
         <div className={styles.iconBox}>
+          {id !== selectedCard.id && (
+            <FontAwesomeIcon
+              className={styles.edit}
+              icon={faEdit}
+              onClick={onClickEdit}
+            />
+          )}
+
           {id !== 'preview' && (
             <>
-              <FontAwesomeIcon
-                className={styles.edit}
-                icon={faEdit}
-                onClick={onClickEdit}
-              />
               <FontAwesomeIcon
                 className={styles.delete}
                 icon={faTrashAlt}
                 onClick={onClickDelete}
               />
             </>
+          )}
+          {id === 'preview' && (
+            <FontAwesomeIcon
+              className={styles.add}
+              icon={faPlus}
+              onClick={onClickAdd}
+            />
           )}
         </div>
         <img className={styles.logo} src={url} alt={logoName} ref={logoRef} />

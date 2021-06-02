@@ -6,7 +6,6 @@ import Video from '../../common/youtube/video';
 const Maker = ({
   cards,
   videoId,
-  onAddCard,
   onUpdateCard,
   selectedCard,
   cloudinary,
@@ -19,7 +18,6 @@ const Maker = ({
       <Write
         cards={cards}
         selectedCard={selectedCard}
-        onAddCard={onAddCard}
         onUpdateCard={onUpdateCard}
         cloudinary={cloudinary}
         onLoadingStart={onLoadingStart}

@@ -12,16 +12,11 @@ const Summary = ({ onLogout, cloudinary }) => {
   const [cards, setCards] = useState({
     preview: {
       id: 'preview',
-      title: '',
-      subTitle: '',
-      logoName: '',
-      logoURL: '',
-      bookmark: '',
-      description: '',
     },
   });
-
-  const [selectedCard, setSelectedCard] = useState('preview');
+  const [selectedCard, setSelectedCard] = useState({
+    id: 'preview',
+  });
   const [loading, setLoading] = useState({
     state: false,
     key: null,
@@ -39,7 +34,7 @@ const Summary = ({ onLogout, cloudinary }) => {
     history.push('/study');
   }
 
-  const onUpdateCard = (card) => {
+  const onUpdateCard = useCallback((card) => {
     setCards((item) => {
       const updated = { ...item };
 
@@ -47,27 +42,27 @@ const Summary = ({ onLogout, cloudinary }) => {
 
       return updated;
     });
-  };
+  }, []);
 
-  const onAddCard = (card) => {
+  const onAddButton = useCallback((currentId) => {
+    const key = Date.now();
+
     setCards((item) => {
       const updated = { ...item };
 
-      if (card.id === 'preview') {
-        updated[card.id] = { ...updated['preview'], id: card.id };
+      updated[key] = { ...updated['preview'], id: key };
 
-        updated['preview'] = { id: 'preview' };
-      } else {
-        updated[card.id] = card;
-        setSelectedCard('preview');
-      }
+      updated['preview'] = { id: 'preview' };
 
       return updated;
     });
-  };
+
+    if (currentId !== 'preview') return;
+    setSelectedCard({ id: key });
+  }, []);
 
   const onEditButton = useCallback((cardId) => {
-    setSelectedCard(cardId);
+    setSelectedCard({ id: cardId });
   }, []);
 
   const onDeleteButton = useCallback((cardId) => {
@@ -78,6 +73,8 @@ const Summary = ({ onLogout, cloudinary }) => {
 
       return deleted;
     });
+
+    setSelectedCard({ id: 'preview' });
   }, []);
 
   const onLoadingStart = useCallback((id, type) => {
@@ -103,20 +100,24 @@ const Summary = ({ onLogout, cloudinary }) => {
         <Logout onLogout={onLogout} />
       </nav>
       <main className={styles.main}>
-        <Maker
-          cards={cards}
-          videoId={videoId}
-          onAddCard={onAddCard}
-          onUpdateCard={onUpdateCard}
-          selectedCard={selectedCard}
-          cloudinary={cloudinary}
-          onLoadingStart={onLoadingStart}
-        />
+        {cards[selectedCard.id] && (
+          <Maker
+            cards={cards}
+            videoId={videoId}
+            onUpdateCard={onUpdateCard}
+            selectedCard={selectedCard}
+            cloudinary={cloudinary}
+            onLoadingStart={onLoadingStart}
+          />
+        )}
+
         <Preview
           cards={cards}
+          onAddButton={onAddButton}
           onEditButton={onEditButton}
           onDeleteButton={onDeleteButton}
           onLoadingEnd={onLoadingEnd}
+          selectedCard={selectedCard}
         />
       </main>
       {loading.state && <Loading styles={styles} />}

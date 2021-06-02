@@ -1,24 +1,23 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRedoAlt } from '@fortawesome/free-solid-svg-icons';
+import { Editor } from '@toast-ui/react-editor';
 import 'codemirror/lib/codemirror.css';
 import '@toast-ui/editor/dist/toastui-editor.css';
-import { Editor } from '@toast-ui/react-editor';
 import 'tui-color-picker/dist/tui-color-picker.css';
-import hljs from 'highlight.js/lib/common';
-import 'highlight.js/styles/github.css';
 import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import tableMergedCell from '@toast-ui/editor-plugin-table-merged-cell';
-import codeSyntaxHighlight from '@toast-ui/editor-plugin-code-syntax-highlight';
 
 import ImageInput from '../../common/button/imageInput';
+import Button from '../../common/button/button';
 import styles from './maker.module.css';
 
 const Write = ({
   cards,
-  onAddCard,
-  onUpdateCard,
   selectedCard,
   cloudinary,
   onLoadingStart,
+  onUpdateCard,
 }) => {
   const titleRef = useRef();
   const subtitleRef = useRef();
@@ -28,9 +27,8 @@ const Write = ({
   const labelRef = useRef();
   const formRef = useRef();
 
-  const key = selectedCard;
-  const type = selectedCard === 'preview' ? 'Add' : 'Edit';
-  const addStyle = type === 'Edit' ? styles.edit : '';
+  const key = selectedCard.id;
+  const state = selectedCard.state;
 
   useEffect(() => {
     if (!cards[key]) return;
@@ -43,8 +41,7 @@ const Write = ({
       logoURL,
       bookmark,
     } = cards[key];
-    const dd = editorRef.current.getInstance();
-    console.log(dd);
+
     titleRef.current.value = title || '';
     subtitleRef.current.value = subTitle || '';
     editorRef.current.getInstance().setHtml(description || '');
@@ -55,18 +52,17 @@ const Write = ({
       bookmarkRef.current.value = bookmark;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key]);
+  }, [key, state]);
 
   const onChange = (e) => {
     if (e.currentTarget || e.source) {
+      let card = {};
       let name = '';
       let value = '';
 
       if (e.source) {
         name = 'description';
         value = editorRef.current.getInstance().getHtml();
-
-        if (!value) return;
       }
 
       if (e.currentTarget) {
@@ -74,16 +70,30 @@ const Write = ({
 
         if (e.currentTarget.files) {
           const logo = e.currentTarget.files[0];
+
+          if (!logo) {
+            labelRef.current.innerText = 'No Image';
+
+            card = {
+              ...cards[key],
+              logoURL: 'imgs/note.png',
+              logoName: 'note.png',
+              id: key,
+            };
+
+            onUpdateCard(card);
+
+            return;
+          }
+
           const reader = new FileReader();
 
           reader.addEventListener(
             'load',
             () => {
-              const logoURL = reader.result;
-
-              const card = {
+              card = {
                 ...cards[key],
-                logoURL,
+                logoURL: reader.result,
                 logoName: logo.name,
                 id: key,
               };
@@ -104,15 +114,38 @@ const Write = ({
         value = e.currentTarget?.value;
       }
 
-      const card = {
+      card = {
         ...cards[key],
         [name]: value,
         id: key,
       };
 
+      if (!value) delete card[name];
+
+      if (JSON.stringify(card) === JSON.stringify(cards[key])) {
+        return;
+      }
+
       onUpdateCard(card);
     }
   };
+
+  const onReset = useCallback(
+    (e) => {
+      e.preventDefault();
+
+      formRef.current.reset();
+      labelRef.current.innerText = 'No Image';
+      editorRef.current.getInstance().reset();
+
+      const card = {
+        id: key,
+      };
+
+      onUpdateCard(card);
+    },
+    [key, onUpdateCard]
+  );
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -123,10 +156,6 @@ const Write = ({
       id: key === 'preview' ? Date.now() : key,
     };
 
-    formRef.current.reset();
-    labelRef.current.innerText = 'No Image';
-    editorRef.current.getInstance().reset();
-
     if (logo) {
       onLoadingStart(card.id);
 
@@ -135,7 +164,7 @@ const Write = ({
 
     console.log(card);
 
-    onAddCard(card);
+    // onAddCard(card);
   };
 
   return (
@@ -156,7 +185,7 @@ const Write = ({
         ref={subtitleRef}
         onChange={onChange}
       ></input>
-      <div className={`${styles.fileInput} ${addStyle}`}>
+      <div className={styles.fileInput}>
         <ImageInput
           word="No Image"
           imageLabelStyle={styles.imageLabel}
@@ -175,7 +204,11 @@ const Write = ({
         <option value="pink">pink</option>
         <option value="colorful">colorful</option>
       </select>
-
+      <Button
+        value={<FontAwesomeIcon icon={faRedoAlt} />}
+        onClick={onReset}
+        buttonStyle={styles.reset}
+      />
       <div className={styles.editor}>
         <Editor
           className={styles.toastEditor}
@@ -186,12 +219,7 @@ const Write = ({
           useCommandShortcut={true}
           usageStatistics={false}
           hideModeSwitch={true}
-          plugins={[
-            colorSyntax,
-            tableMergedCell,
-            codeSyntaxHighlight,
-            { hljs },
-          ]}
+          plugins={[colorSyntax, tableMergedCell]}
           ref={editorRef}
           onChange={onChange}
         />
