@@ -6,7 +6,7 @@ import Loading from '../common/loading/loading';
 import styles from './study.module.css';
 import _ from 'lodash';
 
-const Study = memo(({ youtube, onLogout }) => {
+const Study = memo(({ youtube, authService }) => {
   const [etcToggle, setEtcToggle] = useState('off');
   const [videoPlay, setVideoPlay] = useState(null);
   const [query, setQuery] = useState(null);
@@ -36,47 +36,56 @@ const Study = memo(({ youtube, onLogout }) => {
 
   const history = useHistory();
 
+  const auth = localStorage.getItem('state');
+
   useEffect(() => {
-    setLoading(true);
+    authService.loginUserCheck((user) => {
+      if (!user || !auth) history.push('/login');
+    });
+  }, [auth, authService, history]);
 
-    youtube
-      .developList() //
-      .then((result) => {
-        if (!result) {
+  useEffect(() => {
+    if (auth) {
+      setLoading(true);
+
+      youtube
+        .developList() //
+        .then((result) => {
+          if (!result) {
+            setLoading(false);
+            return;
+          }
+
+          if (result.error) {
+            history.push({
+              pathname: '/error',
+              state: { code: result.error.code },
+            });
+            return;
+          }
+
+          setLayer((list) =>
+            list.map((item) => {
+              if (item.id === 'smpark') {
+                return {
+                  ...item,
+                  contents: {
+                    videoList: result.items,
+                    nextPageToken: result.nextPageToken,
+                  },
+                  view: 'on',
+                };
+              }
+
+              return { ...item, view: 'off' };
+            })
+          );
+
+          setVideoPlay(result.items[0]);
           setLoading(false);
-          return;
-        }
-
-        if (result.error) {
-          history.push({
-            pathname: '/error',
-            state: { code: result.error.code },
-          });
-          return;
-        }
-
-        setLayer((list) =>
-          list.map((item) => {
-            if (item.id === 'smpark') {
-              return {
-                ...item,
-                contents: {
-                  videoList: result.items,
-                  nextPageToken: result.nextPageToken,
-                },
-                view: 'on',
-              };
-            }
-
-            return { ...item, view: 'off' };
-          })
-        );
-
-        setVideoPlay(result.items[0]);
-        setLoading(false);
-      });
-    return;
-  }, [youtube, history]);
+        });
+    }
+  }, [youtube, history, auth]);
 
   const handleClickSaveVideo = useCallback((selectedList) => {
     setLayer((list) =>
@@ -193,30 +202,34 @@ const Study = memo(({ youtube, onLogout }) => {
   };
 
   return (
-    <div className={styles.study} onClick={onStudyClick}>
-      {loading && <Loading styles={styles} />}
-      {videoPlay && !loading && (
-        <>
-          <Navbar
-            layer={layer}
-            onMenu={onSetMenu}
-            onSearch={onSearch}
-            onDropbox={onDropbox}
-            etcToggle={etcToggle}
-            onLogout={onLogout}
-          />
-          <Sections
-            layer={layer}
-            setLayer={setLayer}
-            videoPlay={videoPlay}
-            onList={handleClickVideoList}
-            onMyList={handleClickSaveVideo}
-            youtube={youtube}
-            query={query}
-          />
-        </>
+    <>
+      {auth && (
+        <div className={styles.study} onClick={onStudyClick}>
+          {loading && <Loading styles={styles} />}
+          {videoPlay && !loading && (
+            <>
+              <Navbar
+                layer={layer}
+                onMenu={onSetMenu}
+                onSearch={onSearch}
+                onDropbox={onDropbox}
+                etcToggle={etcToggle}
+                authService={authService}
+              />
+              <Sections
+                layer={layer}
+                setLayer={setLayer}
+                videoPlay={videoPlay}
+                onList={handleClickVideoList}
+                onMyList={handleClickSaveVideo}
+                youtube={youtube}
+                query={query}
+              />
+            </>
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 });
 export default Study;

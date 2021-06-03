@@ -1,11 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import styles from './login.module.css';
 import Logo from '../logo/logo';
 import Goback from '../goback/goback';
 
-const Login = ({ authService, auth, onLogin }) => {
+const Login = ({ authService }) => {
   const history = useHistory();
+  const auth = localStorage.getItem('state');
+
+  const goToStudy = useCallback(
+    (id) => {
+      history.push({
+        pathname: '/study',
+        state: { id },
+      });
+    },
+    [history]
+  );
 
   const onClickLoginButton = (e) => {
     let loginType = e.target.dataset.name;
@@ -18,25 +29,32 @@ const Login = ({ authService, auth, onLogin }) => {
     authService
       .login(loginType)
       .then((data) => {
-        onLogin(data.user.uid);
+        localStorage.setItem('state', data.user.uid);
 
-        history.push('/study');
+        goToStudy(data.user.uid);
       })
       .catch((e) => {
+        console.log(e);
         e.code === 'auth/account-exists-with-different-credential' &&
           alert(
             `같은 이메일 주소가 등록되어 있습니다. 기존의 등록한 방식으로 로그인하여 주십시오. ${e.email}`
           );
+
+        localStorage.clear();
       });
   };
 
   useEffect(() => {
-    auth === 'login' && history.push('/study');
-  }, [auth, history]);
+    authService.loginUserCheck((user) => {
+      if (user) {
+        goToStudy(user.uid);
+      }
+    });
+  }, [authService, goToStudy]);
 
   return (
     <>
-      {auth === 'nonLogin' && (
+      {!auth && (
         <section className={styles.section}>
           <header className={styles.header}>
             <Goback backBox={styles.backBox} />

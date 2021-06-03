@@ -1,13 +1,9 @@
 import React from 'react';
-import { useHistory } from 'react-router';
 import styles from './logout.module.css';
-const Logout = ({ onLogout }) => {
-  const history = useHistory();
-
+const Logout = ({ authService }) => {
   const hadleLogout = () => {
-    onLogout();
-
-    history.push('/login');
+    localStorage.clear();
+    authService.logout();
   };
   return (
     <button className={styles.logout} onClick={hadleLogout}>

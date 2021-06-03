@@ -14,10 +14,6 @@
   min-height: 258px;
 }
 
-.card:nth-last-child(2) {
-  margin-bottom: 45px;
-}
-
 .card:nth-last-child(2)::before {
   content: '';
   display: block;
@@ -26,7 +22,7 @@
   height: 3px;
   background-color: var(--color-blue);
   position: absolute;
-  bottom: -25px;
+  bottom: -17px;
 }
 
 .bookmark {
@@ -79,13 +75,13 @@
 }
 
 .logo {
-  max-width: 60px;
-  max-height: 60px;
+  max-width: 3.5em;
+  max-height: 3.5em;
   margin: 0 20px 0 20px;
 }
 
 .title {
-  font-size: 2rem;
+  font-size: 1.7rem;
   margin: 0;
   word-break: break-all;
 }
@@ -259,15 +255,3 @@
 .description table img {
   max-width: 150px;
 }
-/* 
-.loadingBox {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-}
-
-.loading {
-  width: 100px;
-} */

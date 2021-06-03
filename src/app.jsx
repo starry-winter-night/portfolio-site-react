@@ -1,11 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './app.css';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Portfolio from './components/portfolio/portfolio';
 import Study from './components/study_youtube/study';
 import Login from './components/common/auth/login';
@@ -20,30 +15,6 @@ const App = ({
   authService,
   cloudinary,
 }) => {
-  const [auth, setAuth] = useState(null);
-
-  useEffect(() => {
-    authService.loginUserCheck((user) => {
-      if (user) {
-        setAuth('login');
-      } else {
-        setAuth('nonLogin');
-      }
-    });
-  }, [authService]);
-
-  const onLogin = (uid) => {
-    setAuth('login');
-  };
-
-  const onLogout = () => {
-    authService.logout();
-
-    setAuth('nonLogin');
-
-    return;
-  };
-
   return (
     <Router>
       <Switch>
@@ -54,33 +25,22 @@ const App = ({
             moveSection={moveSection}
           />
         </Route>
+
         <Route path="/login">
-          {auth === 'nonLogin' ? (
-            <Login authService={authService} auth={auth} onLogin={onLogin} />
-          ) : (
-            <Redirect to="/study" />
-          )}
+          <Login authService={authService} />
         </Route>
 
-        {auth === 'login' && (
-          <Route path="/study">
-            <Study youtube={youtube} onLogout={onLogout} />
-          </Route>
-        )}
+        <Route path="/study">
+          <Study youtube={youtube} authService={authService} />
+        </Route>
 
-        {auth === 'login' && (
-          <Route path="/summary">
-            <Summary onLogout={onLogout} cloudinary={cloudinary} />
-          </Route>
-        )}
+        <Route path="/summary">
+          <Summary authService={authService} cloudinary={cloudinary} />
+        </Route>
 
-        {auth === 'login' && (
-          <Route path={['/error', '*']}>
-            <Error onLogout={onLogout} />
-          </Route>
-        )}
-
-        {auth === 'nonLogin' && <Redirect to="/login" />}
+        <Route path={['/error', '*']}>
+          <Error authService={authService} />
+        </Route>
       </Switch>
     </Router>
   );

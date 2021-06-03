@@ -5,7 +5,6 @@ import Goback from '../../common/goback/goback';
 import Search from '../../common/search/search';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
-import { useHistory } from 'react-router';
 
 const Navbar = ({
   layer,
@@ -13,18 +12,15 @@ const Navbar = ({
   onSearch,
   onDropbox,
   etcToggle,
-  onLogout,
+  authService,
 }) => {
-  const history = useHistory();
-
-  const hadleToggle = () => {
+  const onClickToggle = () => {
     onDropbox();
   };
 
-  const hadleLogout = () => {
-    onLogout();
-
-    history.push('/login');
+  const onClickLogout = () => {
+    localStorage.clear();
+    authService.logout();
   };
 
   return (
@@ -35,12 +31,12 @@ const Navbar = ({
         {layer.map((item) => (
           <Menu key={item.id} onMenu={onMenu} item={item} />
         ))}
-        <li className={styles.etc} onClick={hadleToggle} data-id="etc">
+        <li className={styles.etc} onClick={onClickToggle} data-id="etc">
           <FontAwesomeIcon icon={faEllipsisV} />
           {etcToggle === 'on' && (
             <div className={styles.dropbox}>
               <ul className={styles.list}>
-                <li onClick={hadleLogout}>logout</li>
+                <li onClick={onClickLogout}>logout</li>
               </ul>
             </div>
           )}
