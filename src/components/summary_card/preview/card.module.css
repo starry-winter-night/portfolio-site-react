@@ -58,7 +58,8 @@
 
 .edit,
 .delete,
-.add {
+.add,
+.check {
   color: #ddd;
   margin: 5px 0 0 30px;
   cursor: pointer;
@@ -66,8 +67,15 @@
 }
 
 .edit:hover,
-.delete:hover {
+.delete:hover,
+.add:hover {
   transform: scale(1.2);
+}
+
+.check {
+  cursor: initial;
+  user-select: none;
+  color: var(--color-blue);
 }
 
 .logo {
@@ -251,7 +259,7 @@
 .description table img {
   max-width: 150px;
 }
-
+/* 
 .loadingBox {
   position: absolute;
   top: 50%;
@@ -262,4 +270,4 @@
 
 .loading {
   width: 100px;
-}
+} */

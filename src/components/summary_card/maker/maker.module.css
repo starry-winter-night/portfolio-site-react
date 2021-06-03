@@ -59,8 +59,9 @@
   max-height: 35px;
   border-bottom: 1px solid #27272a;
   border-right: 1px solid #27272a;
-  background-color: var(--color-orange);
+  background-color: var(--color-blue);
   transition: ease all 200ms;
+  position: relative;
 }
 
 .select {
@@ -69,17 +70,36 @@
 
 .reset {
   flex-basis: 10%;
+  background-color: var(--color-orange);
+  border-bottom: 1px solid #27272a;
+  border-right: 1px solid #27272a;
+  transition: ease all 200ms;
+}
+
+.reset:hover {
+  background-color: #de5528;
+  border-bottom: 1px solid #27272a;
+  border-right: 1px solid #27272a;
+  height: 35px;
+}
+
+.reset:hover svg {
+  animation-duration: 3000ms;
+  animation-name: spin;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .fileInput:hover {
-  background-color: #de5528;
-}
-
-.fileInput.edit {
-  background-color: var(--color-blue);
-}
-
-.fileInput.edit:hover {
   background-color: #6a9bbd;
 }
 

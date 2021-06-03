@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faEdit, faPlus } from '@fortawesome/free-solid-svg-icons';
+import {
+  faTrashAlt,
+  faEdit,
+  faPlus,
+  faCheck,
+} from '@fortawesome/free-solid-svg-icons';
 import styles from './card.module.css';
 import Modal from '../../common/modal/modal';
 
@@ -8,7 +13,6 @@ const Card = ({
   card,
   onEditButton,
   onDeleteButton,
-  onLoadingEnd,
   onAddButton,
   selectedCard,
 }) => {
@@ -33,7 +37,6 @@ const Card = ({
   const onClickAdd = (e) => {
     e.preventDefault();
 
-    console.log(card.id);
     onAddButton(selectedCard.id);
   };
 
@@ -70,12 +73,6 @@ const Card = ({
   // }, [logoURL]);
 
   useEffect(() => {
-    if (logoURL === logoRef.current.src) {
-      logoRef.current.addEventListener('load', onLoadingEnd);
-    }
-  }, [onLoadingEnd]);
-
-  useEffect(() => {
     cardRef.current.scrollIntoView({ behavior: 'smooth' });
   }, [card]);
 
@@ -92,14 +89,19 @@ const Card = ({
             />
           )}
 
+          {id === selectedCard.id && (
+            <FontAwesomeIcon //
+              className={styles.check}
+              icon={faCheck}
+            />
+          )}
+
           {id !== 'preview' && (
-            <>
-              <FontAwesomeIcon
-                className={styles.delete}
-                icon={faTrashAlt}
-                onClick={onClickDelete}
-              />
-            </>
+            <FontAwesomeIcon
+              className={styles.delete}
+              icon={faTrashAlt}
+              onClick={onClickDelete}
+            />
           )}
           {id === 'preview' && (
             <FontAwesomeIcon

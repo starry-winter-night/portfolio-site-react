@@ -4,8 +4,6 @@ import Goback from '../common/goback/goback';
 import Logout from '../common/auth/logout';
 import Maker from './maker/maker';
 import Preview from './preview/preview';
-import Loading from '../common/loading/loading';
-
 import styles from './summary.module.css';
 
 const Summary = ({ onLogout, cloudinary }) => {
@@ -16,11 +14,6 @@ const Summary = ({ onLogout, cloudinary }) => {
   });
   const [selectedCard, setSelectedCard] = useState({
     id: 'preview',
-  });
-  const [loading, setLoading] = useState({
-    state: false,
-    key: null,
-    type: null,
   });
 
   const location = useLocation();
@@ -77,18 +70,6 @@ const Summary = ({ onLogout, cloudinary }) => {
     setSelectedCard({ id: 'preview' });
   }, []);
 
-  const onLoadingStart = useCallback((id, type) => {
-    setLoading((item) => {
-      return { ...item, state: true, key: id, type };
-    });
-  }, []);
-
-  const onLoadingEnd = useCallback(() => {
-    setLoading((item) => {
-      return { ...item, state: false, key: null, type: null };
-    });
-  }, []);
-
   return (
     <>
       <nav className={styles.navbar}>
@@ -107,20 +88,16 @@ const Summary = ({ onLogout, cloudinary }) => {
             onUpdateCard={onUpdateCard}
             selectedCard={selectedCard}
             cloudinary={cloudinary}
-            onLoadingStart={onLoadingStart}
           />
         )}
-
         <Preview
           cards={cards}
           onAddButton={onAddButton}
           onEditButton={onEditButton}
           onDeleteButton={onDeleteButton}
-          onLoadingEnd={onLoadingEnd}
           selectedCard={selectedCard}
         />
       </main>
-      {loading.state && <Loading styles={styles} />}
     </>
   );
 };

@@ -12,41 +12,30 @@ import ImageInput from '../../common/button/imageInput';
 import Button from '../../common/button/button';
 import styles from './maker.module.css';
 
-const Write = ({
-  cards,
-  selectedCard,
-  cloudinary,
-  onLoadingStart,
-  onUpdateCard,
-}) => {
+const Write = ({ cards, selectedCard, cloudinary, onUpdateCard }) => {
   const titleRef = useRef();
   const subtitleRef = useRef();
   const editorRef = useRef();
   const bookmarkRef = useRef();
-  const imageRef = useRef();
-  const labelRef = useRef();
   const formRef = useRef();
 
   const key = selectedCard.id;
   const state = selectedCard.state;
 
+  const {
+    title, //
+    subTitle,
+    description,
+    bookmark,
+    logoName,
+  } = cards[key];
+
   useEffect(() => {
     if (!cards[key]) return;
-
-    const {
-      title, //
-      subTitle,
-      description,
-      logoName,
-      logoURL,
-      bookmark,
-    } = cards[key];
 
     titleRef.current.value = title || '';
     subtitleRef.current.value = subTitle || '';
     editorRef.current.getInstance().setHtml(description || '');
-    labelRef.current.innerText = logoName || 'No Image';
-    imageRef.current.src = logoURL || '';
 
     if (bookmark) {
       bookmarkRef.current.value = bookmark;
@@ -54,64 +43,31 @@ const Write = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key, state]);
 
-  const onChange = (e) => {
+  const onImageChange = (image) => {
+    const card = {
+      ...cards[key],
+      logoURL: image.url,
+      logoName: image.name,
+      id: key,
+    };
+
+    onUpdateCard(card);
+  };
+
+  const onContentsChange = (e) => {
     if (e.currentTarget || e.source) {
       let card = {};
       let name = '';
       let value = '';
 
-      if (e.source) {
-        name = 'description';
-        value = editorRef.current.getInstance().getHtml();
-      }
-
       if (e.currentTarget) {
         e.preventDefault();
 
-        if (e.currentTarget.files) {
-          const logo = e.currentTarget.files[0];
-
-          if (!logo) {
-            labelRef.current.innerText = 'No Image';
-
-            card = {
-              ...cards[key],
-              logoURL: 'imgs/note.png',
-              logoName: 'note.png',
-              id: key,
-            };
-
-            onUpdateCard(card);
-
-            return;
-          }
-
-          const reader = new FileReader();
-
-          reader.addEventListener(
-            'load',
-            () => {
-              card = {
-                ...cards[key],
-                logoURL: reader.result,
-                logoName: logo.name,
-                id: key,
-              };
-
-              onUpdateCard(card);
-            },
-            false
-          );
-
-          labelRef.current.innerText = logo.name;
-
-          reader.readAsDataURL(logo);
-
-          return;
-        }
-
         name = e.currentTarget?.name;
         value = e.currentTarget?.value;
+      } else {
+        name = 'description';
+        value = editorRef.current.getInstance().getHtml();
       }
 
       card = {
@@ -122,9 +78,7 @@ const Write = ({
 
       if (!value) delete card[name];
 
-      if (JSON.stringify(card) === JSON.stringify(cards[key])) {
-        return;
-      }
+      if (JSON.stringify(card) === JSON.stringify(cards[key])) return;
 
       onUpdateCard(card);
     }
@@ -134,97 +88,78 @@ const Write = ({
     (e) => {
       e.preventDefault();
 
-      formRef.current.reset();
-      labelRef.current.innerText = 'No Image';
-      editorRef.current.getInstance().reset();
-
       const card = {
-        id: key,
+        ...cards[key],
+        logoURL: null,
+        logoName: null,
       };
 
       onUpdateCard(card);
     },
-    [key, onUpdateCard]
+    [cards, key, onUpdateCard]
   );
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-
-    const logo = imageRef.current.files[0] || '';
-
-    const card = {
-      id: key === 'preview' ? Date.now() : key,
-    };
-
-    if (logo) {
-      onLoadingStart(card.id);
-
-      await cloudinary.imageUpload(logo);
-    }
-
-    console.log(card);
-
-    // onAddCard(card);
-  };
-
   return (
-    <form className={styles.form} ref={formRef}>
-      <input
-        className={styles.cardTitle}
-        type="text"
-        name="title"
-        placeholder="Title"
-        ref={titleRef}
-        onChange={onChange}
-      ></input>
-      <input
-        className={styles.cardSubtitle}
-        type="text"
-        name="subTitle"
-        placeholder="Subtitle"
-        ref={subtitleRef}
-        onChange={onChange}
-      ></input>
-      <div className={styles.fileInput}>
-        <ImageInput
-          word="No Image"
-          imageLabelStyle={styles.imageLabel}
-          name="logoImage"
-          onChange={onChange}
-          ref={{ imageRef, labelRef }}
+    <>
+      <form className={styles.form} ref={formRef}>
+        <input
+          className={styles.cardTitle}
+          type="text"
+          name="title"
+          placeholder="Title"
+          ref={titleRef}
+          onChange={onContentsChange}
+        ></input>
+        <input
+          className={styles.cardSubtitle}
+          type="text"
+          name="subTitle"
+          placeholder="Subtitle"
+          ref={subtitleRef}
+          onChange={onContentsChange}
+        ></input>
+        <div className={styles.fileInput}>
+          <ImageInput
+            word={logoName}
+            imageLabelStyle={styles.imageLabel}
+            name="logoImage"
+            onImageChange={onImageChange}
+            cloudinary={cloudinary}
+          />
+        </div>
+        <Button
+          value={<FontAwesomeIcon icon={faRedoAlt} />}
+          onClick={onReset}
+          buttonStyle={styles.reset}
         />
-      </div>
-      <select
-        className={styles.select}
-        name="bookmark"
-        ref={bookmarkRef}
-        onChange={onChange}
-      >
-        <option value="light">light</option>
-        <option value="pink">pink</option>
-        <option value="colorful">colorful</option>
-      </select>
-      <Button
-        value={<FontAwesomeIcon icon={faRedoAlt} />}
-        onClick={onReset}
-        buttonStyle={styles.reset}
-      />
-      <div className={styles.editor}>
-        <Editor
-          className={styles.toastEditor}
-          previewStyle="tab"
-          height="250px"
-          previewHighlight={false}
-          initialEditType="wysiwyg"
-          useCommandShortcut={true}
-          usageStatistics={false}
-          hideModeSwitch={true}
-          plugins={[colorSyntax, tableMergedCell]}
-          ref={editorRef}
-          onChange={onChange}
-        />
-      </div>
-    </form>
+        <select
+          className={styles.select}
+          name="bookmark"
+          ref={bookmarkRef}
+          onChange={onContentsChange}
+        >
+          <option value="light">light</option>
+          <option value="pink">pink</option>
+          <option value="colorful">colorful</option>
+        </select>
+
+        <div className={styles.editor}>
+          <Editor
+            className={styles.toastEditor}
+            previewStyle="tab"
+            height="250px"
+            previewHighlight={false}
+            initialEditType="wysiwyg"
+            useCommandShortcut={true}
+            usageStatistics={false}
+            hideModeSwitch={true}
+            plugins={[colorSyntax, tableMergedCell]}
+            ref={editorRef}
+            onChange={onContentsChange}
+          />
+        </div>
+      </form>
+    </>
   );
 };
 

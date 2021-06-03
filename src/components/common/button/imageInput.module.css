@@ -2,3 +2,18 @@
   visibility: hidden;
   width: 0;
 }
+
+.loadingBox {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  height: 35px;
+  width: 100%;
+  background-color: var(--color-subBackground);
+  z-index: 2;
+}
+
+.loading {
+  width: 35px;
+}
