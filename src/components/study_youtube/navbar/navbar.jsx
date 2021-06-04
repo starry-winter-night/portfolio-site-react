@@ -8,14 +8,14 @@ import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 
 const Navbar = ({
   layer,
-  onMenu,
+  onMenuClick,
   onSearch,
-  onDropbox,
+  onDropBoxClick,
   etcToggle,
   authService,
 }) => {
   const onClickToggle = () => {
-    onDropbox();
+    onDropBoxClick();
   };
 
   const onClickLogout = () => {
@@ -29,7 +29,7 @@ const Navbar = ({
       <Search onSearch={onSearch} logoName="youtubeLogo.png" />
       <ul className={styles.studyList}>
         {layer.map((item) => (
-          <Menu key={item.id} onMenu={onMenu} item={item} />
+          <Menu key={item.id} onMenuClick={onMenuClick} item={item} />
         ))}
         <li className={styles.etc} onClick={onClickToggle} data-id="etc">
           <FontAwesomeIcon icon={faEllipsisV} />

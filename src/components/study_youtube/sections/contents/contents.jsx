@@ -3,7 +3,7 @@ import { useHistory } from 'react-router';
 import styles from './contents.module.css';
 import Video from '../../../common/youtube/video';
 
-const Contents = ({ videoPlay, onMyList }) => {
+const Contents = ({ videoPlay, onVideoSave }) => {
   const history = useHistory();
 
   const video = videoPlay.snippet;
@@ -16,13 +16,13 @@ const Contents = ({ videoPlay, onMyList }) => {
   if (!videoId) videoId = searchVideoId;
   if (!channelId) channelId = video.channelId;
 
-  const onVideoSave = (e) => {
+  const onSaveButtonClick = (e) => {
     e.preventDefault();
 
-    onMyList(videoPlay);
+    onVideoSave(videoPlay);
   };
 
-  const onSummary = (e) => {
+  const onSummaryCardButtonClick = (e) => {
     e.preventDefault();
 
     history.push({
@@ -38,10 +38,10 @@ const Contents = ({ videoPlay, onMyList }) => {
       </div>
       <div className={styles.contentBox}>
         <h3 className={styles.title}>{video.title}</h3>
-        <button className={styles.summary} onClick={onSummary}>
+        <button className={styles.summary} onClick={onSummaryCardButtonClick}>
           요약노트
         </button>
-        <button className={styles.save} onClick={onVideoSave}>
+        <button className={styles.save} onClick={onSaveButtonClick}>
           저장하기
         </button>
         <a

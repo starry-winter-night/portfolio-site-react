@@ -1,57 +1,41 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { memo } from 'react';
 import Item from './item';
-import LoadContentsByObserve from '../../../../service/youtube/load_contents_by_observe';
-import { useHistory } from 'react-router';
 import styles from './list.module.css';
 import Loading from '../../../common/loading/loading';
 
-const List = ({ videoList, onList, token, id, youtube, setLayer, query }) => {
-  const [last, setLast] = useState(null);
-  const [loading, setLoading] = useState(null);
-  const history = useHistory();
+const List = memo(
+  ({
+    videoList,
+    onVideoListClick,
+    youtube,
+    onYoutubeLayerSet,
+    query,
+    loading,
+  }) => {
+    const list = videoList.contents?.videoList;
 
-  const lastElement = useCallback((ref) => {
-    setLast(ref);
-  }, []);
-
-  useEffect(() => {
-    if (last) {
-      const nextPageToken = token;
-      const loadContentsByObserve = new LoadContentsByObserve(
-        youtube,
-        setLayer,
-        nextPageToken,
-        id,
-        query,
-        history
-      );
-
-      loadContentsByObserve.on(last, setLoading);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [last]);
-
-  return (
-    <ul>
-      {loading && <Loading styles={styles} />}
-
-      {videoList &&
-        videoList.map((item, index) => {
-          if (index === videoList.length - 1) {
+    return (
+      <ul>
+        {loading.listLoading && <Loading styles={styles} />}
+        {list &&
+          list.map((item, index) => {
             return (
               <Item
                 key={item.id}
                 item={item}
-                onList={onList}
-                onLastRef={lastElement}
+                onVideoListClick={onVideoListClick}
+                onYoutubeLayerSet={
+                  index === list.length - 1 && onYoutubeLayerSet
+                }
+                youtube={index === list.length - 1 && youtube}
+                query={index === list.length - 1 && query}
+                videoList={index === list.length - 1 && videoList}
               />
             );
-          } else {
-            return <Item key={item.id} item={item} onList={onList} />;
-          }
-        })}
-    </ul>
-  );
-};
+          })}
+      </ul>
+    );
+  }
+);
 
 export default List;

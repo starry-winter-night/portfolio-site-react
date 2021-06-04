@@ -6,7 +6,7 @@ import styles from './search.module.css';
 const Search = memo(({ onSearch, logoName }) => {
   const input = useRef();
 
-  const handleSubmitSearch = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
 
     const query = input.current.value;
@@ -17,7 +17,7 @@ const Search = memo(({ onSearch, logoName }) => {
   };
 
   return (
-    <form className={styles.inputBox} onSubmit={handleSubmitSearch}>
+    <form className={styles.inputBox} onSubmit={onSubmit}>
       {logoName && (
         <img
           src={`/imgs/${logoName}`}

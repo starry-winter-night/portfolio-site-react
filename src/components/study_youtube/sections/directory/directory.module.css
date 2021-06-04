@@ -2,7 +2,27 @@
   width: 29%;
   min-width: 300px;
   padding-bottom: 30px;
-
   overflow-y: scroll;
   height: 90vh;
+  position: relative;
+}
+
+.loadingBox {
+  width: 100%;
+  height: 100vh;
+  background-color: var(--color-backgroundTransparency);
+  margin: -100vh 0 0 0;
+  padding: 0;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 3;
+}
+
+.loading {
+  width: 100px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -100%);
 }

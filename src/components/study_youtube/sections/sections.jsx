@@ -4,23 +4,25 @@ import Contents from './contents/contents';
 import Directory from './directory/directory';
 
 const Sections = ({
-  setLayer,
+  onYoutubeLayerSet,
   videoPlay,
   layer,
-  onList,
-  onMyList,
+  onVideoListClick,
+  onVideoSave,
   youtube,
   query,
+  loading,
 }) => {
   return (
     <main className={styles.main}>
-      <Contents videoPlay={videoPlay} onMyList={onMyList} />
+      <Contents videoPlay={videoPlay} onVideoSave={onVideoSave} />
       <Directory
         layer={layer}
-        onList={onList}
+        onVideoListClick={onVideoListClick}
         youtube={youtube}
-        setLayer={setLayer}
+        onYoutubeLayerSet={onYoutubeLayerSet}
         query={query}
+        loading={loading}
       />
     </main>
   );
