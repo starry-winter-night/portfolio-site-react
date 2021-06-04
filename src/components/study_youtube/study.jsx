@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback, memo } from 'react';
 import { useHistory } from 'react-router';
 import Navbar from './navbar/navbar';
 import Sections from './sections/sections';
-import Loading from '../common/loading/loading';
 import styles from './study.module.css';
 import _ from 'lodash';
 
@@ -10,7 +9,7 @@ const Study = memo(({ youtube, authService }) => {
   const [etcToggle, setEtcToggle] = useState('off');
   const [videoPlay, setVideoPlay] = useState(null);
   const [query, setQuery] = useState(null);
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState({});
   const [layer, setLayer] = useState([
     {
       id: 'search',
@@ -38,6 +37,180 @@ const Study = memo(({ youtube, authService }) => {
 
   const auth = localStorage.getItem('state');
 
+  const goToError = useCallback(
+    (code) => {
+      history.push({
+        pathname: '/error',
+        state: { code },
+      });
+    },
+    [history]
+  );
+
+  const onYoutubeLayerSet = useCallback(
+    (youtube, action, loading) => {
+      setLoading((item) => loadingPosition(item, loading, true));
+
+      youtube.then((result) => {
+        if (!result) {
+          setLoading((item) => loadingPosition(item, loading, false));
+
+          return;
+        }
+
+        if (result.error) {
+          setLoading((item) => loadingPosition(item, loading, false));
+
+          const code = result.error.code;
+
+          goToError(code);
+
+          return;
+        }
+
+        switch (action) {
+          case 'develop':
+            setLayer((list) =>
+              list.map((item) => {
+                if (item.id === 'smpark') {
+                  return {
+                    ...item,
+                    contents: {
+                      videoList: result.items,
+                      nextPageToken: result.nextPageToken,
+                    },
+                    view: 'on',
+                  };
+                }
+
+                return { ...item, view: 'off' };
+              })
+            );
+
+            setLoading((item) => loadingPosition(item, loading, false));
+
+            setVideoPlay(result.items[0]);
+
+            break;
+
+          case 'search':
+            const searchResult = reassembleList(result);
+
+            if (searchResult.error) {
+              setLoading((item) => loadingPosition(item, loading, false));
+
+              const code = searchResult.error.code;
+
+              goToError(code);
+
+              return;
+            }
+
+            setLayer((list) =>
+              list.map((item) => {
+                if (item.id === 'search') {
+                  return {
+                    ...item,
+                    contents: {
+                      videoList: searchResult,
+                      nextPageToken: searchResult[0].nextPageToken,
+                    },
+                    view: 'on',
+                  };
+                }
+
+                return { ...item, view: 'off' };
+              })
+            );
+
+            setLoading((item) => loadingPosition(item, loading, false));
+            break;
+
+          case 'developAdd':
+            setLayer((list) =>
+              list.map((item) => {
+                if (item.id === 'smpark') {
+                  const cloneItem = _.cloneDeep(item);
+
+                  result.items.forEach((item) => {
+                    cloneItem.contents.videoList.push(item);
+                  });
+                  cloneItem.contents.nextPageToken = result.nextPageToken;
+
+                  return cloneItem;
+                }
+
+                return _.cloneDeep(item);
+              })
+            );
+
+            setLoading((item) => loadingPosition(item, loading, false));
+
+            break;
+
+          case 'searchAdd':
+            const searchAddResult = reassembleList(result);
+
+            if (searchAddResult.error) {
+              setLoading((item) => loadingPosition(item, loading, false));
+              const code = searchAddResult.error.code;
+
+              goToError(code);
+
+              return;
+            }
+
+            setLayer((list) =>
+              list.map((item) => {
+                if (item.id === 'search') {
+                  const cloneItem = _.cloneDeep(item);
+
+                  searchAddResult.forEach((newItem) => {
+                    const newId = newItem.id;
+                    let state = true;
+
+                    cloneItem.contents.videoList.forEach((item) => {
+                      if (newId === item.id) {
+                        state = false;
+                      }
+                    });
+
+                    if (state) {
+                      cloneItem.contents.videoList.push(newItem);
+                    }
+                  });
+
+                  cloneItem.contents.nextPageToken =
+                    searchAddResult[0].nextPageToken;
+
+                  return cloneItem;
+                }
+
+                return _.cloneDeep(item);
+              })
+            );
+
+            setLoading((item) => loadingPosition(item, loading, false));
+            break;
+          default:
+            setLoading((item) => loadingPosition(item, loading, false));
+            new Error('unknown action');
+            break;
+        }
+      });
+    },
+    [goToError]
+  );
+
+  const onSearch = useCallback(
+    (query) => {
+      setQuery(query);
+
+      onYoutubeLayerSet(youtube.search(query), 'search', 'sectionLoading');
+    },
+    [onYoutubeLayerSet, youtube]
+  );
+
   useEffect(() => {
     authService.loginUserCheck((user) => {
       if (!user || !auth) history.push('/login');
@@ -46,48 +219,11 @@ const Study = memo(({ youtube, authService }) => {
 
   useEffect(() => {
     if (auth) {
-      setLoading(true);
-
-      youtube
-        .developList() //
-        .then((result) => {
-          if (!result) {
-            setLoading(false);
-            return;
-          }
-
-          if (result.error) {
-            history.push({
-              pathname: '/error',
-              state: { code: result.error.code },
-            });
-            return;
-          }
-
-          setLayer((list) =>
-            list.map((item) => {
-              if (item.id === 'smpark') {
-                return {
-                  ...item,
-                  contents: {
-                    videoList: result.items,
-                    nextPageToken: result.nextPageToken,
-                  },
-                  view: 'on',
-                };
-              }
-
-              return { ...item, view: 'off' };
-            })
-          );
-
-          setVideoPlay(result.items[0]);
-          setLoading(false);
-        });
+      onYoutubeLayerSet(youtube.developList(), 'develop', 'sectionLoading');
     }
-  }, [youtube, history, auth]);
+  }, [auth, onYoutubeLayerSet, youtube]);
 
-  const handleClickSaveVideo = useCallback((selectedList) => {
+  const onVideoSave = useCallback((selectedList) => {
     setLayer((list) =>
       list.map((item) => {
         if (item.id === 'mylist') {
@@ -116,7 +252,7 @@ const Study = memo(({ youtube, authService }) => {
     );
   }, []);
 
-  const onSetMenu = useCallback((title) => {
+  const onMenuClick = useCallback((title) => {
     setLayer((list) =>
       list.map((item) => {
         if (item.title === title) {
@@ -128,69 +264,11 @@ const Study = memo(({ youtube, authService }) => {
     );
   }, []);
 
-  const onSearch = useCallback(
-    (query) => {
-      setQuery(query);
-
-      setLoading(true);
-
-      youtube
-        .search(query) //
-        .then((result) => {
-          if (!result) return;
-          return result.items.map((item) => ({
-            ...item,
-            id: item.id.videoId,
-            nextPageToken: result.nextPageToken,
-          }));
-        })
-        .then((items) => {
-          if (!items) {
-            setLoading(false);
-            return;
-          }
-
-          if (items.error) {
-            history.push({
-              pathname: '/error',
-              state: { code: items.error.code },
-            });
-
-            return;
-          }
-          setLayer((list) =>
-            list.map((item) => {
-              if (item.id === 'search') {
-                return {
-                  ...item,
-                  contents: {
-                    videoList: items,
-                    nextPageToken: items[0].nextPageToken,
-                  },
-                  view: 'on',
-                };
-              }
-
-              return { ...item, view: 'off' };
-            })
-          );
-          setLoading(false);
-        });
-    },
-    [youtube, history]
-  );
-
-  const onDropbox = () => {
+  const onDropBoxClick = useCallback(() => {
     etcToggle === 'on' ? setEtcToggle('off') : setEtcToggle('on');
-  };
+  }, [etcToggle]);
 
-  const handleClickVideoList = useCallback((video) => {
-    setVideoPlay({ ...video });
-
-    window.scrollTo({ top: 0 });
-  }, []);
-
-  const onStudyClick = (e) => {
+  const onHideDropBox = (e) => {
     const menu = e.target.closest('li');
     if (!menu) setEtcToggle('off');
 
@@ -201,29 +279,33 @@ const Study = memo(({ youtube, authService }) => {
     }
   };
 
+  const onVideoListClick = useCallback((video) => {
+    setVideoPlay(video);
+  }, []);
+
   return (
     <>
       {auth && (
-        <div className={styles.study} onClick={onStudyClick}>
-          {loading && <Loading styles={styles} />}
-          {videoPlay && !loading && (
+        <div className={styles.study} onClick={onHideDropBox}>
+          {videoPlay && (
             <>
               <Navbar
                 layer={layer}
-                onMenu={onSetMenu}
+                onMenuClick={onMenuClick}
                 onSearch={onSearch}
-                onDropbox={onDropbox}
+                onDropBoxClick={onDropBoxClick}
                 etcToggle={etcToggle}
                 authService={authService}
               />
               <Sections
                 layer={layer}
-                setLayer={setLayer}
+                onYoutubeLayerSet={onYoutubeLayerSet}
                 videoPlay={videoPlay}
-                onList={handleClickVideoList}
-                onMyList={handleClickSaveVideo}
+                onVideoListClick={onVideoListClick}
+                onVideoSave={onVideoSave}
                 youtube={youtube}
                 query={query}
+                loading={loading}
               />
             </>
           )}
@@ -232,4 +314,23 @@ const Study = memo(({ youtube, authService }) => {
     </>
   );
 });
+
+function reassembleList(llst) {
+  return llst.items.map((item) => ({
+    ...item,
+    id: item.id.videoId,
+    nextPageToken: llst.nextPageToken,
+  }));
+}
+
+function loadingPosition(item, loading, state) {
+  if (loading === 'listLoading') {
+    return { ...item, listLoading: state };
+  }
+
+  if (loading === 'sectionLoading') {
+    return { ...item, sectionLoading: state };
+  }
+}
+
 export default Study;
