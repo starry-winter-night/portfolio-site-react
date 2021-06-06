@@ -47,10 +47,22 @@ const Login = ({ authService }) => {
   useEffect(() => {
     authService.loginUserCheck((user) => {
       if (user) {
+        if (!auth) {
+          localStorage.setItem('state', user.uid);
+        }
+
         goToStudy(user.uid);
+
+        return;
+      }
+
+      if (!user) {
+        if (auth) {
+          localStorage.clear();
+        }
       }
     });
-  }, [authService, goToStudy]);
+  }, [auth, authService, goToStudy]);
 
   return (
     <>

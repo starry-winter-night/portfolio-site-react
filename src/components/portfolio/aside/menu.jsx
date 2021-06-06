@@ -1,12 +1,17 @@
 import React, { memo } from 'react';
+import styles from './menu.module.css';
 
-const Menu = memo(({ menu, effect, onMenu }) => {
-  const handleClickMenu = (e) => {
-    onMenu(e.target.dataset.id);
+const Menu = memo(({ menu, observe, onMenuClick }) => {
+  const onClick = (e) => {
+    onMenuClick(e.target.dataset.id);
   };
 
   return (
-    <li className={effect} data-id={menu.id} onClick={handleClickMenu}>
+    <li
+      className={observe === menu.id ? styles.itemView : styles.item}
+      data-id={menu.id}
+      onClick={onClick}
+    >
       {menu.title}
     </li>
   );

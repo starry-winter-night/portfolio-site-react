@@ -15,21 +15,12 @@ const Summary = ({ authService, cloudinary }) => {
   const [selectedCard, setSelectedCard] = useState({
     id: 'preview',
   });
+  
   const history = useHistory();
 
   const auth = localStorage.getItem('state');
   const videoId = history.location.state?.videoId;
   const title = history.location.state?.title;
-
-  useEffect(() => {
-    authService.loginUserCheck((user) => {
-      if (!user || !auth) history.push('/login');
-    });
-  }, [auth, authService, history]);
-
-  if (!videoId || !title) {
-    history.push('/study');
-  }
 
   const onUpdateCard = useCallback((card) => {
     setCards((item) => {
@@ -73,6 +64,16 @@ const Summary = ({ authService, cloudinary }) => {
 
     setSelectedCard({ id: 'preview' });
   }, []);
+
+  useEffect(() => {
+    authService.loginUserCheck((user) => {
+      if (!user || !auth) history.push('/login');
+    });
+  }, [auth, authService, history]);
+
+  if (!videoId || !title) {
+    history.push('/study');
+  }
 
   return (
     <>

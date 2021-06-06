@@ -28,7 +28,7 @@ class Youtube {
 
       return response.data;
     } catch (error) {
-      return error.response.data;
+      return error?.response?.data;
     }
   }
 
@@ -47,9 +47,14 @@ class Youtube {
     if (pageToken) {
       data.params.pageToken = pageToken;
     }
-    const response = await this.youtube.get('search', data);
 
-    return response.data;
+    try {
+      const response = await this.youtube.get('search', data);
+
+      return response.data;
+    } catch (error) {
+      return error?.response?.data;
+    }
   }
 }
 

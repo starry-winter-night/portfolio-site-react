@@ -1,16 +1,4 @@
 .aside {
-  /* font-family: 'Didact Gothic';
-  position: fixed;
-  top: 0;
-  right: 0%;
-  width: 15%;
-  height: 100vh;
-  z-index: 3;
-  display: flex;
-  letter-spacing: 0.1rem;
-  flex-direction: column;
-  -webkit-touch-callout: none;
-  user-select: none; */
   font-family: 'Didact Gothic';
   position: sticky;
   top: 0;
@@ -60,10 +48,11 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 80%;
+  height: 100%;
   align-items: center;
   margin-top: 45px;
   padding-bottom: 100px;
+  width: 100%;
 }
 
 .studyPage {
@@ -100,12 +89,16 @@
     padding-top: 0;
     width: 100px;
     align-items: center;
+    position: absolute;
+    right: 0;
+    height: 100px;
   }
 
   .aside.active {
     top: 0;
     padding-top: 0;
     background-color: rgba(0, 0, 0, 0.6);
+    height: 100vh;
   }
 
   .menu {
@@ -130,12 +123,12 @@
 
   .menu.active {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     width: 100%;
     flex-basis: 73%;
     padding: 10px 0;
     height: 0;
-    margin: 0;
+    margin: 45px 0 0 0;
   }
 
   .studyPage.active {

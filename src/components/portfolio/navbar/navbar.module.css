@@ -16,7 +16,7 @@
   letter-spacing: 0.5rem;
   display: flex;
   font-weight: 700;
-  flex-basis: 15%;
+  min-width: 15%;
   text-transform: uppercase;
   font-size: var(--font-regular);
 }
@@ -31,8 +31,9 @@
 }
 
 .guide {
-  flex-basis: 70%;
-  max-width: 1310px;
+  min-width: 70%;
+  margin-right: 15%;
+  max-width: 1200px;
   display: flex;
   justify-content: space-between;
   align-items: center;
