@@ -1,11 +1,12 @@
-import React, { useRef, useEffect, useState, memo, useCallback } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import './portfolio.css';
 import Navbar from './navbar/navbar';
 import Aside from './aside/aside';
 import Sections from './sections/sections';
 
-const Portfolio = memo(({ starryNight, highLightMenu, moveSection }) => {
+const Portfolio = ({ starryNight, highLightMenu, moveSection }) => {
   const [sections, setSections] = useState([]);
+  const [container, setContainer] = useState(null);
 
   const portfolioRef = useRef();
   const canvasRef = useRef();
@@ -14,35 +15,30 @@ const Portfolio = memo(({ starryNight, highLightMenu, moveSection }) => {
   useEffect(() => {
     starryNight.draw(canvasRef.current);
 
-    const sectionsRef = mainRef.current.childNodes;
-
-    for (let i = 0; i < sectionsRef.length; i++) {
-      setSections((item) => [...item, sectionsRef[i]]);
-    }
+    setSections(mainRef.current.childNodes);
+    setContainer(portfolioRef.current);
   }, [starryNight]);
-
-  const onMenuClick = useCallback(
-    (id) => {
-      moveSection.start(id, [...sections], portfolioRef.current);
-    },
-    [moveSection, sections]
-  );
 
   return (
     <div className="portfolio" ref={portfolioRef}>
       <canvas ref={canvasRef} className="canvas"></canvas>
-      <Navbar portfolioRef={portfolioRef} />
-      <Aside
-        highLightMenu={highLightMenu}
-        onMenuClick={onMenuClick}
-        moveSection={moveSection}
-        sections={sections}
-      />
+
+      {container && <Navbar container={container} />}
+
+      {sections && container && (
+        <Aside
+          highLightMenu={highLightMenu}
+          sections={sections}
+          moveSection={moveSection}
+          container={container}
+        />
+      )}
+
       <main ref={mainRef}>
         <Sections />
       </main>
     </div>
   );
-});
+};
 
 export default Portfolio;

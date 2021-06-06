@@ -1,5 +1,5 @@
 class HighlightMenuList {
-  on(sections, setObserve) {
+  on(sections, onObserveTarget) {
     const REQUEST_TRESHOLD = 0.26;
     const options = {
       root: null,
@@ -7,36 +7,38 @@ class HighlightMenuList {
       threshold: this._getThresholdMinimumNumber(sections, REQUEST_TRESHOLD),
     };
     const observer = new IntersectionObserver(
-      this._callback(setObserve),
+      this._callback(onObserveTarget),
       options
     );
 
     sections.forEach((dom) => observer.observe(dom));
   }
 
-  _callback(setObserve) {
+  _callback(onObserveTarget) {
     return (entries, observer) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting && entry.intersectionRatio > 0) {
           this._setElementByObserve(
-            setObserve,
+            onObserveTarget,
             entry.target,
             entry.boundingClientRect.y
           );
         } else if (entry.isIntersecting && entry.intersectionRatio > 0) {
-          this._setElementByObserve(setObserve, entry.target);
+          this._setElementByObserve(onObserveTarget, entry.target);
         }
       });
     };
   }
 
-  _setElementByObserve(setObserve, target, y) {
+  _setElementByObserve(onObserveTarget, target, y) {
+    if (!y) return;
+    
     if (y < 0) {
-      setObserve(target.nextElementSibling.id);
+      onObserveTarget(target.nextElementSibling.id);
     } else if (y > 0) {
-      setObserve(target.previousElementSibling.id);
+      onObserveTarget(target.previousElementSibling.id);
     } else {
-      setObserve(target.id);
+      onObserveTarget(target.id);
     }
   }
 

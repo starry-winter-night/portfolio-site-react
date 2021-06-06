@@ -2,13 +2,13 @@ import React, { memo, useRef, useEffect } from 'react';
 import styles from './navbar.module.css';
 import Logo from '../../common/logo/logo';
 import RocketGuide from '../../../service/rocket_guide/rocket_guide';
-const Navbar = memo(({ portfolioRef }) => {
+const Navbar = memo(({ container }) => {
   const guide = useRef();
 
   useEffect(() => {
-    const rocketGuide = new RocketGuide(guide.current, portfolioRef.current);
+    const rocketGuide = new RocketGuide(guide.current, container);
     rocketGuide.start();
-  }, [guide, portfolioRef]);
+  }, [guide, container]);
 
   return (
     <nav className={styles.navbar}>

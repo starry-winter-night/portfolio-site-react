@@ -1,11 +1,12 @@
 import React, { memo } from 'react';
 import styles from './menu.module.css';
 
-const Menu = memo(({ menu, observe, onMenuClick }) => {
+const Menu = memo(({ menu, observe, moveSection, sections, container }) => {
   const onClick = (e) => {
-    onMenuClick(e.target.dataset.id);
-  };
+    const id = e.target.dataset.id;
 
+    moveSection.start(id, sections, container);
+  };
   return (
     <li
       className={observe === menu.id ? styles.itemView : styles.item}

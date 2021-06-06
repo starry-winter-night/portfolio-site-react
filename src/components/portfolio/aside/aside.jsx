@@ -1,11 +1,11 @@
-import React, { memo, useState, useEffect } from 'react';
+import React, { memo, useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Menu from './menu';
 import styles from './aside.module.css';
 
-const Aside = memo(({ highLightMenu, onMenuClick, sections }) => {
+const Aside = memo(({ highLightMenu, sections, moveSection, container }) => {
   const menus = [
     { id: 'home', title: 'Home' },
     { id: 'about', title: 'About' },
@@ -13,15 +13,18 @@ const Aside = memo(({ highLightMenu, onMenuClick, sections }) => {
     { id: 'work', title: 'Work' },
     { id: 'contact', title: 'Contact' },
   ];
-
   const [observe, setObserve] = useState(null);
   const [mobileMenuIconToggle, setMobileMenuIconToggle] = useState('off');
 
   const history = useHistory();
 
+  const onObserveTarget = useCallback((el) => {
+    setObserve(el);
+  }, []);
+
   useEffect(() => {
-    highLightMenu.on([...sections], setObserve);
-  }, [highLightMenu, sections]);
+    highLightMenu.on(sections, onObserveTarget);
+  }, [highLightMenu, onObserveTarget, sections]);
 
   const onMenuIconClick = (e) => {
     e.preventDefault();
@@ -54,23 +57,23 @@ const Aside = memo(({ highLightMenu, onMenuClick, sections }) => {
           mobileMenuIconToggle === 'on' && styles.active
         }`}
       >
-        {menus.map((item) => (
-          <Menu
-            key={item.id}
-            menu={item}
-            onMenuClick={onMenuClick}
-            observe={observe}
-          />
-        ))}
+        {observe &&
+          menus.map((item) => (
+            <Menu
+              key={item.id}
+              menu={item}
+              moveSection={moveSection}
+              observe={observe}
+              container={container}
+              sections={sections}
+            />
+          ))}
         <li
           className={`${styles.studyPage} ${
             mobileMenuIconToggle === 'on' && styles.active
           }`}
         >
-          <button
-            className={styles.itemButton}
-            onClick={onStudyButtonClick}
-          >
+          <button className={styles.itemButton} onClick={onStudyButtonClick}>
             Study
           </button>
         </li>
