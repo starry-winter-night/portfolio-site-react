@@ -5,7 +5,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import Menu from './menu';
 import styles from './aside.module.css';
 
-const Aside = memo(({ highLightMenu, sections, moveSection, container }) => {
+const Aside = memo(({ highLightMenu, mainRef, moveSection, portfolioRef }) => {
   const menus = [
     { id: 'home', title: 'Home' },
     { id: 'about', title: 'About' },
@@ -23,8 +23,8 @@ const Aside = memo(({ highLightMenu, sections, moveSection, container }) => {
   }, []);
 
   useEffect(() => {
-    highLightMenu.on(sections, onObserveTarget);
-  }, [highLightMenu, onObserveTarget, sections]);
+    highLightMenu.on(mainRef.current.childNodes, onObserveTarget);
+  }, [highLightMenu, onObserveTarget, mainRef]);
 
   const onMenuIconClick = (e) => {
     e.preventDefault();
@@ -64,8 +64,8 @@ const Aside = memo(({ highLightMenu, sections, moveSection, container }) => {
               menu={item}
               moveSection={moveSection}
               observe={observe}
-              container={container}
-              sections={sections}
+              portfolioRef={portfolioRef}
+              mainRef={mainRef}
             />
           ))}
         <li
