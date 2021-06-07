@@ -8,12 +8,13 @@ import Summary from './components/summary_card/summary';
 import Error from './components/error/error';
 
 const App = ({
-  starryNight,
-  highLightMenu,
-  moveSection,
-  youtube,
   authService,
   cloudinary,
+  highLightMenu,
+  moveSection,
+  starryNight,
+  summaryCard,
+  youtube,
 }) => {
   return (
     <Router>
@@ -35,7 +36,11 @@ const App = ({
         </Route>
 
         <Route path="/summary">
-          <Summary authService={authService} cloudinary={cloudinary} />
+          <Summary
+            authService={authService}
+            cloudinary={cloudinary}
+            summaryCard={summaryCard}
+          />
         </Route>
 
         <Route path={['/error', '*']}>

@@ -264,6 +264,8 @@ const Study = memo(({ youtube, authService }) => {
 
   const onVideoListClick = useCallback((video) => {
     setVideoPlay(video);
+
+    localStorage.setItem('videoId', video.snippet?.resourceId?.videoId);
   }, []);
 
   useEffect(() => {

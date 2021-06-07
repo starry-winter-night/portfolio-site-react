@@ -7,14 +7,23 @@ const Contents = ({ videoPlay, onVideoSave }) => {
   const history = useHistory();
 
   const video = videoPlay.snippet;
+
+  const currVideoId = localStorage.getItem('videoId') || null;
   const developVideoId = video?.resourceId?.videoId;
   const searchVideoId = videoPlay.id;
 
-  let videoId = developVideoId;
-  let channelId = video.videoOwnerChannelId;
+  let videoId = null;
+  let channelId = null;
 
-  if (!videoId) videoId = searchVideoId;
-  if (!channelId) channelId = video.channelId;
+  if (!currVideoId) {
+    videoId = developVideoId;
+    channelId = video.videoOwnerChannelId;
+
+    if (!videoId) videoId = searchVideoId;
+    if (!channelId) channelId = video.channelId;
+  } else {
+    videoId = currVideoId;
+  }
 
   const onSaveButtonClick = (e) => {
     e.preventDefault();

@@ -4,72 +4,106 @@ import Goback from '../common/goback/goback';
 import Logout from '../common/auth/logout';
 import Maker from './maker/maker';
 import Preview from './preview/preview';
+import Loading from '../common/loading/loading';
 import styles from './summary.module.css';
 
-const Summary = ({ authService, cloudinary }) => {
-  const [cards, setCards] = useState({
-    preview: {
-      id: 'preview',
-    },
-  });
-  const [selectedCard, setSelectedCard] = useState({
-    id: 'preview',
-  });
-  
+const Summary = ({ authService, cloudinary, summaryCard }) => {
   const history = useHistory();
 
   const auth = localStorage.getItem('state');
   const videoId = history.location.state?.videoId;
   const title = history.location.state?.title;
 
-  const onUpdateCard = useCallback((card) => {
-    setCards((item) => {
-      const updated = { ...item };
+  const [cards, setCards] = useState({});
+  const [selectedCard, setSelectedCard] = useState({});
+  const [loading, setLoading] = useState(true);
 
-      updated[card.id] = card;
+  const onUpdateCard = useCallback(
+    (card) => {
+      setCards((item) => {
+        const updated = { ...item };
 
-      return updated;
-    });
-  }, []);
+        updated[card.id] = card;
 
-  const onAddButton = useCallback((currentId) => {
-    const key = Date.now();
+        return updated;
+      });
 
-    setCards((item) => {
-      const updated = { ...item };
+      summaryCard.saveCard(auth, videoId, card);
+    },
+    [auth, summaryCard, videoId]
+  );
 
-      updated[key] = { ...updated['preview'], id: key };
+  const onAddButton = useCallback(
+    (currentId) => {
+      const key = Date.now();
 
-      updated['preview'] = { id: 'preview' };
+      setCards((item) => {
+        const updated = { ...item };
 
-      return updated;
-    });
+        updated[key] = { ...updated['preview'], id: key };
 
-    if (currentId !== 'preview') return;
-    setSelectedCard({ id: key });
-  }, []);
+        summaryCard.saveCard(auth, videoId, updated[key]);
+
+        updated['preview'] = { id: 'preview' };
+
+        summaryCard.saveCard(auth, videoId, updated['preview']);
+
+        return updated;
+      });
+
+      if (currentId !== 'preview') return;
+
+      setSelectedCard({ id: key });
+    },
+    [auth, summaryCard, videoId]
+  );
 
   const onEditButton = useCallback((cardId) => {
     setSelectedCard({ id: cardId });
   }, []);
 
-  const onDeleteButton = useCallback((cardId) => {
-    setCards((item) => {
-      const deleted = { ...item };
+  const onDeleteButton = useCallback(
+    (cardId) => {
+      setCards((item) => {
+        const deleted = { ...item };
 
-      delete deleted[cardId];
+        summaryCard.deleteCard(auth, videoId, deleted[cardId]);
 
-      return deleted;
-    });
+        delete deleted[cardId];
 
-    setSelectedCard({ id: 'preview' });
-  }, []);
+        return deleted;
+      });
+
+      setSelectedCard({ id: 'preview' });
+    },
+    [auth, summaryCard, videoId]
+  );
 
   useEffect(() => {
     authService.loginUserCheck((user) => {
-      if (!user || !auth) history.push('/login');
+      if (!user || !auth) {
+        history.push('/login');
+      } else {
+        setLoading(false);
+        summaryCard.readCard(auth, videoId, (result) => {
+          if (result) {
+            setCards(result);
+
+            setSelectedCard({ id: 'preview' });
+          } else {
+            setCards({
+              preview: {
+                id: 'preview',
+              },
+            });
+            
+            setSelectedCard({ id: 'preview' });
+          }
+          setLoading(true);
+        });
+      }
     });
-  }, [auth, authService, history]);
+  }, [auth, authService, history, summaryCard, videoId]);
 
   if (!videoId || !title) {
     history.push('/study');
@@ -88,22 +122,26 @@ const Summary = ({ authService, cloudinary }) => {
             <Logout authService={authService} />
           </nav>
           <main className={styles.main}>
+            {!loading && <Loading styles={styles} />}
             {cards[selectedCard.id] && (
-              <Maker
-                cards={cards}
-                videoId={videoId}
-                onUpdateCard={onUpdateCard}
-                selectedCard={selectedCard}
-                cloudinary={cloudinary}
-              />
+              <>
+                <Maker
+                  cards={cards}
+                  videoId={videoId}
+                  onUpdateCard={onUpdateCard}
+                  selectedCard={selectedCard}
+                  cloudinary={cloudinary}
+                />
+
+                <Preview
+                  cards={cards}
+                  onAddButton={onAddButton}
+                  onEditButton={onEditButton}
+                  onDeleteButton={onDeleteButton}
+                  selectedCard={selectedCard}
+                />
+              </>
             )}
-            <Preview
-              cards={cards}
-              onAddButton={onAddButton}
-              onEditButton={onEditButton}
-              onDeleteButton={onDeleteButton}
-              selectedCard={selectedCard}
-            />
           </main>
         </>
       )}
