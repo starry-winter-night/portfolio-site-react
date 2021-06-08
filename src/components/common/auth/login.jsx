@@ -4,7 +4,7 @@ import styles from './login.module.css';
 import Logo from '../logo/logo';
 import Goback from '../goback/goback';
 
-const Login = ({ authService }) => {
+const Login = ({ authService, smpChat }) => {
   const history = useHistory();
   const auth = localStorage.getItem('state');
 
@@ -30,6 +30,8 @@ const Login = ({ authService }) => {
       .login(loginType)
       .then((data) => {
         localStorage.setItem('state', data.user.uid);
+
+        smpChat.load(data.user.uid);
 
         goToStudy(data.user.uid);
       })
@@ -60,9 +62,11 @@ const Login = ({ authService }) => {
         if (auth) {
           localStorage.clear();
         }
+
+        smpChat.clear();
       }
     });
-  }, [auth, authService, goToStudy]);
+  }, [auth, authService, goToStudy, smpChat]);
 
   return (
     <>

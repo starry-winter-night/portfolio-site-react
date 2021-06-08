@@ -1,20 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-const SmpChat = ({ authService, smpChat }) => {
-  const [login, setLogin] = useState(false);
+const SmpChat = ({ smpChat }) => {
+  const auth = localStorage.getItem('state');
 
-  useEffect(() => {
-    authService.loginUserCheck((user) => {
-      if (user) {
-        setLogin(true);
-        smpChat.load(user.uid);
-      } else {
-        setLogin(false);
-      }
-    });
-  }, [authService, smpChat]);
+  if (auth) {
+    smpChat.load(auth);
+  }
 
-  return login && <div className={`smpChat`}></div>;
+  return auth && <div className={`smpChat`}></div>;
 };
 
 export default SmpChat;

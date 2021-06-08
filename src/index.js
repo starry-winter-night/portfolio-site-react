@@ -36,8 +36,9 @@ ReactDOM.render(
       summaryCard={summaryCard}
       starryNight={starryNight}
       youtube={youtube}
+      smpChat={smpChat}
     />
-    <Smpchat authService={authService} smpChat={smpChat} />
+    <Smpchat smpChat={smpChat} />
   </>,
   // </React.StrictMode>,
   document.getElementById('root')

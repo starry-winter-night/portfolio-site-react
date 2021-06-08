@@ -15,6 +15,7 @@ const App = ({
   starryNight,
   summaryCard,
   youtube,
+  smpChat,
 }) => {
   return (
     <Router>
@@ -28,7 +29,7 @@ const App = ({
         </Route>
 
         <Route path="/login">
-          <Login authService={authService} />
+          <Login authService={authService} smpChat={smpChat}/>
         </Route>
 
         <Route path="/study">
