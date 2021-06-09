@@ -15,41 +15,27 @@ const Summary = ({ authService, cloudinary, summaryCard }) => {
   const title = history.location.state?.title;
 
   const [cards, setCards] = useState({});
-  const [selectedCard, setSelectedCard] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [selectedCard, setSelectedCard] = useState({ id: 'preview' });
+  const [loading, setLoading] = useState(null);
 
   const onUpdateCard = useCallback(
     (card) => {
-      setCards((item) => {
-        const updated = { ...item };
-
-        updated[card.id] = card;
-
-        return updated;
-      });
-
       summaryCard.saveCard(auth, videoId, card);
     },
     [auth, summaryCard, videoId]
   );
 
   const onAddButton = useCallback(
-    (currentId) => {
+    (currentId, card) => {
       const key = Date.now();
 
-      setCards((item) => {
-        const updated = { ...item };
+      const currentCard = { ...card, id: key };
 
-        updated[key] = { ...updated['preview'], id: key };
+      summaryCard.saveCard(auth, videoId, currentCard);
 
-        summaryCard.saveCard(auth, videoId, updated[key]);
+      const previewCard = { id: 'preview' };
 
-        updated['preview'] = { id: 'preview' };
-
-        summaryCard.saveCard(auth, videoId, updated['preview']);
-
-        return updated;
-      });
+      summaryCard.saveCard(auth, videoId, previewCard);
 
       if (currentId !== 'preview') return;
 
@@ -63,16 +49,8 @@ const Summary = ({ authService, cloudinary, summaryCard }) => {
   }, []);
 
   const onDeleteButton = useCallback(
-    (cardId) => {
-      setCards((item) => {
-        const deleted = { ...item };
-
-        summaryCard.deleteCard(auth, videoId, deleted[cardId]);
-
-        delete deleted[cardId];
-
-        return deleted;
-      });
+    (card) => {
+      summaryCard.deleteCard(auth, videoId, card);
 
       setSelectedCard({ id: 'preview' });
     },
@@ -84,25 +62,25 @@ const Summary = ({ authService, cloudinary, summaryCard }) => {
       if (!user || !auth) {
         history.push('/login');
       } else {
-        setLoading(false);
+        setLoading(true);
         summaryCard.readCard(auth, videoId, (result) => {
           if (result) {
             setCards(result);
-
-            setSelectedCard({ id: 'preview' });
           } else {
             setCards({
               preview: {
                 id: 'preview',
               },
             });
-            
-            setSelectedCard({ id: 'preview' });
           }
-          setLoading(true);
+          setLoading(false);
         });
       }
     });
+
+    return () => {
+      setCards({});
+    };
   }, [auth, authService, history, summaryCard, videoId]);
 
   if (!videoId || !title) {
@@ -122,7 +100,7 @@ const Summary = ({ authService, cloudinary, summaryCard }) => {
             <Logout authService={authService} />
           </nav>
           <main className={styles.main}>
-            {!loading && <Loading styles={styles} />}
+            {loading && <Loading styles={styles} />}
             {cards[selectedCard.id] && (
               <>
                 <Maker
@@ -132,7 +110,6 @@ const Summary = ({ authService, cloudinary, summaryCard }) => {
                   selectedCard={selectedCard}
                   cloudinary={cloudinary}
                 />
-
                 <Preview
                   cards={cards}
                   onAddButton={onAddButton}

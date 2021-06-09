@@ -19,21 +19,21 @@ const Preview = memo(
           저장됩니다. <br /> 카드의 추가 제작을 원하시면 <span>Plus</span>{' '}
           버튼을 눌러주세요.
         </p>
-        <ul>
-          {Object.keys(cards)
-            .sort()
-            .map((key) => (
-              <Card
-                key={key}
-                card={cards[key]}
-                onAddButton={onAddButton}
-                onEditButton={onEditButton}
-                onDeleteButton={onDeleteButton}
-                onLoadingEnd={onLoadingEnd}
-                selectedCard={selectedCard}
-              />
-            ))}
-        </ul>
+
+        {Object.keys(cards)
+          .sort()
+          .map((key) => (
+            <Card
+              key={key}
+              card={cards[key]}
+              onAddButton={onAddButton}
+              onEditButton={onEditButton}
+              onDeleteButton={onDeleteButton}
+              onLoadingEnd={onLoadingEnd}
+              selectedCard={selectedCard}
+              styles={styles}
+            />
+          ))}
       </section>
     );
   }

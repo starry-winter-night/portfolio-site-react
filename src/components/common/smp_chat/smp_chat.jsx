@@ -7,7 +7,7 @@ const SmpChat = ({ smpChat }) => {
     smpChat.load(auth);
   }
 
-  return auth && <div className={`smpChat`}></div>;
+  return <div className={`smpChat`}></div>;
 };
 
 export default SmpChat;

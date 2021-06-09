@@ -42,13 +42,13 @@ class SmpChat {
 
   clear() {
     if (this.script) {
-      this.script.parentNode?.removeChild(this.script);
+      this.script.parentNode.removeChild(this.script);
 
       this.script = null;
     }
 
     if (this.link) {
-      this.link.parentNode?.removeChild(this.link);
+      this.link.parentNode.removeChild(this.link);
 
       this.link = null;
     }

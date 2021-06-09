@@ -29,11 +29,15 @@ const App = ({
         </Route>
 
         <Route path="/login">
-          <Login authService={authService} smpChat={smpChat}/>
+          <Login authService={authService} smpChat={smpChat} />
         </Route>
 
         <Route path="/study">
-          <Study youtube={youtube} authService={authService} />
+          <Study
+            youtube={youtube}
+            authService={authService}
+            summaryCard={summaryCard}
+          />
         </Route>
 
         <Route path="/summary">

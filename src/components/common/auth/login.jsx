@@ -54,11 +54,7 @@ const Login = ({ authService, smpChat }) => {
         }
 
         goToStudy(user.uid);
-
-        return;
-      }
-
-      if (!user) {
+      } else {
         if (auth) {
           localStorage.clear();
         }

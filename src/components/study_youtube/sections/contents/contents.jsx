@@ -1,29 +1,26 @@
-import React from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import styles from './contents.module.css';
 import Video from '../../../common/youtube/video';
+import Card from '../../../summary_card/preview/card';
 
-const Contents = ({ videoPlay, onVideoSave }) => {
+const Contents = memo(({ videoPlay, onVideoSave, summaryCard }) => {
+  const [cards, setCards] = useState({});
+
   const history = useHistory();
+  const auth = localStorage.getItem('state');
+  const getVideo = localStorage.getItem('video');
 
-  const video = videoPlay.snippet;
+  const video = JSON.parse(getVideo) || videoPlay.snippet;
 
-  const currVideoId = localStorage.getItem('videoId') || null;
   const developVideoId = video?.resourceId?.videoId;
   const searchVideoId = videoPlay.id;
 
-  let videoId = null;
-  let channelId = null;
+  let videoId = developVideoId;
+  let channelId = video.videoOwnerChannelId;
 
-  if (!currVideoId) {
-    videoId = developVideoId;
-    channelId = video.videoOwnerChannelId;
-
-    if (!videoId) videoId = searchVideoId;
-    if (!channelId) channelId = video.channelId;
-  } else {
-    videoId = currVideoId;
-  }
+  if (!videoId) videoId = searchVideoId;
+  if (!channelId) channelId = video.channelId;
 
   const onSaveButtonClick = (e) => {
     e.preventDefault();
@@ -39,6 +36,20 @@ const Contents = ({ videoPlay, onVideoSave }) => {
       state: { videoId, title: video.title },
     });
   };
+
+  useEffect(() => {
+    summaryCard.readCard(auth, videoId, (result) => {
+      if (result) {
+        setCards(result);
+      } else {
+        setCards({});
+      }
+    });
+
+    return () => {
+      setCards({});
+    };
+  }, [auth, summaryCard, videoId]);
 
   return (
     <section className={styles.contents}>
@@ -61,8 +72,25 @@ const Contents = ({ videoPlay, onVideoSave }) => {
           채널방문
         </a>
       </div>
+      {Object.keys(cards).length !== 0 &&
+        Object.keys(cards)
+          .sort()
+          .map(
+            (key) =>
+              previewCheck(cards[key]) && (
+                <Card key={key} card={cards[key]} styles={styles} />
+              )
+          )}
     </section>
   );
-};
+});
+
+function previewCheck(card) {
+  if (!card.title && !card.subTitle && !card.logoURL) {
+    return false;
+  } else {
+    return true;
+  }
+}
 
 export default Contents;

@@ -12,10 +12,15 @@ const Sections = ({
   youtube,
   query,
   loading,
+  summaryCard,
 }) => {
   return (
     <main className={styles.main}>
-      <Contents videoPlay={videoPlay} onVideoSave={onVideoSave} />
+      <Contents
+        videoPlay={videoPlay}
+        onVideoSave={onVideoSave}
+        summaryCard={summaryCard}
+      />
       <Directory
         layer={layer}
         onVideoListClick={onVideoListClick}

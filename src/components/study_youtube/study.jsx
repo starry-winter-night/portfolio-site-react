@@ -5,7 +5,7 @@ import Sections from './sections/sections';
 import styles from './study.module.css';
 import _ from 'lodash';
 
-const Study = memo(({ youtube, authService }) => {
+const Study = memo(({ youtube, authService, summaryCard }) => {
   const [etcToggle, setEtcToggle] = useState('off');
   const [videoPlay, setVideoPlay] = useState(null);
   const [query, setQuery] = useState('');
@@ -263,9 +263,11 @@ const Study = memo(({ youtube, authService }) => {
   };
 
   const onVideoListClick = useCallback((video) => {
-    setVideoPlay(video);
+    setVideoPlay((item) => {
+      return { ...item, video };
+    });
 
-    localStorage.setItem('videoId', video.snippet?.resourceId?.videoId);
+    localStorage.setItem('video', JSON.stringify(video.snippet));
   }, []);
 
   useEffect(() => {
@@ -305,6 +307,7 @@ const Study = memo(({ youtube, authService }) => {
                 youtube={youtube}
                 query={query}
                 loading={loading}
+                summaryCard={summaryCard}
               />
             </>
           )}
