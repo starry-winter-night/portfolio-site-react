@@ -10,7 +10,8 @@ const Directory = ({
   onYoutubeLayerSet,
   query,
   loading,
-  etcToggleId
+  etcToggleId,
+  youtubeRepo
 }) => {
   return (
     <section className={styles.directory}>
@@ -27,6 +28,7 @@ const Directory = ({
               query={query}
               loading={loading}
               etcToggleId={etcToggleId}
+              youtubeRepo={youtubeRepo}
             />
           )
       )}

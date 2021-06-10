@@ -11,11 +11,14 @@ const Item = memo(
     query,
     videoList,
     etcToggleId,
+    youtubeRepo,
+    videoListId,
   }) => {
     const lastLiRef = useRef();
     const token = videoList?.contents?.nextPageToken;
     const id = videoList?.id;
-    const dropboxList = ['delete'];
+    const dropboxList = ['삭제하기'];
+    const auth = localStorage.getItem('state');
 
     useEffect(() => {
       if (!Object.keys(videoList).length) return;
@@ -43,9 +46,12 @@ const Item = memo(
     };
 
     const onDeleteClick = (text) => {
-      if (text === 'delete') {
-        // localStorage.clear();
-        // authService.logout();
+      let videoId = video?.resourceId?.videoId;
+
+      if (!videoId) videoId = item.id;
+
+      if (text === '삭제하기') {
+        youtubeRepo.deleteVideo(auth, videoId);
       }
     };
 
@@ -62,13 +68,16 @@ const Item = memo(
           <h3 className={styles.title}>{video.title}</h3>
           <p className={styles.content}>{channelTitle}</p>
         </div>
-        <Dropbox
-          list={dropboxList}
-          listClick={onDeleteClick}
-          styles={styles}
-          dropboxId={item.id}
-          etcToggleId={etcToggleId}
-        />
+
+        {videoListId === 'mylist' && (
+          <Dropbox
+            list={dropboxList}
+            listClick={onDeleteClick}
+            styles={styles}
+            dropboxId={item.id}
+            etcToggleId={etcToggleId}
+          />
+        )}
       </li>
     );
   }

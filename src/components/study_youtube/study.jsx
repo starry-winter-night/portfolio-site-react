@@ -257,33 +257,31 @@ const Study = memo(({ authService, cardRepo, youtube, youtubeRepo }) => {
         history.push('/login');
       } else {
         youtubeRepo.readVideo(auth, (result) => {
-          if (result) {
-            let obj = {};
-            let arr = [];
+          let obj = {};
+          let arr = [];
 
-            for (const key in result) {
-              obj[result[key].date] = result[key];
+          for (const key in result) {
+            obj[result[key].date] = result[key];
 
-              arr.push(result[key].date);
-            }
-
-            const sortList = arr.sort().map((item) => obj[item]);
-
-            setLayer((list) =>
-              list.map((item) => {
-                if (item.id === 'mylist') {
-                  return {
-                    ...item,
-                    contents: {
-                      videoList: sortList,
-                    },
-                  };
-                }
-
-                return item;
-              })
-            );
+            arr.push(result[key].date);
           }
+
+          const sortList = arr.sort().map((item) => obj[item]);
+
+          setLayer((list) =>
+            list.map((item) => {
+              if (item.id === 'mylist') {
+                return {
+                  ...item,
+                  contents: {
+                    videoList: sortList,
+                  },
+                };
+              }
+
+              return item;
+            })
+          );
         });
 
         onYoutubeLayerSet(youtube.developList(), 'develop', 'sectionLoading');
@@ -319,6 +317,7 @@ const Study = memo(({ authService, cardRepo, youtube, youtubeRepo }) => {
                 query={query}
                 loading={loading}
                 cardRepo={cardRepo}
+                youtubeRepo={youtubeRepo}
               />
             </>
           )}

@@ -14,6 +14,7 @@ const Sections = ({
   loading,
   cardRepo,
   etcToggleId,
+  youtubeRepo
 }) => {
   return (
     <main className={styles.main}>
@@ -30,6 +31,7 @@ const Sections = ({
         query={query}
         loading={loading}
         etcToggleId={etcToggleId}
+        youtubeRepo={youtubeRepo}
       />
     </main>
   );

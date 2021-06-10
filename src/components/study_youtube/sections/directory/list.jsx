@@ -12,6 +12,7 @@ const List = memo(
     query,
     loading,
     etcToggleId,
+    youtubeRepo,
   }) => {
     const list = videoList.contents?.videoList;
 
@@ -32,6 +33,8 @@ const List = memo(
                 query={index === list.length - 1 && query}
                 videoList={index === list.length - 1 && videoList}
                 etcToggleId={etcToggleId}
+                youtubeRepo={youtubeRepo}
+                videoListId={videoList.id}
               />
             );
           })}
