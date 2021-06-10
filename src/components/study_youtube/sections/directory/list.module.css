@@ -12,3 +12,7 @@
 .loading {
   width: 50px;
 }
+
+.videoList {
+  user-select: none;
+}

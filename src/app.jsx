@@ -9,13 +9,14 @@ import Error from './components/error/error';
 
 const App = ({
   authService,
+  cardRepo,
   cloudinary,
   highLightMenu,
   moveSection,
-  starryNight,
-  summaryCard,
-  youtube,
   smpChat,
+  starryNight,
+  youtube,
+  youtubeRepo,
 }) => {
   return (
     <Router>
@@ -36,7 +37,8 @@ const App = ({
           <Study
             youtube={youtube}
             authService={authService}
-            summaryCard={summaryCard}
+            cardRepo={cardRepo}
+            youtubeRepo={youtubeRepo}
           />
         </Route>
 
@@ -44,7 +46,7 @@ const App = ({
           <Summary
             authService={authService}
             cloudinary={cloudinary}
-            summaryCard={summaryCard}
+            cardRepo={cardRepo}
           />
         </Route>
 

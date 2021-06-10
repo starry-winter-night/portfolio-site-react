@@ -5,8 +5,8 @@ import Sections from './sections/sections';
 import styles from './study.module.css';
 import _ from 'lodash';
 
-const Study = memo(({ youtube, authService, summaryCard }) => {
-  const [etcToggle, setEtcToggle] = useState('off');
+const Study = memo(({ authService, cardRepo, youtube, youtubeRepo }) => {
+  const [etcToggleId, setEtcToggleId] = useState(null);
   const [videoPlay, setVideoPlay] = useState(null);
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState({});
@@ -127,6 +127,7 @@ const Study = memo(({ youtube, authService, summaryCard }) => {
                     result.items.forEach((item) => {
                       cloneItem.contents.videoList.push(item);
                     });
+
                     cloneItem.contents.nextPageToken = result.nextPageToken;
 
                     return cloneItem;
@@ -206,34 +207,16 @@ const Study = memo(({ youtube, authService, summaryCard }) => {
     [onYoutubeLayerSet, youtube]
   );
 
-  const onVideoSave = useCallback((selectedList) => {
-    setLayer((list) =>
-      list.map((item) => {
-        if (item.id === 'mylist') {
-          let check = null;
-          item.contents.videoList.forEach((item) => {
-            if (item.id === selectedList.id) {
-              check = 'exist';
-              return;
-            }
-          });
+  const onVideoSave = useCallback(
+    (video, videoId) => {
+      video.date = Date.now();
 
-          if (check === 'exist') {
-            alert('이미 등록되어 있는 영상입니다.');
-          } else {
-            alert('저장 되었습니다.');
+      youtubeRepo.saveVideo(auth, video, videoId);
 
-            const cloneItem = _.cloneDeep(item);
-
-            cloneItem.contents.videoList.push(selectedList);
-
-            return cloneItem;
-          }
-        }
-        return item;
-      })
-    );
-  }, []);
+      alert('저장 되었습니다.');
+    },
+    [auth, youtubeRepo]
+  );
 
   const onMenuClick = useCallback((title) => {
     setLayer((list) =>
@@ -247,18 +230,16 @@ const Study = memo(({ youtube, authService, summaryCard }) => {
     );
   }, []);
 
-  const onDropBoxClick = useCallback(() => {
-    etcToggle === 'on' ? setEtcToggle('off') : setEtcToggle('on');
-  }, [etcToggle]);
-
   const onHideDropBox = (e) => {
-    const menu = e.target.closest('li');
-    if (!menu) setEtcToggle('off');
-
-    if (menu) {
-      const id = menu.dataset.id;
-
-      if (id !== 'etc') setEtcToggle('off');
+    const toggleState = e.target.closest('svg')?.dataset.etcId;
+    if (toggleState) {
+      if (etcToggleId === toggleState) {
+        setEtcToggleId(null);
+      } else {
+        setEtcToggleId(toggleState);
+      }
+    } else {
+      setEtcToggleId(null);
     }
   };
 
@@ -267,7 +248,7 @@ const Study = memo(({ youtube, authService, summaryCard }) => {
       return { ...item, video };
     });
 
-    localStorage.setItem('video', JSON.stringify(video.snippet));
+    localStorage.setItem('video', JSON.stringify(video));
   }, []);
 
   useEffect(() => {
@@ -275,6 +256,36 @@ const Study = memo(({ youtube, authService, summaryCard }) => {
       if (!user || !auth) {
         history.push('/login');
       } else {
+        youtubeRepo.readVideo(auth, (result) => {
+          if (result) {
+            let obj = {};
+            let arr = [];
+
+            for (const key in result) {
+              obj[result[key].date] = result[key];
+
+              arr.push(result[key].date);
+            }
+
+            const sortList = arr.sort().map((item) => obj[item]);
+
+            setLayer((list) =>
+              list.map((item) => {
+                if (item.id === 'mylist') {
+                  return {
+                    ...item,
+                    contents: {
+                      videoList: sortList,
+                    },
+                  };
+                }
+
+                return item;
+              })
+            );
+          }
+        });
+
         onYoutubeLayerSet(youtube.developList(), 'develop', 'sectionLoading');
       }
     });
@@ -282,7 +293,7 @@ const Study = memo(({ youtube, authService, summaryCard }) => {
     return () => {
       setLayer([{}]);
     };
-  }, [auth, authService, history, onYoutubeLayerSet, youtube]);
+  }, [auth, authService, history, onYoutubeLayerSet, youtube, youtubeRepo]);
 
   return (
     <>
@@ -294,8 +305,7 @@ const Study = memo(({ youtube, authService, summaryCard }) => {
                 layer={layer}
                 onMenuClick={onMenuClick}
                 onSearch={onSearch}
-                onDropBoxClick={onDropBoxClick}
-                etcToggle={etcToggle}
+                etcToggleId={etcToggleId}
                 authService={authService}
               />
               <Sections
@@ -305,9 +315,10 @@ const Study = memo(({ youtube, authService, summaryCard }) => {
                 onVideoListClick={onVideoListClick}
                 onVideoSave={onVideoSave}
                 youtube={youtube}
+                etcToggleId={etcToggleId}
                 query={query}
                 loading={loading}
-                summaryCard={summaryCard}
+                cardRepo={cardRepo}
               />
             </>
           )}

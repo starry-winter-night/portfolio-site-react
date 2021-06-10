@@ -12,14 +12,15 @@ const Sections = ({
   youtube,
   query,
   loading,
-  summaryCard,
+  cardRepo,
+  etcToggleId,
 }) => {
   return (
     <main className={styles.main}>
       <Contents
         videoPlay={videoPlay}
         onVideoSave={onVideoSave}
-        summaryCard={summaryCard}
+        cardRepo={cardRepo}
       />
       <Directory
         layer={layer}
@@ -28,6 +29,7 @@ const Sections = ({
         onYoutubeLayerSet={onYoutubeLayerSet}
         query={query}
         loading={loading}
+        etcToggleId={etcToggleId}
       />
     </main>
   );

@@ -4,17 +4,17 @@ import styles from './contents.module.css';
 import Video from '../../../common/youtube/video';
 import Card from '../../../summary_card/preview/card';
 
-const Contents = memo(({ videoPlay, onVideoSave, summaryCard }) => {
+const Contents = memo(({ videoPlay, onVideoSave, cardRepo }) => {
   const [cards, setCards] = useState({});
 
   const history = useHistory();
   const auth = localStorage.getItem('state');
-  const getVideo = localStorage.getItem('video');
+  const getVideo = JSON.parse(localStorage.getItem('video'));
 
-  const video = JSON.parse(getVideo) || videoPlay.snippet;
+  const video = getVideo?.snippet || videoPlay?.snippet;
 
   const developVideoId = video?.resourceId?.videoId;
-  const searchVideoId = videoPlay.id;
+  const searchVideoId = getVideo?.id;
 
   let videoId = developVideoId;
   let channelId = video.videoOwnerChannelId;
@@ -25,7 +25,7 @@ const Contents = memo(({ videoPlay, onVideoSave, summaryCard }) => {
   const onSaveButtonClick = (e) => {
     e.preventDefault();
 
-    onVideoSave(videoPlay);
+    onVideoSave(getVideo, videoId);
   };
 
   const onSummaryCardButtonClick = (e) => {
@@ -38,7 +38,7 @@ const Contents = memo(({ videoPlay, onVideoSave, summaryCard }) => {
   };
 
   useEffect(() => {
-    summaryCard.readCard(auth, videoId, (result) => {
+    cardRepo.readCard(auth, videoId, (result) => {
       if (result) {
         setCards(result);
       } else {
@@ -49,7 +49,7 @@ const Contents = memo(({ videoPlay, onVideoSave, summaryCard }) => {
     return () => {
       setCards({});
     };
-  }, [auth, summaryCard, videoId]);
+  }, [auth, cardRepo, videoId]);
 
   return (
     <section className={styles.contents}>

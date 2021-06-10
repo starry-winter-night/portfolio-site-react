@@ -3,25 +3,16 @@ import styles from './navbar.module.css';
 import Menu from './menu';
 import Goback from '../../common/goback/goback';
 import Search from '../../common/search/search';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import Dropbox from '../../common/button/dropbox';
 
-const Navbar = ({
-  layer,
-  onMenuClick,
-  onSearch,
-  onDropBoxClick,
-  etcToggle,
-  authService,
-}) => {
-  const onClickToggle = () => {
-    onDropBoxClick();
+const Navbar = ({ layer, onMenuClick, onSearch, etcToggleId, authService }) => {
+  const onClickLogout = (text) => {
+    if (text === 'logout') {
+      localStorage.clear();
+      authService.logout();
+    }
   };
-
-  const onClickLogout = () => {
-    localStorage.clear();
-    authService.logout();
-  };
+  const list = ['logout'];
 
   return (
     <nav className={styles.navbar}>
@@ -31,15 +22,13 @@ const Navbar = ({
         {layer.map((item) => (
           <Menu key={item.id} onMenuClick={onMenuClick} item={item} />
         ))}
-        <li className={styles.etc} onClick={onClickToggle} data-id="etc">
-          <FontAwesomeIcon icon={faEllipsisV} />
-          {etcToggle === 'on' && (
-            <div className={styles.dropbox}>
-              <ul className={styles.list}>
-                <li onClick={onClickLogout}>logout</li>
-              </ul>
-            </div>
-          )}
+        <li>
+          <Dropbox
+            etcToggleId={etcToggleId}
+            list={list}
+            listClick={onClickLogout}
+            styles={styles}
+          />
         </li>
       </ul>
     </nav>

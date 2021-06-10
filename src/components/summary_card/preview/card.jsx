@@ -24,8 +24,6 @@ const Card = memo(
 
     const { id, title, subTitle, logoName, logoURL, description } = card;
 
-    // console.log(card)
-
     // const DEFAULT_IMAGE = 'imgs/note.png';
     const DEFAULT_IMAGE = '';
     const url = logoURL || DEFAULT_IMAGE;

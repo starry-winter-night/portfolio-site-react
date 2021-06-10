@@ -7,7 +7,7 @@ import Preview from './preview/preview';
 import Loading from '../common/loading/loading';
 import styles from './summary.module.css';
 
-const Summary = ({ authService, cloudinary, summaryCard }) => {
+const Summary = ({ authService, cloudinary, cardRepo }) => {
   const history = useHistory();
 
   const auth = localStorage.getItem('state');
@@ -20,9 +20,9 @@ const Summary = ({ authService, cloudinary, summaryCard }) => {
 
   const onUpdateCard = useCallback(
     (card) => {
-      summaryCard.saveCard(auth, videoId, card);
+      cardRepo.saveCard(auth, videoId, card);
     },
-    [auth, summaryCard, videoId]
+    [auth, cardRepo, videoId]
   );
 
   const onAddButton = useCallback(
@@ -31,17 +31,17 @@ const Summary = ({ authService, cloudinary, summaryCard }) => {
 
       const currentCard = { ...card, id: key };
 
-      summaryCard.saveCard(auth, videoId, currentCard);
+      cardRepo.saveCard(auth, videoId, currentCard);
 
       const previewCard = { id: 'preview' };
 
-      summaryCard.saveCard(auth, videoId, previewCard);
+      cardRepo.saveCard(auth, videoId, previewCard);
 
       if (currentId !== 'preview') return;
 
       setSelectedCard({ id: key });
     },
-    [auth, summaryCard, videoId]
+    [auth, cardRepo, videoId]
   );
 
   const onEditButton = useCallback((cardId) => {
@@ -50,11 +50,11 @@ const Summary = ({ authService, cloudinary, summaryCard }) => {
 
   const onDeleteButton = useCallback(
     (card) => {
-      summaryCard.deleteCard(auth, videoId, card);
+      cardRepo.deleteCard(auth, videoId, card);
 
       setSelectedCard({ id: 'preview' });
     },
-    [auth, summaryCard, videoId]
+    [auth, cardRepo, videoId]
   );
 
   useEffect(() => {
@@ -63,7 +63,7 @@ const Summary = ({ authService, cloudinary, summaryCard }) => {
         history.push('/login');
       } else {
         setLoading(true);
-        summaryCard.readCard(auth, videoId, (result) => {
+        cardRepo.readCard(auth, videoId, (result) => {
           if (result) {
             setCards(result);
           } else {
@@ -81,7 +81,7 @@ const Summary = ({ authService, cloudinary, summaryCard }) => {
     return () => {
       setCards({});
     };
-  }, [auth, authService, history, summaryCard, videoId]);
+  }, [auth, authService, history, cardRepo, videoId]);
 
   if (!videoId || !title) {
     history.push('/study');

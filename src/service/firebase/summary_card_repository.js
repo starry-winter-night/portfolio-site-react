@@ -2,11 +2,17 @@ import firebaseApp from './firebase';
 
 class SummaryCardRepository {
   saveCard(userId, videoId, card) {
-    firebaseApp.database().ref(`${userId}/${videoId}/${card.id}`).set(card);
+    firebaseApp
+      .database()
+      .ref(`${userId}/summaryCard/${videoId}/${card.id}`)
+      .set(card);
   }
 
   deleteCard(userId, videoId, card) {
-    firebaseApp.database().ref(`${userId}/${videoId}/${card.id}`).remove();
+    firebaseApp
+      .database()
+      .ref(`${userId}/summaryCard/${videoId}/${card.id}`)
+      .remove();
   }
 
   readCard(userId, videoId, cb) {

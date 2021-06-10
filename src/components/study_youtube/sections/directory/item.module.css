@@ -2,8 +2,8 @@
   display: flex;
   cursor: pointer;
   margin-bottom: 8px;
-
-  padding-right: 24px;
+  position: relative;
+  margin-right: 24px;
 }
 
 .thumbnail {
@@ -21,7 +21,7 @@
   white-space: normal;
   -webkit-line-clamp: 3;
   height: 60px;
-  margin: 0 5px;
+  margin: 0 10px 0 5px;
   display: -webkit-box;
 }
 
@@ -29,4 +29,40 @@
   font-size: 12px;
   margin: 20px 5px 0 5px;
   color: var(--color-light-grey);
+}
+
+#dropbox_icon {
+  position: relative;
+  cursor: pointer;
+  padding: 5px 0 10px 0;
+  width: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--color-light-white);
+  height: 30px;
+}
+
+.dropbox_container {
+  position: absolute;
+  cursor: pointer;
+  top: -2px;
+  right: -10px;
+}
+
+.dropbox_list {
+  width: 80px;
+  top: 20px;
+  text-align: center;
+  bottom: 0;
+  right: 5px;
+  position: absolute;
+}
+
+.dropbox_list li {
+  color: #f5f5f6;
+  height: 30px;
+  line-height: 30px;
+  background-color: var(--color-light-black);
+  user-select: none;
+  font-size: 13px;
 }

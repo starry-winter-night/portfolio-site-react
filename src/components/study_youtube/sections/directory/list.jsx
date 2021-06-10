@@ -11,11 +11,12 @@ const List = memo(
     onYoutubeLayerSet,
     query,
     loading,
+    etcToggleId,
   }) => {
     const list = videoList.contents?.videoList;
 
     return (
-      <ul>
+      <ul className={styles.videoList}>
         {loading.listLoading && <Loading styles={styles} />}
         {list &&
           list.map((item, index) => {
@@ -30,6 +31,7 @@ const List = memo(
                 youtube={index === list.length - 1 && youtube}
                 query={index === list.length - 1 && query}
                 videoList={index === list.length - 1 && videoList}
+                etcToggleId={etcToggleId}
               />
             );
           })}

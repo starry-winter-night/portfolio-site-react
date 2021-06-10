@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useRef } from 'react';
 import styles from './item.module.css';
 import LoadContentsByObserve from '../../../../service/youtube/load_contents_by_observe';
-
+import Dropbox from '../../../common/button/dropbox';
 const Item = memo(
   ({
     item, //
@@ -10,10 +10,12 @@ const Item = memo(
     youtube,
     query,
     videoList,
+    etcToggleId,
   }) => {
     const lastLiRef = useRef();
     const token = videoList?.contents?.nextPageToken;
     const id = videoList?.id;
+    const dropboxList = ['delete'];
 
     useEffect(() => {
       if (!Object.keys(videoList).length) return;
@@ -34,12 +36,21 @@ const Item = memo(
       ? video.videoOwnerChannelTitle
       : video.channelTitle;
 
-    const onClick = () => {
-      onVideoListClick(item);
+    const onListClick = (e) => {
+      if (!e.target.closest('svg')?.dataset.etcId) {
+        onVideoListClick(item);
+      }
+    };
+
+    const onDeleteClick = (text) => {
+      if (text === 'delete') {
+        // localStorage.clear();
+        // authService.logout();
+      }
     };
 
     return (
-      <li className={styles.youtubeList} onClick={onClick} ref={lastLiRef}>
+      <li className={styles.youtubeList} onClick={onListClick} ref={lastLiRef}>
         <div className={styles.thumnailBox}>
           <img
             className={styles.thumbnail}
@@ -51,6 +62,13 @@ const Item = memo(
           <h3 className={styles.title}>{video.title}</h3>
           <p className={styles.content}>{channelTitle}</p>
         </div>
+        <Dropbox
+          list={dropboxList}
+          listClick={onDeleteClick}
+          styles={styles}
+          dropboxId={item.id}
+          etcToggleId={etcToggleId}
+        />
       </li>
     );
   }
