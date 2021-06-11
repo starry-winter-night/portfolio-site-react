@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { memo } from 'react';
 
-const Video = ({ videoId, height }) => (
+const Video = memo(({ videoId, height }) => (
   <iframe
     type="text/html"
     title="youtube video player"
@@ -10,6 +10,6 @@ const Video = ({ videoId, height }) => (
     frameBorder="0"
     allowFullScreen
   ></iframe>
-);
+));
 
 export default Video;

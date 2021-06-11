@@ -120,6 +120,28 @@
   transform: rotate(270deg);
 }
 
+.card_bookmark.firebrick {
+  background-color: firebrick;
+}
+.card_bookmark.tomato {
+  background-color: tomato;
+}
+.card_bookmark.gold {
+  background-color: gold;
+}
+.card_bookmark.yellowgreen {
+  background-color: yellowgreen;
+}
+.card_bookmark.steelblue {
+  background-color: steelblue;
+}
+.card_bookmark.skyblue {
+  background-color: skyblue;
+}
+.card_bookmark.darkorchid {
+  background-color: darkorchid;
+}
+
 .card_bookmark::after {
   position: absolute;
   content: '';

@@ -22,13 +22,7 @@ const Write = ({ cards, selectedCard, cloudinary, onUpdateCard }) => {
   const key = selectedCard.id;
   const state = selectedCard.state;
 
-  const {
-    title, //
-    subTitle,
-    description,
-    bookmark,
-    logoName,
-  } = cards[key];
+  const { title, subTitle, description, bookmark, logoName } = cards[key];
 
   useEffect(() => {
     if (!cards[key]) return;
@@ -40,8 +34,7 @@ const Write = ({ cards, selectedCard, cloudinary, onUpdateCard }) => {
     if (bookmark) {
       bookmarkRef.current.value = bookmark;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key, state]);
+  }, [bookmark, cards, description, key, state, subTitle, title]);
 
   const onImageChange = (image) => {
     const card = {
@@ -138,9 +131,14 @@ const Write = ({ cards, selectedCard, cloudinary, onUpdateCard }) => {
           ref={bookmarkRef}
           onChange={onContentsChange}
         >
-          <option value="light">light</option>
-          <option value="pink">pink</option>
-          <option value="colorful">colorful</option>
+          <option value="firebrick">firebrick</option>
+          <option value="tomato">tomato</option>
+          <option value="gold">gold</option>
+          <option value="yellowgreen">yellowgreen</option>
+          <option value="steelblue">steelblue</option>
+          <option value="skyblue">skyblue</option>
+          <option value="darkorchid">darkorchid</option>
+          <option value="white">white</option>
         </select>
 
         <div className={styles.editor}>

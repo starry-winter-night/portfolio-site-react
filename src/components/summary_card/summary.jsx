@@ -14,7 +14,12 @@ const Summary = ({ authService, cloudinary, cardRepo }) => {
   const videoId = history.location.state?.videoId;
   const title = history.location.state?.title;
 
-  const [cards, setCards] = useState({});
+  const [cards, setCards] = useState({
+    preview: {
+      id: 'preview',
+      bookmark: 'white',
+    },
+  });
   const [selectedCard, setSelectedCard] = useState({ id: 'preview' });
   const [loading, setLoading] = useState(null);
 
@@ -33,7 +38,7 @@ const Summary = ({ authService, cloudinary, cardRepo }) => {
 
       cardRepo.saveCard(auth, videoId, currentCard);
 
-      const previewCard = { id: 'preview' };
+      const previewCard = { id: 'preview', bookmark: 'white' };
 
       cardRepo.saveCard(auth, videoId, previewCard);
 
@@ -70,6 +75,7 @@ const Summary = ({ authService, cloudinary, cardRepo }) => {
             setCards({
               preview: {
                 id: 'preview',
+                bookmark: 'yellow',
               },
             });
           }

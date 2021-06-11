@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styles from './logout.module.css';
-const Logout = ({ authService }) => {
+const Logout = memo(({ authService }) => {
   const hadleLogout = () => {
     localStorage.clear();
     authService.logout();
@@ -11,6 +11,6 @@ const Logout = ({ authService }) => {
       Logout
     </button>
   );
-};
+});
 
 export default Logout;

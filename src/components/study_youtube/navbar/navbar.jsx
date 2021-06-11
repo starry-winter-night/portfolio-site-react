@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styles from './navbar.module.css';
 import Menu from './menu';
 import Goback from '../../common/goback/goback';
 import Search from '../../common/search/search';
 import Dropbox from '../../common/button/dropbox';
 
-const Navbar = ({ layer, onMenuClick, onSearch, etcToggleId, authService }) => {
+const Navbar = memo(({ layer, onMenuClick, onSearch, etcToggleId, authService }) => {
   const onClickLogout = (text) => {
     if (text === 'logout') {
       localStorage.clear();
@@ -33,6 +33,6 @@ const Navbar = ({ layer, onMenuClick, onSearch, etcToggleId, authService }) => {
       </ul>
     </nav>
   );
-};
+});
 
 export default Navbar;

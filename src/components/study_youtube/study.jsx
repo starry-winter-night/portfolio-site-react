@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useCallback, memo } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useHistory } from 'react-router';
 import Navbar from './navbar/navbar';
 import Sections from './sections/sections';
 import styles from './study.module.css';
 import _ from 'lodash';
 
-const Study = memo(({ authService, cardRepo, youtube, youtubeRepo }) => {
+const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
   const [etcToggleId, setEtcToggleId] = useState(null);
   const [videoPlay, setVideoPlay] = useState(null);
   const [query, setQuery] = useState('');
@@ -325,7 +325,7 @@ const Study = memo(({ authService, cardRepo, youtube, youtubeRepo }) => {
       )}
     </>
   );
-});
+};
 
 function reassembleList(llst) {
   return llst.items.map((item) => ({

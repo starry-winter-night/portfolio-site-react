@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { memo, useRef, useState } from 'react';
 import styles from './imageInput.module.css';
 import Loading from '../loading/loading';
 
-const ImageInput = ({
+const ImageInput = memo(({
   imageLabelStyle,
   name,
   onImageChange,
@@ -82,6 +82,6 @@ const ImageInput = ({
       {loading && <Loading styles={styles} />}
     </>
   );
-};
+});
 
 export default ImageInput;

@@ -22,7 +22,8 @@ const Card = memo(
     const [openModal, setOpenModal] = useState('');
     const [modalType, setModalType] = useState('');
 
-    const { id, title, subTitle, logoName, logoURL, description } = card;
+    const { id, title, subTitle, logoName, logoURL, description, bookmark } =
+      card;
 
     // const DEFAULT_IMAGE = 'imgs/note.png';
     const DEFAULT_IMAGE = '';
@@ -66,22 +67,10 @@ const Card = memo(
         descriptionRef.current.innerHTML = description || '';
       }
     }, [description]);
-
-    // useEffect(() => {
-    //   if (logoRef.current) {
-    //     onLoadingEnd();
-    //     logoRef.current.scrollIntoView({ behavior: 'smooth' });
-    //   }
-    // }, [logoURL]);
-
-    // useEffect(() => {
-    //   cardRef.current.scrollIntoView({ behavior: 'smooth' });
-    // }, [card]);
-
     return (
       <ul>
         <li className={styles.card} ref={cardRef}>
-          <div className={styles.card_bookmark}></div>
+          <div className={`${styles.card_bookmark} ${styles[bookmark]}`}></div>
           <div className={styles.card_iconBox}>
             {selectedCard && id !== selectedCard.id && (
               <FontAwesomeIcon
