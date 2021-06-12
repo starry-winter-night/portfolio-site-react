@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, memo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRedoAlt } from '@fortawesome/free-solid-svg-icons';
 import { Editor } from '@toast-ui/react-editor';
@@ -12,7 +12,7 @@ import ImageInput from '../../common/button/imageInput';
 import Button from '../../common/button/button';
 import styles from './maker.module.css';
 
-const Write = ({ cards, selectedCard, cloudinary, onUpdateCard }) => {
+const Write = memo(({ cards, selectedCard, cloudinary, onUpdateCard }) => {
   const titleRef = useRef();
   const subtitleRef = useRef();
   const editorRef = useRef();
@@ -20,7 +20,6 @@ const Write = ({ cards, selectedCard, cloudinary, onUpdateCard }) => {
   const formRef = useRef();
 
   const key = selectedCard.id;
-  const state = selectedCard.state;
 
   const { title, subTitle, description, bookmark, logoName } = cards[key];
 
@@ -34,7 +33,8 @@ const Write = ({ cards, selectedCard, cloudinary, onUpdateCard }) => {
     if (bookmark) {
       bookmarkRef.current.value = bookmark;
     }
-  }, [bookmark, cards, description, key, state, subTitle, title]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [title]);
 
   const onImageChange = (image) => {
     const card = {
@@ -159,6 +159,6 @@ const Write = ({ cards, selectedCard, cloudinary, onUpdateCard }) => {
       </form>
     </>
   );
-};
+});
 
 export default Write;

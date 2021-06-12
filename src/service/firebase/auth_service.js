@@ -17,6 +17,22 @@ class AuthService {
     });
   }
 
+  customLogin(token, cb) {
+    firebaseAuth
+      .signInWithCustomToken(token)
+      .then((userCredential) => {
+        const user = userCredential.user;
+
+        cb(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+
+        throw new Error(`${errorCode}: ${errorMessage}`);
+      });
+  }
+
   getProvider(providerName) {
     switch (providerName) {
       case 'Google':

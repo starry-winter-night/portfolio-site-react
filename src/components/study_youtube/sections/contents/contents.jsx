@@ -9,7 +9,7 @@ const Contents = memo(({ videoPlay, onVideoSave, cardRepo }) => {
 
   const history = useHistory();
   const auth = localStorage.getItem('state');
-  const getVideo = JSON.parse(localStorage.getItem('video'));
+  const getVideo = JSON.parse(localStorage.getItem('video')) || videoPlay;
 
   const video = getVideo?.snippet || videoPlay?.snippet;
 
@@ -58,6 +58,7 @@ const Contents = memo(({ videoPlay, onVideoSave, cardRepo }) => {
       </div>
       <div className={styles.contentBox}>
         <h3 className={styles.title}>{video.title}</h3>
+        
         <button className={styles.summary} onClick={onSummaryCardButtonClick}>
           요약노트
         </button>

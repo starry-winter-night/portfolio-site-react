@@ -67,7 +67,7 @@ const Summary = ({ authService, cloudinary, cardRepo }) => {
       if (!user || !auth) {
         history.push('/login');
       } else {
-        setLoading(true);
+        setLoading('on');
         cardRepo.readCard(auth, videoId, (result) => {
           if (result) {
             setCards(result);
@@ -79,7 +79,7 @@ const Summary = ({ authService, cloudinary, cardRepo }) => {
               },
             });
           }
-          setLoading(false);
+          setLoading('off');
         });
       }
     });
@@ -92,7 +92,6 @@ const Summary = ({ authService, cloudinary, cardRepo }) => {
   if (!videoId || !title) {
     history.push('/study');
   }
-
   return (
     <>
       {auth && (
@@ -106,8 +105,8 @@ const Summary = ({ authService, cloudinary, cardRepo }) => {
             <Logout authService={authService} />
           </nav>
           <main className={styles.main}>
-            {loading && <Loading styles={styles} />}
-            {cards[selectedCard.id] && (
+            {loading === 'on' && <Loading styles={styles} />}
+            {cards[selectedCard.id] && loading === 'off' && (
               <>
                 <Maker
                   cards={cards}

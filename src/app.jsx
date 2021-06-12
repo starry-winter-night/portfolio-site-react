@@ -13,6 +13,7 @@ const App = ({
   cloudinary,
   highLightMenu,
   moveSection,
+  smpAuth,
   smpChat,
   starryNight,
   youtube,
@@ -30,7 +31,11 @@ const App = ({
         </Route>
 
         <Route path="/login">
-          <Login authService={authService} smpChat={smpChat} />
+          <Login
+            authService={authService}
+            smpAuth={smpAuth}
+            smpChat={smpChat}
+          />
         </Route>
 
         <Route path="/study">

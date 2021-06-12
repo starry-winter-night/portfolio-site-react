@@ -7,6 +7,7 @@ import AuthService from './service/firebase/auth_service';
 import Cloudinary from './service/cloudinary/cloudinary';
 import HighLightMenu from './service/menu_control/highlight_menu_list.js';
 import MoveSection from './service/menu_control/move_menu_section';
+import SmpAuth from './service/smp_auth/auth_service';
 import SmpChat from './service/smp_chat/smp_chat';
 import StarryNight from './service/starry_night/main';
 import SummaryCardRepository from './service/firebase/summary_card_repository';
@@ -22,6 +23,7 @@ const cardRepo  = new SummaryCardRepository();
 const cloudinary = new Cloudinary();
 const highLightMenu = new HighLightMenu();
 const moveSection = new MoveSection();
+const smpAuth = new SmpAuth();
 const smpChat = new SmpChat(socketIo);
 const starryNight = new StarryNight();
 const youtube = new Youtube(process.env.REACT_APP_YOUTUBE_API_KEY);
@@ -36,6 +38,7 @@ ReactDOM.render(
       cloudinary={cloudinary}
       highLightMenu={highLightMenu}
       moveSection={moveSection}
+      smpAuth={smpAuth}
       smpChat={smpChat}
       starryNight={starryNight}
       youtube={youtube}

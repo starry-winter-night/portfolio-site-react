@@ -8,7 +8,7 @@ class SmpChat {
 
   load(userId) {
     if (userId && !this.script && !this.link) {
-      const clientId = process.env.REACT_APP_CLIENTID;
+      const clientId = process.env.REACT_APP_CLIENT_ID;
       const apiKey = process.env.REACT_APP_API_KEY;
 
       if (!this.script) this.script = document.createElement('script');
