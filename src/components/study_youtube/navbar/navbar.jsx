@@ -5,34 +5,47 @@ import Goback from '../../common/goback/goback';
 import Search from '../../common/search/search';
 import Dropbox from '../../common/button/dropbox';
 
-const Navbar = memo(({ layer, onMenuClick, onSearch, etcToggleId, authService }) => {
-  const onClickLogout = (text) => {
-    if (text === 'logout') {
-      localStorage.clear();
-      authService.logout();
-    }
-  };
-  const list = ['logout'];
+const Navbar = memo(
+  ({ layer, onMenuClick, onSearch, etcToggleId, authService }) => {
+    const onNavMenuListClick = (text) => {
+      if (text === '로그아웃') {
+        localStorage.clear();
+        authService.logout();
+      } else {
+        onMenuClick(text);
+      }
+    };
+    const list = ['로그아웃'];
+    const mobileList = ['Search', 'My List', "Smpark's Picks", '로그아웃'];
 
-  return (
-    <nav className={styles.navbar}>
-      <Goback backBox={styles.backBox} />
-      <Search onSearch={onSearch} logoName="youtubeLogo.png" />
-      <ul className={styles.studyList}>
-        {layer.map((item) => (
-          <Menu key={item.id} onMenuClick={onMenuClick} item={item} />
-        ))}
-        <li>
-          <Dropbox
-            etcToggleId={etcToggleId}
-            list={list}
-            listClick={onClickLogout}
-            styles={styles}
-          />
-        </li>
-      </ul>
-    </nav>
-  );
-});
+    return (
+      <nav className={styles.navbar}>
+        <Goback backBox={styles.backBox} />
+        <Search onSearch={onSearch} logoName="youtubeLogo.png" />
+        <ul className={styles.studyList}>
+          {layer.map((item) => (
+            <Menu key={item.id} onMenuClick={onMenuClick} item={item} />
+          ))}
+          <li className={styles.etcDropbox}>
+            <Dropbox
+              etcToggleId={etcToggleId}
+              list={list}
+              listClick={onNavMenuListClick}
+              styles={styles}
+            />
+          </li>
+          <li className={styles.etcMobileDropbox}>
+            <Dropbox
+              etcToggleId={etcToggleId}
+              list={mobileList}
+              listClick={onNavMenuListClick}
+              styles={styles}
+            />
+          </li>
+        </ul>
+      </nav>
+    );
+  }
+);
 
 export default Navbar;

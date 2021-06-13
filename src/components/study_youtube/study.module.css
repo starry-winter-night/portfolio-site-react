@@ -8,3 +8,11 @@
 .loading {
   width: 100px;
 }
+
+@media screen and (max-width: 768px) {
+  .study {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100vh;
+  }
+}

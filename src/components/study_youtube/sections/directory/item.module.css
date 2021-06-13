@@ -66,3 +66,69 @@
   user-select: none;
   font-size: 13px;
 }
+
+@media screen and (max-width: 1024px) {
+  .thumbnail {
+    width: 125px;
+    min-width: 125px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .youtubeList {
+    margin-right: 0;
+  }
+
+  .dropbox_container {
+    right: -13px;
+  }
+
+  .title {
+    margin: 0 0 0 5px;
+    width: 100%;
+    min-width: initial;
+  }
+
+  .thumnailBox {
+    margin-right: 5px;
+  }
+
+  .contentBox {
+    width: 100%;
+  }
+
+  .thumbnail {
+    width: 100%;
+    max-width: 200px;
+    min-width: 150px;
+    height: 100%;
+  }
+}
+
+@media screen and (max-width: 336px) {
+  .youtubeList {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .content {
+    font-size: 12px;
+    margin: 0px 5px 0 5px;
+    color: var(--color-light-grey);
+    text-align: right;
+  }
+
+  .thumbnail {
+    width: 100%;
+    max-width: initial;
+    min-width: initial;
+    height: 100%;
+  }
+
+  .title {
+    -webkit-line-clamp: 2;
+    height: 39px;
+    margin: 0 auto;
+    font-size: 13px;
+  }
+}

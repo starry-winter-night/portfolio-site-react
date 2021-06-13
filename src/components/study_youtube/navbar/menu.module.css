@@ -1,10 +1,17 @@
 .menu {
   cursor: pointer;
   color: var(--color-light-white);
+  padding: 10px 15px;
 }
 
 .menu.select {
   color: var(--color-orange);
+}
+
+@media screen and (max-width: 768px) {
+  .menu {
+    display: none;
+  }
 }
 
 /* .menu.select:after {

@@ -64,7 +64,7 @@ const Item = memo(
             alt="thumbnail"
           ></img>
         </div>
-        <div>
+        <div className={styles.contentBox}>
           <h3 className={styles.title}>{video.title}</h3>
           <p className={styles.content}>{channelTitle}</p>
         </div>

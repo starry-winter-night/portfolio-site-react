@@ -56,7 +56,7 @@
 
 .loginButtons li {
   user-select: none;
-  width: 300px;
+  max-width: 300px;
   text-align: center;
   margin: 15px auto;
   padding: 15px;

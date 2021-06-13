@@ -31,8 +31,6 @@ class HighlightMenuList {
   }
 
   _setElementByObserve(onObserveTarget, target, y) {
-    if (!y) return;
-    
     if (y < 0) {
       onObserveTarget(target.nextElementSibling.id);
     } else if (y > 0) {

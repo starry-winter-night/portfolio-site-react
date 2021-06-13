@@ -81,6 +81,10 @@
   border: 1px solid var(--color-light-white);
 }
 
+#dropbox_icon {
+  display: none;
+}
+
 /*  카드 CSS  */
 .card {
   display: flex;
@@ -96,6 +100,7 @@
   position: relative;
   word-break: break-all;
   min-height: 258px;
+  height: 100%;
 }
 
 .card:nth-last-child(2)::before {
@@ -116,7 +121,7 @@
   width: 40px;
   height: 18px;
   display: block;
-  background-color: red;
+  background-color: white;
   transform: rotate(270deg);
 }
 
@@ -361,4 +366,111 @@
 
 .card_description table img {
   max-width: 150px;
+}
+
+@media screen and (max-width: 768px) {
+  .contents {
+    width: 100%;
+    overflow-y: initial;
+    height: initial;
+    margin: 10px 0 20px 0;
+    padding-right: 0;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .title {
+    flex-basis: 90%;
+  }
+  .summary {
+    display: none;
+  }
+  .save {
+    display: none;
+  }
+  .channel {
+    display: none;
+  }
+
+  #dropbox_icon {
+    position: relative;
+    cursor: pointer;
+    width: 20px;
+    text-align: center;
+    color: var(--color-light-white);
+    font-size: 16px;
+    display: inline-block;
+  }
+
+  .dropbox_container {
+    position: relative;
+    cursor: pointer;
+    border: 1px solid var(--color-grey);
+  }
+
+  .dropbox_list {
+    width: 120px;
+    top: 25px;
+    text-align: center;
+    bottom: 0;
+    right: 11px;
+    position: absolute;
+    z-index: 3;
+    height: 150px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    justify-content: space-between;
+    background-color: var(--color-light-black);
+    border: 1px solid var(--color-grey);
+  }
+
+  .dropbox_list li {
+    color: #f5f5f6;
+    user-select: none;
+    height: 30px;
+    line-height: 30px;
+  }
+
+  .dropbox_list li:nth-last-child(1)::after {
+    display: none;
+  }
+
+  .dropbox_list li::after {
+    height: 2px;
+    content: '';
+    width: 80%;
+    margin: 8px auto 0 auto;
+    display: block;
+    background-color: var(--color-dark-grey);
+  }
+
+  .card {
+    min-height: 200px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .iframe {
+    height: 300px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .iframe {
+    height: 350px;
+  }
+}
+
+@media screen and (min-width: 401px) and (max-width: 768px) {
+  .iframe {
+    height: 450px;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .iframe {
+    height: 500px;
+  }
 }

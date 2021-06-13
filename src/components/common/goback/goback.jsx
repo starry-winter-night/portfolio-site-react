@@ -16,12 +16,8 @@ const Goback = memo(({ backBox, move }) => {
   };
 
   return (
-    <div className={backBox}>
-      <FontAwesomeIcon
-        className={styles.backIcon}
-        icon={faArrowLeft}
-        onClick={handleGoBack}
-      />
+    <div className={backBox} onClick={handleGoBack}>
+      <FontAwesomeIcon className={styles.backIcon} icon={faArrowLeft} />
     </div>
   );
 });

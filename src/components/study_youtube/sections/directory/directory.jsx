@@ -11,7 +11,7 @@ const Directory = ({
   query,
   loading,
   etcToggleId,
-  youtubeRepo
+  youtubeRepo,
 }) => {
   return (
     <section className={styles.directory}>

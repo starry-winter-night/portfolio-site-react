@@ -22,6 +22,7 @@ const Sections = ({
         videoPlay={videoPlay}
         onVideoSave={onVideoSave}
         cardRepo={cardRepo}
+        etcToggleId={etcToggleId}
       />
       <Directory
         layer={layer}
