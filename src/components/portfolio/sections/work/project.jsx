@@ -15,7 +15,6 @@ const project = ({ project }) => {
       />
       <div className={styles.projcet__description}>
         <h3>{project.title}</h3>
-        {/* <span>자체제작 Oauth server</span> */}
       </div>
     </a>
   );

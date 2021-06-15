@@ -159,3 +159,42 @@
   border-right: 1px solid #27272a;
   text-align: left;
 }
+
+@media screen and (max-width: 768px) {
+  .maker {
+    flex-basis: 100%;
+    border: initial;
+    overflow: hidden;
+    height: initial;
+  }
+
+  .fileInput {
+    width: 45%;
+    flex-basis: initial;
+  }
+
+  .reset {
+    width: 15%;
+    flex-basis: initial;
+  }
+
+  .select {
+    width: 40%;
+    flex-basis: initial;
+  }
+
+  .title {
+    font-size: 1.2em;
+    margin: 10px 0;
+  }
+
+  .iframe {
+    height: 350px;
+  }
+}
+
+@media screen and (max-width: 336px) {
+  .iframe {
+    height: 300px;
+  }
+}

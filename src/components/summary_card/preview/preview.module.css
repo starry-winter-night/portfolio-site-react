@@ -313,3 +313,22 @@
 .card_description table img {
   max-width: 150px;
 }
+
+@media screen and (max-width: 768px) {
+  .preview {
+    flex-basis: 100%;
+    border: initial;
+    overflow: hidden;
+    height: initial;
+  }
+
+  .title {
+    font-size: 1.2em;
+    margin: 10px 0;
+  }
+
+  .info {
+    font-size: 0.8em;
+    margin: 10px 0;
+  }
+}

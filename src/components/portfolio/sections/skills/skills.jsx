@@ -4,19 +4,19 @@ import Skill from './skill';
 import Etc from './etc';
 const Skills = () => {
   const skills = [
-    { id: 1, title: 'HTML', bar: '85%' },
-    { id: 2, title: 'CSS', bar: '85%' },
-    { id: 3, title: 'JavaScript', bar: '85%' },
-    { id: 4, title: 'React', bar: '75%' },
-    { id: 5, title: 'TypeScript', bar: '75%' },
-    { id: 6, title: 'NodeJS', bar: '80%' },
+    { id: 1, title: 'HTML & Pug(Jade)', bar: '85%' },
+    { id: 2, title: 'CSS & PostCSS', bar: '85%' },
+    { id: 3, title: 'JavaScript(ES 6-11)', bar: '85%' },
+    { id: 5, title: 'NodeJS(Express & Koa)', bar: '80%' },
+    { id: 4, title: 'React(Hook)', bar: '75%' },
+    { id: 6, title: 'TypeScript', bar: 'studying...' },
   ];
 
   const etcs = [
     { id: 1, title: 'Visual Studio Code' },
     { id: 2, title: 'Git' },
     { id: 3, title: 'MySQL' },
-    { id: 4, title: 'MongoDB' },
+    { id: 4, title: 'MongoDB(Mongoose)' },
     { id: 5, title: 'FireBase' },
     { id: 6, title: 'Cloudinary' },
   ];
@@ -28,7 +28,7 @@ const Skills = () => {
       </div>
       <h2>Skills & Attributes</h2>
       <p>
-        제가 주로 사용하거나 배워나가고 있는 스킬 셋 입니다. 수치화 기준은 적응
+        제가 주로 사용하거나 배워나가고 있는 스킬 셋 입니다. 수치화 기준은 주관적 적응
         및 숙련도 입니다. Java를 공부하며 프로그래머 세계에 입문하였으나 현재는
         JavaScript의 매력에 빠져 해당 분야의 전문가가 되기 위해 노력하고
         있습니다. JavaScript라면 FrontEnd, BackEnd, FrameWork를 가리지 않고

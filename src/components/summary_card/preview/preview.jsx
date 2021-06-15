@@ -16,8 +16,8 @@ const Preview = memo(
         <h1 className={styles.title}>Card Preview</h1>
         <p className={styles.info}>
           <span>Card Maker</span>에서 카드를 작성할 시 <span>실시간</span>으로
-          저장됩니다. <br /> 카드의 추가 제작을 원하시면 <span>Plus</span>{' '}
-          버튼을 눌러주세요.
+          저장됩니다. <br /> <span>Plus</span> 버튼을 누르면 새 카드가 추가되며
+          기존카드를 삭제하실 수 있습니다.
         </p>
 
         {Object.keys(cards)

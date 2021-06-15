@@ -10,6 +10,13 @@
   margin-top: 40px;
 }
 
+.work > p {
+  font-family: 'Nanum Gothic Coding', monospace;
+  color: var(--color-dark-white);
+  font-weight: 100;
+  line-height: 25px;
+}
+
 .projects {
   display: flex;
   flex-wrap: wrap;
@@ -43,6 +50,4 @@
   .title {
     width: 15em;
   }
-
-
 }

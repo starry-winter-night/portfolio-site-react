@@ -233,7 +233,6 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
   const onHideDropBox = (e) => {
     const toggleState = e.target.closest('svg')?.dataset.etcId;
 
-    console.log(toggleState);
     if (toggleState) {
       if (etcToggleId === toggleState) {
         setEtcToggleId(null);

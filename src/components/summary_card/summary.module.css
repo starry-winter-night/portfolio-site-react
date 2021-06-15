@@ -57,3 +57,20 @@
   transform: translate(-50%, -60%);
   width: 150px;
 }
+
+@media screen and (max-width: 768px) {
+  .main {
+    flex-wrap: wrap;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  .title {
+    margin: 0 10px;
+    font-size: 1.2em;
+  }
+
+  .backBox {
+    width: 30px;
+  }
+}
