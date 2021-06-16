@@ -20,6 +20,12 @@ class SummaryCardRepository {
         cb(snapshot.val());
       });
   }
+
+  readCardList(userId, cb) {
+    firebaseDatabase
+      .ref(`${userId}/summaryCard/`)
+      .on('value', (snapshot) => cb(snapshot.val()));
+  }
 }
 
 export default SummaryCardRepository;

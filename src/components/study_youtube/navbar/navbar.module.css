@@ -52,7 +52,6 @@
   position: absolute;
   background-color: var(--color-light-black);
   height: 30px;
-  border: 1px solid var(--color-blue);
 }
 
 .dropbox_list li {
@@ -60,6 +59,10 @@
   height: 30px;
   line-height: 30px;
   user-select: none;
+}
+
+.dropbox_list li:hover {
+  border: 1px solid var(--color-blue);
 }
 
 .etcMobileDropbox {

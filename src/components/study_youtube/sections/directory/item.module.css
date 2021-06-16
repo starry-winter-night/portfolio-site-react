@@ -13,7 +13,6 @@
 }
 
 .title {
-  min-width: 130px;
   font-size: 14px;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -21,7 +20,7 @@
   white-space: normal;
   -webkit-line-clamp: 3;
   height: 60px;
-  margin: 0 10px 0 5px;
+  margin: 0 0 0 5px;
   display: -webkit-box;
 }
 
@@ -45,16 +44,16 @@
 .dropbox_container {
   position: absolute;
   cursor: pointer;
-  top: -2px;
-  right: -10px;
+  bottom: -10px;
+  right: -20px;
 }
 
 .dropbox_list {
   width: 80px;
-  top: 20px;
+  top: 0px;
   text-align: center;
   bottom: 0;
-  right: 5px;
+  right: 25px;
   position: absolute;
 }
 
@@ -67,6 +66,62 @@
   font-size: 13px;
 }
 
+.dropbox_list li:hover {
+  border: 1px solid var(--color-blue);
+}
+
+.contentBox {
+  height: 94px;
+}
+
+.card_bookmark {
+  position: absolute;
+  right: -30px;
+  top: 15px;
+  width: 40px;
+  height: 14px;
+  display: block;
+  transform: rotate(270deg);
+}
+
+.card_bookmark.firebrick {
+  background-color: firebrick;
+}
+.card_bookmark.tomato {
+  background-color: tomato;
+}
+.card_bookmark.gold {
+  background-color: gold;
+}
+.card_bookmark.yellowgreen {
+  background-color: yellowgreen;
+}
+.card_bookmark.steelblue {
+  background-color: steelblue;
+}
+.card_bookmark.skyblue {
+  background-color: skyblue;
+}
+.card_bookmark.darkorchid {
+  background-color: darkorchid;
+}
+
+.card_bookmark::after {
+  position: absolute;
+  content: '';
+  right: 32px;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 8px solid #232326;
+}
+
+@media screen and (max-width: 1280px) {
+  .thumbnail {
+    width: 150px;
+    min-width: 150px;
+  }
+}
+
 @media screen and (max-width: 1024px) {
   .thumbnail {
     width: 125px;
@@ -75,10 +130,6 @@
 }
 
 @media screen and (max-width: 768px) {
-  .youtubeList {
-    margin-right: 0;
-  }
-
   .dropbox_container {
     right: -13px;
   }

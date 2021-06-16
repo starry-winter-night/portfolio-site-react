@@ -35,6 +35,9 @@ const List = memo(
                 etcToggleId={etcToggleId}
                 youtubeRepo={youtubeRepo}
                 videoListId={videoList.id}
+                bookmark={
+                  item.card && item.card[Object.keys(item.card)[0]].bookmark
+                }
               />
             );
           })}

@@ -14,7 +14,7 @@ const Sections = ({
   loading,
   cardRepo,
   etcToggleId,
-  youtubeRepo
+  youtubeRepo,
 }) => {
   return (
     <main className={styles.main}>

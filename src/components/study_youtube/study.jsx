@@ -62,26 +62,46 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
 
           switch (action) {
             case 'develop':
-              setLayer((list) =>
-                list.map((item) => {
-                  if (item.id === 'smpark') {
-                    return {
-                      ...item,
-                      contents: {
-                        videoList: result.items,
-                        nextPageToken: result.nextPageToken,
-                      },
-                      view: 'on',
-                    };
+              const currentVideo = JSON.parse(localStorage.getItem('video'));
+
+              cardRepo.readCardList('smpark', (card) => {
+                result.items = result.items.map((item) => {
+                  item.card = card[item.snippet.resourceId.videoId];
+
+                  if (currentVideo?.snippet) {
+                    if (
+                      currentVideo.snippet.resourceId.videoId ===
+                      item.snippet.resourceId.videoId
+                    ) {
+                      setVideoPlay(item);
+
+                      localStorage.setItem('video', JSON.stringify(item));
+                    }
                   }
 
-                  return { ...item, view: 'off' };
-                })
-              );
+                  return item;
+                });
+                setLayer((list) =>
+                  list.map((item) => {
+                    if (item.id === 'smpark') {
+                      return {
+                        ...item,
+                        contents: {
+                          videoList: result.items,
+                          nextPageToken: result.nextPageToken,
+                        },
+                        view: 'on',
+                      };
+                    }
 
-              setLoading((item) => loadingPosition(item, loading, false));
+                    return { ...item, view: 'off' };
+                  })
+                );
 
-              setVideoPlay(result.items[0]);
+                setLoading((item) => loadingPosition(item, loading, false));
+
+                if (!currentVideo?.snippet) setVideoPlay(result.items[0]);
+              });
 
               break;
 
@@ -119,25 +139,32 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
               break;
 
             case 'developAdd':
-              setLayer((list) =>
-                list.map((item) => {
-                  if (item.id === 'smpark') {
-                    const cloneItem = _.cloneDeep(item);
+              cardRepo.readCardList('smpark', (card) => {
+                result.items = result.items.map((item) => {
+                  item.card = card[item.snippet.resourceId.videoId];
 
-                    result.items.forEach((item) => {
-                      cloneItem.contents.videoList.push(item);
-                    });
+                  return item;
+                });
+                setLayer((list) =>
+                  list.map((item) => {
+                    if (item.id === 'smpark') {
+                      const cloneItem = _.cloneDeep(item);
 
-                    cloneItem.contents.nextPageToken = result.nextPageToken;
+                      result.items.forEach((item) => {
+                        cloneItem.contents.videoList.push(item);
+                      });
 
-                    return cloneItem;
-                  }
+                      cloneItem.contents.nextPageToken = result.nextPageToken;
 
-                  return _.cloneDeep(item);
-                })
-              );
+                      return cloneItem;
+                    }
 
-              setLoading((item) => loadingPosition(item, loading, false));
+                    return _.cloneDeep(item);
+                  })
+                );
+
+                setLoading((item) => loadingPosition(item, loading, false));
+              });
 
               break;
 
@@ -195,7 +222,7 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
           console.log(error);
         });
     },
-    [goToError]
+    [cardRepo, goToError]
   );
 
   const onSearch = useCallback(
@@ -249,8 +276,24 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
       return { ...item, video };
     });
 
+    //문제는 레이어에는 저장이 되지만
+    //최초에 로컬스토리지에 저장된 값을 컨텐츠에서 불러오니까
+    //로컬스토리지에 저장된 후에 수정된 영상 데이터가 업데이트가 되지 않는게 문제인거다.
+
+    //수정을 하면 로컬스토리지 영상을 업데이트를 하던지..
+    //기존처럼 컨텐츠에 들어갈때마다 데이터를 받아오던지...
+    //로컬스토리지가 비었으면 0번째를 올리고
+    // 있으면 해당 데이터만 새로 업데이트 하는걸로 하자.
     localStorage.setItem('video', JSON.stringify(video));
   }, []);
+
+  // smpark의 요약카드를 가져오는것인데
+  // 현재는 컨텐츠를 누르면 본인의 id와 요약카드만 가져온다.
+  // 하지만 smpark's 의 요약카드는 smpark의 정보를 가져오게 해야 한다.
+
+  // 일단 북마크는 다 가져와야 하고
+  // smpark's만 smpark의 북마크를 가져와야 한다.
+  // 북마크 정보를 해당 동영상 정보에 넣어야 한다.
 
   useEffect(() => {
     authService.loginUserCheck((user) => {
@@ -267,22 +310,31 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
             arr.push(result[key].date);
           }
 
-          const sortList = arr.sort().map((item) => obj[item]);
+          cardRepo.readCardList(auth, (result) => {
+            let sortList = [];
+            if (result) {
+              sortList = arr.sort().map((item) => {
+                obj[item].card = result[obj[item].snippet.resourceId.videoId];
 
-          setLayer((list) =>
-            list.map((item) => {
-              if (item.id === 'mylist') {
-                return {
-                  ...item,
-                  contents: {
-                    videoList: sortList,
-                  },
-                };
-              }
+                return obj[item];
+              });
+            }
 
-              return item;
-            })
-          );
+            setLayer((list) =>
+              list.map((item) => {
+                if (item.id === 'mylist') {
+                  return {
+                    ...item,
+                    contents: {
+                      videoList: sortList,
+                    },
+                  };
+                }
+
+                return item;
+              })
+            );
+          });
         });
 
         onYoutubeLayerSet(youtube.developList(), 'develop', 'sectionLoading');
@@ -292,7 +344,15 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
     return () => {
       setLayer([{}]);
     };
-  }, [auth, authService, history, onYoutubeLayerSet, youtube, youtubeRepo]);
+  }, [
+    auth,
+    authService,
+    cardRepo,
+    history,
+    onYoutubeLayerSet,
+    youtube,
+    youtubeRepo,
+  ]);
 
   return (
     <>

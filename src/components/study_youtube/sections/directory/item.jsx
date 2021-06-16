@@ -7,6 +7,7 @@ const Item = memo(
     item, //
     onVideoListClick,
     onYoutubeLayerSet,
+    bookmark,
     youtube,
     query,
     videoList,
@@ -65,7 +66,13 @@ const Item = memo(
           ></img>
         </div>
         <div className={styles.contentBox}>
+          <div
+            className={
+              bookmark && `${styles.card_bookmark} ${styles[bookmark]}`
+            }
+          ></div>
           <h3 className={styles.title}>{video.title}</h3>
+
           <p className={styles.content}>{channelTitle}</p>
         </div>
 

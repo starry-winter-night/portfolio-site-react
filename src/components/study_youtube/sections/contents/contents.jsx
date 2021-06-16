@@ -1,16 +1,13 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo } from 'react';
 import { useHistory } from 'react-router';
 import styles from './contents.module.css';
 import Video from '../../../common/youtube/video';
 import Card from '../../../summary_card/preview/card';
 import Dropbox from '../../../common/button/dropbox';
 
-const Contents = memo(({ videoPlay, onVideoSave, cardRepo, etcToggleId }) => {
-  const [cards, setCards] = useState({});
-
+const Contents = memo(({ videoPlay, onVideoSave, etcToggleId }) => {
   const history = useHistory();
   const list = ['요약카드', '저장하기', '채널방문'];
-  const auth = localStorage.getItem('state');
   const getVideo = JSON.parse(localStorage.getItem('video')) || videoPlay;
 
   const video = getVideo?.snippet || videoPlay?.snippet;
@@ -64,20 +61,6 @@ const Contents = memo(({ videoPlay, onVideoSave, cardRepo, etcToggleId }) => {
     }
   };
 
-  useEffect(() => {
-    cardRepo.readCard(auth, videoId, (result) => {
-      if (result) {
-        setCards(result);
-      } else {
-        setCards({});
-      }
-    });
-
-    return () => {
-      setCards({});
-    };
-  }, [auth, cardRepo, videoId]);
-
   return (
     <section className={styles.contents}>
       <div className={styles.videoBox}>
@@ -106,13 +89,14 @@ const Contents = memo(({ videoPlay, onVideoSave, cardRepo, etcToggleId }) => {
           채널방문
         </a>
       </div>
-      {Object.keys(cards).length !== 0 &&
-        Object.keys(cards)
+      {getVideo?.card &&
+        Object.keys(getVideo.card).length !== 0 &&
+        Object.keys(getVideo.card)
           .sort()
           .map(
             (key) =>
-              previewCheck(cards[key]) && (
-                <Card key={key} card={cards[key]} styles={styles} />
+              previewCheck(getVideo.card[key]) && (
+                <Card key={key} card={getVideo.card[key]} styles={styles} />
               )
           )}
     </section>
