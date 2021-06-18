@@ -138,7 +138,7 @@ const Write = memo(({ cards, selectedCard, cloudinary, onUpdateCard }) => {
           <option value="steelblue">steelblue</option>
           <option value="skyblue">skyblue</option>
           <option value="darkorchid">darkorchid</option>
-          <option value="white">white</option>
+          <option value="ivory">ivory</option>
         </select>
 
         <div className={styles.editor}>

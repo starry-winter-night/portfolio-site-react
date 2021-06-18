@@ -33,6 +33,7 @@
   margin: 4px 10px 0 10px;
   text-align: center;
   line-height: 40px;
+  user-select: none;
 }
 
 .channel:hover {
@@ -53,6 +54,7 @@
   border-radius: 7px;
   cursor: pointer;
   margin: 4px 10px 0 10px;
+  user-select: none;
 }
 
 .save:hover {
@@ -73,6 +75,7 @@
   border-radius: 7px;
   cursor: pointer;
   margin: 4px 10px 0 10px;
+  user-select: none;
 }
 
 .summary:hover {
@@ -145,6 +148,9 @@
 }
 .card_bookmark.darkorchid {
   background-color: darkorchid;
+}
+.card_bookmark.ivory {
+  background-color: ivory;
 }
 
 .card_bookmark::after {

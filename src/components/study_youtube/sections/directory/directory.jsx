@@ -8,30 +8,38 @@ const Directory = ({
   onVideoListClick,
   youtube,
   onYoutubeLayerSet,
-  query,
   loading,
   etcToggleId,
   youtubeRepo,
 }) => {
+  const currentView = localStorage.getItem('view');
   return (
     <section className={styles.directory}>
       {loading.sectionLoading && <Loading styles={styles} />}
-      {layer.map(
-        (item) =>
-          item.view === 'on' && (
-            <List
-              key={item.id}
-              videoList={item}
-              onVideoListClick={onVideoListClick}
-              youtube={youtube}
-              onYoutubeLayerSet={onYoutubeLayerSet}
-              query={query}
-              loading={loading}
-              etcToggleId={etcToggleId}
-              youtubeRepo={youtubeRepo}
-            />
-          )
-      )}
+      {!loading.sectionLoadin &&
+        layer.map(
+          (item) =>
+            (currentView
+              ? currentView === item.id
+                ? 'on'
+                : 'off'
+              : item.view) === 'on' && (
+              <List
+                key={item.id}
+                videoList={item}
+                onVideoListClick={onVideoListClick}
+                youtube={youtube}
+                onYoutubeLayerSet={onYoutubeLayerSet}
+                loading={loading}
+                etcToggleId={etcToggleId}
+                youtubeRepo={youtubeRepo}
+                search={
+                  item.id === 'search' &&
+                  JSON.parse(localStorage.getItem('search'))
+                }
+              />
+            )
+        )}
     </section>
   );
 };

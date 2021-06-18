@@ -14,8 +14,8 @@
 }
 
 .backBox {
-  margin-right: 16%;
-  padding: 10px 2%;
+  margin-right: 12%;
+  width: 3%;
   cursor: pointer;
   color: var(--color-light-white);
 }
@@ -24,10 +24,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 25%;
+  width: 30%;
   font-size: 13px;
   max-width: 465px;
   min-width: 300px;
+  padding-left: 12px;
+  user-select: none;
 }
 
 #dropbox_icon {

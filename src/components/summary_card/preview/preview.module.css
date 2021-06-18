@@ -12,17 +12,30 @@
   color: #f5f5f6;
 }
 
-.info > span:nth-child(1) {
+.span1 {
   font-family: 'Open Sans';
 }
 
-.info > span:nth-child(2) {
+.span2 {
   color: var(--color-orange);
 }
 
-.info > span:nth-last-child(1) {
+.span3 {
   color: var(--color-blue);
   font-family: 'Open Sans';
+}
+
+.span4 {
+  font-family: 'Open Sans';
+}
+
+.span5 {
+  color: var(--color-blue);
+  font-family: 'Open Sans';
+}
+
+.span6 {
+  color: var(--color-orange);
 }
 
 .title {
@@ -91,6 +104,9 @@
 }
 .card_bookmark.darkorchid {
   background-color: darkorchid;
+}
+.card_bookmark.ivory {
+  background-color: ivory;
 }
 
 .card_bookmark::after {

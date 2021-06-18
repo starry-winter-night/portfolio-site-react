@@ -8,7 +8,6 @@ import _ from 'lodash';
 const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
   const [etcToggleId, setEtcToggleId] = useState(null);
   const [videoPlay, setVideoPlay] = useState(null);
-  const [query, setQuery] = useState('');
   const [loading, setLoading] = useState({});
   const [layer, setLayer] = useState([
     {
@@ -63,16 +62,22 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
           switch (action) {
             case 'develop':
               const currentVideo = JSON.parse(localStorage.getItem('video'));
+              const currentView = localStorage.getItem('view');
+
+              let videoCheck = null;
 
               cardRepo.readCardList('smpark', (card) => {
                 result.items = result.items.map((item) => {
                   item.card = card[item.snippet.resourceId.videoId];
 
-                  if (currentVideo?.snippet) {
-                    if (
-                      currentVideo.snippet.resourceId.videoId ===
-                      item.snippet.resourceId.videoId
-                    ) {
+                  if (currentVideo) {
+                    const currVideoId =
+                      currentVideo?.snippet?.resourceId?.videoId ||
+                      currentVideo.id;
+
+                    const videoId = item.snippet.resourceId.videoId;
+                    if (currVideoId && currVideoId === videoId) {
+                      videoCheck = true;
                       setVideoPlay(item);
 
                       localStorage.setItem('video', JSON.stringify(item));
@@ -81,9 +86,13 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
 
                   return item;
                 });
+
                 setLayer((list) =>
                   list.map((item) => {
                     if (item.id === 'smpark') {
+                      if (!currentView) {
+                        localStorage.setItem('view', item.id);
+                      }
                       return {
                         ...item,
                         contents: {
@@ -100,7 +109,8 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
 
                 setLoading((item) => loadingPosition(item, loading, false));
 
-                if (!currentVideo?.snippet) setVideoPlay(result.items[0]);
+                if (!currentVideo?.snippet || !videoCheck)
+                  setVideoPlay(result.items[0]);
               });
 
               break;
@@ -121,7 +131,9 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
               setLayer((list) =>
                 list.map((item) => {
                   if (item.id === 'search') {
-                    return {
+                    localStorage.setItem('view', item.id);
+
+                    const searchList = {
                       ...item,
                       contents: {
                         videoList: searchResult,
@@ -129,6 +141,10 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
                       },
                       view: 'on',
                     };
+
+                    localStorage.setItem('search', JSON.stringify(searchList));
+
+                    return searchList;
                   }
 
                   return { ...item, view: 'off' };
@@ -203,6 +219,8 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
                     cloneItem.contents.nextPageToken =
                       searchAddResult[0].nextPageToken;
 
+                    localStorage.setItem('search', JSON.stringify(cloneItem));
+
                     return cloneItem;
                   }
 
@@ -227,7 +245,7 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
 
   const onSearch = useCallback(
     (query) => {
-      setQuery(query);
+      localStorage.setItem('query', query);
 
       onYoutubeLayerSet(youtube.search(query), 'search', 'sectionLoading');
     },
@@ -249,6 +267,8 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
     setLayer((list) =>
       list.map((item) => {
         if (item.title === title) {
+          localStorage.setItem('view', item.id);
+
           return { ...item, view: 'on' };
         }
 
@@ -276,24 +296,11 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
       return { ...item, video };
     });
 
-    //문제는 레이어에는 저장이 되지만
-    //최초에 로컬스토리지에 저장된 값을 컨텐츠에서 불러오니까
-    //로컬스토리지에 저장된 후에 수정된 영상 데이터가 업데이트가 되지 않는게 문제인거다.
-
-    //수정을 하면 로컬스토리지 영상을 업데이트를 하던지..
-    //기존처럼 컨텐츠에 들어갈때마다 데이터를 받아오던지...
-    //로컬스토리지가 비었으면 0번째를 올리고
-    // 있으면 해당 데이터만 새로 업데이트 하는걸로 하자.
     localStorage.setItem('video', JSON.stringify(video));
   }, []);
 
-  // smpark의 요약카드를 가져오는것인데
-  // 현재는 컨텐츠를 누르면 본인의 id와 요약카드만 가져온다.
-  // 하지만 smpark's 의 요약카드는 smpark의 정보를 가져오게 해야 한다.
-
-  // 일단 북마크는 다 가져와야 하고
-  // smpark's만 smpark의 북마크를 가져와야 한다.
-  // 북마크 정보를 해당 동영상 정보에 넣어야 한다.
+  // 메뉴를 눌렀을때도 스토리지에 저장하고
+  // 다른 메뉴를 on으로 바꾸는 방식에 들어갈 때도 스토리지를 업데이트 해주어야 한다.
 
   useEffect(() => {
     authService.loginUserCheck((user) => {
@@ -311,10 +318,27 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
           }
 
           cardRepo.readCardList(auth, (result) => {
+            const currentVideo = JSON.parse(localStorage.getItem('video'));
             let sortList = [];
+
             if (result) {
               sortList = arr.sort().map((item) => {
-                obj[item].card = result[obj[item].snippet.resourceId.videoId];
+                obj[item].card =
+                  result[obj[item]?.snippet?.resourceId?.videoId] ||
+                  result[obj[item].id];
+
+                if (currentVideo) {
+                  const currVideoId =
+                    currentVideo?.snippet?.resourceId?.videoId ||
+                    currentVideo.id;
+
+                  const videoId =
+                    obj[item]?.snippet?.resourceId?.videoId || obj[item].id;
+
+                  if (currVideoId === videoId) {
+                    localStorage.setItem('video', JSON.stringify(obj[item]));
+                  }
+                }
 
                 return obj[item];
               });
@@ -375,7 +399,6 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
                 onVideoSave={onVideoSave}
                 youtube={youtube}
                 etcToggleId={etcToggleId}
-                query={query}
                 loading={loading}
                 cardRepo={cardRepo}
                 youtubeRepo={youtubeRepo}

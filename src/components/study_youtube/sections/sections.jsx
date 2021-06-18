@@ -10,7 +10,6 @@ const Sections = ({
   onVideoListClick,
   onVideoSave,
   youtube,
-  query,
   loading,
   cardRepo,
   etcToggleId,
@@ -29,7 +28,6 @@ const Sections = ({
         onVideoListClick={onVideoListClick}
         youtube={youtube}
         onYoutubeLayerSet={onYoutubeLayerSet}
-        query={query}
         loading={loading}
         etcToggleId={etcToggleId}
         youtubeRepo={youtubeRepo}

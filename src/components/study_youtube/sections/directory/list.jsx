@@ -9,12 +9,13 @@ const List = memo(
     onVideoListClick,
     youtube,
     onYoutubeLayerSet,
-    query,
     loading,
     etcToggleId,
     youtubeRepo,
+    search,
   }) => {
-    const list = videoList.contents?.videoList;
+    const searchList = search || videoList;
+    const list = searchList.contents?.videoList;
 
     return (
       <ul className={styles.videoList}>
@@ -30,13 +31,14 @@ const List = memo(
                   index === list.length - 1 && onYoutubeLayerSet
                 }
                 youtube={index === list.length - 1 && youtube}
-                query={index === list.length - 1 && query}
-                videoList={index === list.length - 1 && videoList}
+                videoList={index === list.length - 1 && searchList}
                 etcToggleId={etcToggleId}
                 youtubeRepo={youtubeRepo}
                 videoListId={videoList.id}
                 bookmark={
-                  item.card && item.card[Object.keys(item.card)[0]].bookmark
+                  item.card &&
+                  previewCheck(item.card[Object.keys(item.card)[0]]) &&
+                  item.card[Object.keys(item.card)[0]].bookmark
                 }
               />
             );
@@ -45,5 +47,12 @@ const List = memo(
     );
   }
 );
+function previewCheck(card) {
+  if (!card.title && !card.subTitle && !card.logoURL && !card.description) {
+    return null;
+  } else {
+    return true;
+  }
+}
 
 export default List;

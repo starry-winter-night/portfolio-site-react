@@ -17,7 +17,7 @@ const Summary = ({ authService, cloudinary, cardRepo }) => {
   const [cards, setCards] = useState({
     preview: {
       id: 'preview',
-      bookmark: 'white',
+      bookmark: 'ivory',
     },
   });
   const [selectedCard, setSelectedCard] = useState({ id: 'preview' });
@@ -38,7 +38,7 @@ const Summary = ({ authService, cloudinary, cardRepo }) => {
 
       cardRepo.saveCard(auth, videoId, currentCard);
 
-      const previewCard = { id: 'preview', bookmark: 'white' };
+      const previewCard = { id: 'preview', bookmark: 'ivory' };
 
       cardRepo.saveCard(auth, videoId, previewCard);
 
@@ -75,7 +75,7 @@ const Summary = ({ authService, cloudinary, cardRepo }) => {
             setCards({
               preview: {
                 id: 'preview',
-                bookmark: 'yellow',
+                bookmark: 'ivory',
               },
             });
           }

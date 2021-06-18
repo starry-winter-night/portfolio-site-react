@@ -9,7 +9,6 @@ const Item = memo(
     onYoutubeLayerSet,
     bookmark,
     youtube,
-    query,
     videoList,
     etcToggleId,
     youtubeRepo,
@@ -29,11 +28,11 @@ const Item = memo(
         onYoutubeLayerSet,
         token,
         id,
-        query
+        localStorage.getItem('query')
       );
 
       loadContentsByObserve.on(lastLiRef.current);
-    }, [id, lastLiRef, onYoutubeLayerSet, query, token, videoList, youtube]);
+    }, [id, lastLiRef, onYoutubeLayerSet, token, videoList, youtube]);
 
     const video = item.snippet;
     const channelTitle = video.videoOwnerChannelTitle

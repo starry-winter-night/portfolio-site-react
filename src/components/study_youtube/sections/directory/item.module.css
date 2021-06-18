@@ -105,6 +105,9 @@
 .card_bookmark.darkorchid {
   background-color: darkorchid;
 }
+.card_bookmark.ivory {
+  background-color: ivory;
+}
 
 .card_bookmark::after {
   position: absolute;

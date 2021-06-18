@@ -17,6 +17,7 @@ const Navbar = memo(
     };
     const list = ['로그아웃'];
     const mobileList = ['Search', 'My List', "Smpark's Picks", '로그아웃'];
+    const currentView = localStorage.getItem('view');
 
     return (
       <nav className={styles.navbar}>
@@ -24,7 +25,18 @@ const Navbar = memo(
         <Search onSearch={onSearch} logoName="youtubeLogo.png" />
         <ul className={styles.studyList}>
           {layer.map((item) => (
-            <Menu key={item.id} onMenuClick={onMenuClick} item={item} />
+            <Menu
+              key={item.id}
+              onMenuClick={onMenuClick}
+              view={
+                currentView
+                  ? currentView === item.id
+                    ? 'on'
+                    : 'off'
+                  : item.view
+              }
+              title={item.title}
+            />
           ))}
           <li className={styles.etcDropbox}>
             <Dropbox
