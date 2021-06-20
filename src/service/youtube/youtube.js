@@ -6,7 +6,7 @@ class Youtube {
       params: { key: key },
     });
   }
-  async developList(pageToken, maxResults = 25) {
+  async smparkList(pageToken, maxResults = 25) {
     const id = process.env.REACT_APP_YOUTUBE_MYCHENNEL_ID;
     const data = {
       params: {

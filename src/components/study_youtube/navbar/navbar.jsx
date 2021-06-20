@@ -17,7 +17,6 @@ const Navbar = memo(
     };
     const list = ['로그아웃'];
     const mobileList = ['Search', 'My List', "Smpark's Picks", '로그아웃'];
-    const currentView = localStorage.getItem('view');
 
     return (
       <nav className={styles.navbar}>
@@ -28,13 +27,7 @@ const Navbar = memo(
             <Menu
               key={item.id}
               onMenuClick={onMenuClick}
-              view={
-                currentView
-                  ? currentView === item.id
-                    ? 'on'
-                    : 'off'
-                  : item.view
-              }
+              view={item.view}
               title={item.title}
             />
           ))}

@@ -8,8 +8,8 @@ const Login = ({ authService, smpAuth, smpChat }) => {
   const history = useHistory();
   const auth = localStorage.getItem('state');
   const params = new URLSearchParams(window.location.search);
-  const code = params.get('code');
-  const state = params.get('state');
+  localStorage.setItem('code', params.get('code'));
+  localStorage.setItem('smp_state', params.get('state'));
 
   const goToStudy = useCallback(
     (id) => {
@@ -37,10 +37,6 @@ const Login = ({ authService, smpAuth, smpChat }) => {
           .login(loginType)
           .then((data) => {
             localStorage.setItem('state', data.user.uid);
-
-            smpChat.load(data.user.uid);
-
-            goToStudy(data.user.uid);
           })
           .catch((e) => {
             e.code === 'auth/account-exists-with-different-credential' &&
@@ -52,27 +48,30 @@ const Login = ({ authService, smpAuth, smpChat }) => {
           });
       }
     },
-    [authService, goToStudy, smpAuth, smpChat]
+    [authService, smpAuth]
   );
 
   useEffect(() => {
-    if (code && state) {
+    const code = localStorage.getItem('code') || null;
+    const state = localStorage.getItem('smp_state') || null;
+
+    if (code !== 'null' && state !== 'null') {
       smpAuth
         .token(code, state)
         .then((result) => {
+          localStorage.clear();
           authService.customLogin(result.token, (user) => {
-            localStorage.setItem('state', user.uid);
-
             window.close();
+
+            localStorage.setItem('state', user.uid);
           });
         })
         .catch((e) => {
           localStorage.clear();
-          window.close();
           throw Error(e);
         });
     }
-  }, [smpAuth, code, state, goToStudy, authService, smpChat]);
+  }, [authService, smpAuth]);
 
   useEffect(() => {
     authService.loginUserCheck((user) => {
@@ -80,6 +79,7 @@ const Login = ({ authService, smpAuth, smpChat }) => {
         if (!auth) {
           localStorage.setItem('state', user.uid);
         }
+        smpChat.load(user.uid);
         goToStudy(user.uid);
       } else {
         if (auth) {
@@ -93,7 +93,7 @@ const Login = ({ authService, smpAuth, smpChat }) => {
 
   return (
     <>
-      {!auth && !code && !state && (
+      {!auth && (
         <section className={styles.section}>
           <header className={styles.header}>
             <Goback backBox={styles.backBox} />

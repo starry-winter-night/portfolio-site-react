@@ -147,3 +147,9 @@
     margin-right: initial;
   }
 }
+
+@media screen and (max-width: 1280px) {
+  .studyList {
+    padding: 10px 15px 10px 27px;
+  }
+}

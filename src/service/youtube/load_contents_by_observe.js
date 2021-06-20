@@ -24,7 +24,7 @@ class LoadContentsByObserve {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           if (this.id === 'smpark') {
-            loadNextDevelopList(
+            loadNextSmparkList(
               this.youtube,
               this.token,
               this.onYoutubeLayerSet
@@ -45,10 +45,10 @@ class LoadContentsByObserve {
   }
 }
 
-function loadNextDevelopList(youtube, nextPageToken, onYoutubeLayerSet) {
+function loadNextSmparkList(youtube, nextPageToken, onYoutubeLayerSet) {
   onYoutubeLayerSet(
-    youtube.developList(nextPageToken, 10),
-    'developAdd',
+    youtube.smparkList(nextPageToken, 10),
+    'smparkAdd',
     'listLoading'
   );
 }

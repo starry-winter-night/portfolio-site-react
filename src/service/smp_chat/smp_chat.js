@@ -12,13 +12,13 @@ class SmpChat {
       const apiKey = process.env.REACT_APP_API_KEY;
 
       if (!this.script) this.script = document.createElement('script');
-      this.script.src = `http://localhost:5000/smpChat/chatService.js?CLIENTID=${clientId}`;
+      this.script.src = `https://smp-resource.link/smpChat/chatService.js?CLIENTID=${clientId}`;
       this.script.defer = true;
       document.body.appendChild(this.script);
 
       if (!this.link) this.link = document.createElement('link');
       this.link.rel = 'stylesheet';
-      this.link.href = 'http://localhost:5000/smpChat/chatService.css';
+      this.link.href = 'https://smp-resource.link/smpChat/chatService.css';
       document.body.appendChild(this.link);
 
       const position = {

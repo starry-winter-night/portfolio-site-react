@@ -5,34 +5,23 @@ import jwt from 'jsonwebtoken';
 class AuthService {
   constructor() {
     this.smp_oauth = axios.create({
-      baseURL: 'http://localhost:8000/oauth/',
+      baseURL: 'https://smp-oauth.link/oauth/',
     });
     this.smp_resource = axios.create({
-      baseURL: 'http://localhost:5000/auth/',
+      baseURL: 'https://smp-resource.link/auth/',
     });
   }
   async login() {
     const client_id = process.env.REACT_APP_CLIENT_ID;
     const redirect_uri = process.env.REACT_APP_REDIRECT_URI;
     const randomStarg = Math.random().toString();
-    const oauthURL = 'http://localhost:8000/oauth/';
+    const oauthURL = 'https://smp-oauth.link/oauth/';
     localStorage.setItem('state', randomStarg);
 
     const state = await bcrypt.hash(randomStarg, 10);
     const uri = `${oauthURL}/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&state=${state}`;
 
-    const win = window.open(uri, 'oauthServer', 'width=520,height=680');
-
-    window.setInterval(function () {
-      try {
-        if (win == null || win.closed) {
-          window.location.replace('/study');
-          return;
-        }
-      } catch (e) {
-        throw Error(e);
-      }
-    }, 1000);
+    window.open(uri, 'oauthServer', 'width=520,height=680');
   }
 
   async token(code, state) {
@@ -52,7 +41,6 @@ class AuthService {
     try {
       const oauthRes = await this.smp_oauth.post('token', data);
       const token = oauthRes.data.access_token;
-
       this.smp_resource.defaults.headers.common = {
         Authorization: `bearer ${token.accessToken}`,
       };

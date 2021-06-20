@@ -12,18 +12,13 @@ const Directory = ({
   etcToggleId,
   youtubeRepo,
 }) => {
-  const currentView = localStorage.getItem('view');
   return (
     <section className={styles.directory}>
       {loading.sectionLoading && <Loading styles={styles} />}
       {!loading.sectionLoadin &&
         layer.map(
           (item) =>
-            (currentView
-              ? currentView === item.id
-                ? 'on'
-                : 'off'
-              : item.view) === 'on' && (
+            item.view === 'on' && (
               <List
                 key={item.id}
                 videoList={item}
@@ -33,10 +28,6 @@ const Directory = ({
                 loading={loading}
                 etcToggleId={etcToggleId}
                 youtubeRepo={youtubeRepo}
-                search={
-                  item.id === 'search' &&
-                  JSON.parse(localStorage.getItem('search'))
-                }
               />
             )
         )}

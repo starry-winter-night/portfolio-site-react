@@ -8,18 +8,11 @@ import Dropbox from '../../../common/button/dropbox';
 const Contents = memo(({ videoPlay, onVideoSave, etcToggleId }) => {
   const history = useHistory();
   const list = ['요약카드', '저장하기', '채널방문'];
-  const getVideo = JSON.parse(localStorage.getItem('video')) || videoPlay;
 
-  const video = getVideo?.snippet || videoPlay?.snippet;
+  const video = videoPlay.snippet;
 
-  const developVideoId = video?.resourceId?.videoId;
-  const searchVideoId = getVideo?.id;
-
-  let videoId = developVideoId;
-  let channelId = video.videoOwnerChannelId;
-
-  if (!videoId) videoId = searchVideoId;
-  if (!channelId) channelId = video.channelId;
+  const videoId = video?.resourceId?.videoId || videoPlay?.id;
+  const channelId = video.videoOwnerChannelId || video.channelId;
 
   const goToSummary = () => {
     history.push({
@@ -31,7 +24,7 @@ const Contents = memo(({ videoPlay, onVideoSave, etcToggleId }) => {
   const onSaveButtonClick = (e) => {
     e.preventDefault();
 
-    onVideoSave(getVideo, videoId);
+    onVideoSave(videoPlay, videoId);
   };
 
   const onSummaryCardButtonClick = (e) => {
@@ -46,7 +39,7 @@ const Contents = memo(({ videoPlay, onVideoSave, etcToggleId }) => {
         goToSummary();
         break;
       case '저장하기':
-        onVideoSave(getVideo, videoId);
+        onVideoSave(videoPlay, videoId);
         break;
       case '채널방문':
         window.open(
@@ -89,14 +82,14 @@ const Contents = memo(({ videoPlay, onVideoSave, etcToggleId }) => {
           채널방문
         </a>
       </div>
-      {getVideo?.card &&
-        Object.keys(getVideo.card).length !== 0 &&
-        Object.keys(getVideo.card)
+      {videoPlay?.card &&
+        Object.keys(videoPlay.card).length !== 0 &&
+        Object.keys(videoPlay.card)
           .sort()
           .map(
             (key) =>
-              previewCheck(getVideo.card[key]) && (
-                <Card key={key} card={getVideo.card[key]} styles={styles} />
+              previewCheck(videoPlay.card[key]) && (
+                <Card key={key} card={videoPlay.card[key]} styles={styles} />
               )
           )}
     </section>

@@ -12,10 +12,8 @@ const List = memo(
     loading,
     etcToggleId,
     youtubeRepo,
-    search,
   }) => {
-    const searchList = search || videoList;
-    const list = searchList.contents?.videoList;
+    const list = videoList.contents?.videoList;
 
     return (
       <ul className={styles.videoList}>
@@ -31,7 +29,7 @@ const List = memo(
                   index === list.length - 1 && onYoutubeLayerSet
                 }
                 youtube={index === list.length - 1 && youtube}
-                videoList={index === list.length - 1 && searchList}
+                videoList={index === list.length - 1 && videoList}
                 etcToggleId={etcToggleId}
                 youtubeRepo={youtubeRepo}
                 videoListId={videoList.id}
