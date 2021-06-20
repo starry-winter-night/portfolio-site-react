@@ -1,4 +1,4 @@
-import * as starFunc from "./star_function.js";
+import * as starFunc from './star_function.js';
 
 export default class ShootingStarBuilder {
   starSize(size) {
@@ -16,7 +16,7 @@ class ShootingStar {
     this.canvas = canvas;
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
-    this.ctx = this.canvas.getContext("2d");
+    this.ctx = this.canvas.getContext('2d');
     this.starSize = starSize;
 
     this.shootingStar = null;

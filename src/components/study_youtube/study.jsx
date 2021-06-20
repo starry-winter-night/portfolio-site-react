@@ -229,7 +229,7 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
 
       youtubeRepo.saveVideo(auth, video, videoId);
 
-      alert('저장 되었습니다.');
+      alert('My list에 저장 되었습니다.');
     },
     [auth, youtubeRepo]
   );

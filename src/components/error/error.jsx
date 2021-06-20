@@ -6,7 +6,7 @@ import styles from './error.module.css';
 
 const Error = ({ authService }) => {
   const location = useLocation();
-
+  const auth = localStorage.getItem('state');
   let code = location.state?.code;
 
   if (!code) code = 404;
@@ -28,9 +28,7 @@ const Error = ({ authService }) => {
         <div className={styles.container}>
           <header className={styles.header}>
             <Goback backBox={styles.backBox} />
-            <div>
-              <Logout authService={authService} />
-            </div>
+            <div>{auth && <Logout authService={authService} />}</div>
           </header>
           <section className={styles.section}>
             <h3 className={styles.error}>ERROR</h3>
