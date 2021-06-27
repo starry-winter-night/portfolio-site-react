@@ -14,11 +14,11 @@ class AuthService {
   async login() {
     const client_id = process.env.REACT_APP_CLIENT_ID;
     const redirect_uri = process.env.REACT_APP_REDIRECT_URI;
-    const randomStarg = Math.random().toString();
+    const randomString = Math.random().toString();
     const oauthURL = 'https://smp-oauth.link/oauth/';
-    localStorage.setItem('state', randomStarg);
+    localStorage.setItem('state', randomString);
 
-    const state = await bcrypt.hash(randomStarg, 10);
+    const state = await bcrypt.hash(randomString, 10);
     const uri = `${oauthURL}/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&state=${state}`;
 
     window.open(uri, 'oauthServer', 'width=520,height=680');

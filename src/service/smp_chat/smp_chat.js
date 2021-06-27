@@ -4,6 +4,7 @@ class SmpChat {
     this.script = null;
     this.link = null;
     this.chatClassName = 'smpChat';
+    this.chat = null;
   }
 
   load(userId) {
@@ -13,6 +14,7 @@ class SmpChat {
 
       if (!this.script) this.script = document.createElement('script');
       this.script.src = `https://smp-resource.link/smpChat/chatService.js?CLIENTID=${clientId}`;
+
       this.script.defer = true;
       document.body.appendChild(this.script);
 
@@ -27,23 +29,23 @@ class SmpChat {
       };
 
       this.script.addEventListener('load', () => {
-        const chat = new window.smpChat.setting.chatService(
+        this.chat = new window.smpChat.setting.chatService(
           clientId,
           apiKey,
           this.socketIo
         );
 
-        chat.init(userId, this.chatClassName);
+        this.chat.init(userId, this.chatClassName);
 
-        chat.setPosition(position);
+        this.chat.setPosition(position);
       });
     }
   }
 
   clear() {
     if (this.script) {
+      this.chat.logout();
       this.script.parentNode.removeChild(this.script);
-
       this.script = null;
     }
 
