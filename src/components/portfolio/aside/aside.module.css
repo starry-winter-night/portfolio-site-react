@@ -55,7 +55,15 @@
   width: 100%;
 }
 
-.studyPage {
+.login {
+  color: var(--color-blue);
+  cursor: pointer;
+  font-size: var(--font-regular);
+  font-weight: 700;
+  font-family: 'Didact Gothic';
+}
+
+.studyPage, .loginPage {
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -105,6 +113,7 @@
     animation-duration: var(--animation-duration);
     animation-name: menuSlide;
   }
+
   .studyPage {
     display: none;
     animation-duration: var(--animation-duration);
@@ -138,7 +147,11 @@
     font-size: var(--font-size-small);
   }
 
-  .menu.active li {
+  .login {
+    font-size: var(--font-size-small);
+  }
+
+  .menu li {
     font-size: var(--font-small);
   }
 

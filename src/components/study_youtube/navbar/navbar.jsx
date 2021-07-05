@@ -1,7 +1,8 @@
 import React, { memo } from 'react';
 import styles from './navbar.module.css';
 import Menu from './menu';
-import Goback from '../../common/goback/goback';
+import Goback from '../../common/move/goback';
+import Home from '../../common/move/home';
 import Search from '../../common/search/search';
 import Dropbox from '../../common/button/dropbox';
 
@@ -21,6 +22,7 @@ const Navbar = memo(
     return (
       <nav className={styles.navbar}>
         <Goback backBox={styles.backBox} />
+        <Home homeBox={styles.homeBox} />
         <Search onSearch={onSearch} logoName="youtubeLogo.png" />
         <ul className={styles.studyList}>
           {layer.map((item) => (

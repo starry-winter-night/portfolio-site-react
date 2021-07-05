@@ -24,6 +24,7 @@ const App = ({
       <Switch>
         <Route exact path="/">
           <Portfolio
+            authService={authService}
             starryNight={starryNight}
             highLightMenu={highLightMenu}
             moveSection={moveSection}

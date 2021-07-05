@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { useHistory } from 'react-router-dom';
 import styles from './logout.module.css';
-const Logout = memo(({ authService }) => {
+const Logout = memo(({ authService, style }) => {
   const history = useHistory();
 
   const hadleLogout = () => {
@@ -12,7 +12,7 @@ const Logout = memo(({ authService }) => {
     });
   };
   return (
-    <button className={styles.logout} onClick={hadleLogout}>
+    <button className={style ? style : styles.logout} onClick={hadleLogout}>
       Logout
     </button>
   );

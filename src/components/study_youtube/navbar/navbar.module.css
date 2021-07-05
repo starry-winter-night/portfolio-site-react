@@ -14,8 +14,15 @@
 }
 
 .backBox {
-  margin-right: 12%;
-  width: 3%;
+  margin-right: 25px;
+  width: 25px;
+  cursor: pointer;
+  color: var(--color-light-white);
+}
+
+.homeBox {
+  margin-right: 15%;
+  width: 25px;
   cursor: pointer;
   color: var(--color-light-white);
 }
@@ -61,6 +68,7 @@
   height: 30px;
   line-height: 30px;
   user-select: none;
+  cursor: pointer;
 }
 
 .dropbox_list li:hover {
@@ -142,10 +150,11 @@
 }
 
 @media screen and (max-width: 1024px) {
-  .backBox {
+  .backBox, .homeBox {
     width: 45px;
     margin-right: initial;
   }
+  
 }
 
 @media screen and (max-width: 1280px) {

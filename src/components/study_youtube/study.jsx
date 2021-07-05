@@ -61,6 +61,10 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
 
           switch (action) {
             case 'smpark':
+              const currVideoId = localStorage.getItem('videoId') || null;
+              const currVideoView = localStorage.getItem('videoView') || null;
+              let video = null;
+
               cardRepo.readCardList('smpark', (card) => {
                 result.items = result.items.map((item) => {
                   item.card = card[item.snippet.resourceId.videoId];
@@ -68,16 +72,21 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
                   return item;
                 });
 
-                const currVideo =
-                  JSON.parse(localStorage.getItem('video')) || null;
-
-                if (!currVideo) {
-                  const video = result.items[0];
-
-                  setVideoPlay(video);
+                if (!currVideoId) {
+                  video = result.items[0];
                 }
 
-                const currentView = localStorage.getItem('view');
+                if (currVideoId && currVideoView === 'smpark') {
+                  result.items.forEach((item) => {
+                    if (item.snippet.resourceId.videoId === currVideoId) {
+                      video = item;
+                    }
+                  });
+                }
+
+                if (video) setVideoPlay(video);
+
+                const currView = localStorage.getItem('view');
 
                 setLayer((list) =>
                   list.map((item) => {
@@ -90,12 +99,12 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
                         },
                       };
 
-                      if (!currentView) smparkLayer.view = 'on';
+                      if (!currView) smparkLayer.view = 'on';
 
                       return smparkLayer;
                     }
 
-                    if (!currentView) return { ...item, view: 'off' };
+                    if (!currView) return { ...item, view: 'off' };
 
                     return item;
                   })
@@ -262,10 +271,11 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
     }
   };
 
-  const onVideoListClick = useCallback((video) => {
+  const onVideoListClick = useCallback((video, videoId, view) => {
     setVideoPlay(video);
 
-    localStorage.setItem('video', JSON.stringify(video));
+    localStorage.setItem('videoView', view);
+    localStorage.setItem('videoId', videoId);
   }, []);
 
   useEffect(() => {
@@ -273,23 +283,20 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
       if (!user || !auth) {
         history.push('/login');
       } else {
-        const currentView = localStorage.getItem('view') || null;
-        const currVideo = JSON.parse(localStorage.getItem('video')) || null;
+        const currView = localStorage.getItem('view') || null;
+        const currVideoView = localStorage.getItem('videoView') || null;
+        const currVideoId = localStorage.getItem('videoId') || null;
         const currSearch = JSON.parse(localStorage.getItem('search')) || null;
 
-        if (currentView) {
+        if (currView) {
           setLayer((list) => {
             return list.map((item) => {
-              if (item.id === currentView) {
+              if (item.id === currView) {
                 return { ...item, view: 'on' };
               }
               return { ...item, view: 'off' };
             });
           });
-        }
-
-        if (currVideo) {
-          setVideoPlay(currVideo);
         }
 
         if (currSearch) {
@@ -333,9 +340,13 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
               });
             }
 
-            if (currVideo) {
+            if (currVideoId && currVideoView === 'mylist') {
               sortList.forEach((item) => {
-                if (item.date === currVideo.date) {
+                let videoId = item.snippet.resourceId?.videoId;
+                if (!videoId) videoId = item.id;
+
+                if (videoId === currVideoId) {
+                  console.log(item);
                   setVideoPlay(item);
                 }
               });

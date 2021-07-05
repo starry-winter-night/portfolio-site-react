@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router';
-import Goback from '../common/goback/goback';
+import Home from '../common/move/home';
 import Logout from '../common/auth/logout';
 import styles from './error.module.css';
 
@@ -27,7 +27,7 @@ const Error = ({ authService }) => {
       {code && (
         <div className={styles.container}>
           <header className={styles.header}>
-            <Goback backBox={styles.backBox} />
+            <Home homeBox={styles.homeBox} />
             <div>{auth && <Logout authService={authService} />}</div>
           </header>
           <section className={styles.section}>

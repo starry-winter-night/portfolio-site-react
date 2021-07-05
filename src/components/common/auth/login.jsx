@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import styles from './login.module.css';
 import Logo from '../logo/logo';
-import Goback from '../goback/goback';
+import Goback from '../move/goback';
 
 const Login = ({ authService, smpAuth, smpChat }) => {
   const history = useHistory();
@@ -96,7 +96,7 @@ const Login = ({ authService, smpAuth, smpChat }) => {
       {!auth && (
         <section className={styles.section}>
           <header className={styles.header}>
-            <Goback backBox={styles.backBox} />
+            <Goback backBox={styles.backBox} move="/"/>
             <Logo logo={styles.logo} />
             <h1 className={styles.title}>Study Page Login</h1>
           </header>

@@ -11,7 +11,7 @@ const Goback = memo(({ backBox, move }) => {
     if (move) {
       history.push(move);
     } else {
-      history.push('/');
+      history.goBack();
     }
   };
 

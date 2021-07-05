@@ -4,7 +4,12 @@ import Navbar from './navbar/navbar';
 import Aside from './aside/aside';
 import Sections from './sections/sections';
 
-const Portfolio = ({ starryNight, highLightMenu, moveSection }) => {
+const Portfolio = ({
+  starryNight,
+  highLightMenu,
+  moveSection,
+  authService,
+}) => {
   const portfolioRef = useRef();
   const canvasRef = useRef();
   const mainRef = useRef();
@@ -18,6 +23,7 @@ const Portfolio = ({ starryNight, highLightMenu, moveSection }) => {
       <canvas ref={canvasRef} className="canvas"></canvas>
       <Navbar portfolioRef={portfolioRef} />
       <Aside
+        authService={authService}
         highLightMenu={highLightMenu}
         mainRef={mainRef}
         moveSection={moveSection}

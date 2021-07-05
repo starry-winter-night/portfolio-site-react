@@ -38,18 +38,16 @@ const Item = memo(
     const channelTitle = video.videoOwnerChannelTitle
       ? video.videoOwnerChannelTitle
       : video.channelTitle;
+    let videoId = video?.resourceId?.videoId;
+    if (!videoId) videoId = item.id;
 
     const onListClick = (e) => {
       if (!e.target.closest('svg')?.dataset.etcId) {
-        onVideoListClick(item);
+        onVideoListClick(item, videoId, videoListId);
       }
     };
 
     const onDeleteClick = (text) => {
-      let videoId = video?.resourceId?.videoId;
-
-      if (!videoId) videoId = item.id;
-
       if (text === '삭제하기') {
         youtubeRepo.deleteVideo(auth, videoId);
       }

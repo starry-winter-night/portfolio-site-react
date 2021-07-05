@@ -14,7 +14,6 @@ const List = memo(
     youtubeRepo,
   }) => {
     const list = videoList.contents?.videoList;
-
     return (
       <ul className={styles.videoList}>
         {loading.listLoading && <Loading styles={styles} />}

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import Goback from '../common/goback/goback';
+import Goback from '../common/move/goback';
 import Logout from '../common/auth/logout';
 import Maker from './maker/maker';
 import Preview from './preview/preview';
