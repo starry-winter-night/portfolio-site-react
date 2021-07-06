@@ -11,15 +11,15 @@ const contact = () => {
       id: 1,
       title: 'E-mail Adress',
       icon: <FontAwesomeIcon icon={faAt} />,
-      url: '',
-      content: '비공개',
+      url: 'mailto:smpark7723@gmail.com',
+      content: 'smpark7723@gmail.com',
     },
     {
       id: 2,
       title: 'GitHub Link',
       icon: <FontAwesomeIcon icon={faGithub} />,
-      url: 'https://github.com/',
-      content: '비공개',
+      url: 'https://github.com/starry-winter-night',
+      content: 'github.com/starry-winter-night',
     },
   ];
 

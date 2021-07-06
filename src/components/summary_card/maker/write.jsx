@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, memo, useState } from 'react';
+import React, { useCallback, useEffect, useRef, memo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRedoAlt } from '@fortawesome/free-solid-svg-icons';
 import { Editor } from '@toast-ui/react-editor';

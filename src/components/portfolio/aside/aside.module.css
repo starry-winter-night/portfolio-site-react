@@ -63,7 +63,8 @@
   font-family: 'Didact Gothic';
 }
 
-.studyPage, .loginPage {
+.studyPage,
+.loginPage {
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -131,12 +132,12 @@
 
   .menu.active {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     width: 100%;
-    flex-basis: 73%;
-    padding: 10px 0;
-    height: 0;
-    margin: 45px 0 0 0;
+    /* flex-basis: 73%; */
+    padding: 20px 0;
+    height: 100%;
+    margin: 0;
   }
 
   .studyPage.active {

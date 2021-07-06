@@ -7,9 +7,9 @@ const Skills = () => {
     { id: 1, title: 'HTML & Pug(Jade)', bar: '85%' },
     { id: 2, title: 'CSS & PostCSS', bar: '85%' },
     { id: 3, title: 'JavaScript(ES 6-11)', bar: '85%' },
-    { id: 5, title: 'NodeJS(Express & Koa)', bar: '80%' },
+    { id: 5, title: 'NodeJS(Express & Koa)', bar: '85%' },
     { id: 4, title: 'React(Hook)', bar: '75%' },
-    { id: 6, title: 'TypeScript', bar: 'studying...' },
+    { id: 6, title: 'TypeScript', bar: 'installing...' },
   ];
 
   const etcs = [
@@ -28,11 +28,11 @@ const Skills = () => {
       </div>
       <h2>Skills & Attributes</h2>
       <p>
-        제가 주로 사용하거나 배워나가고 있는 스킬 셋 입니다. 수치화 기준은 주관적 적응
-        및 숙련도 입니다. Java를 공부하며 프로그래머 세계에 입문하였으나 현재는
+        제가 주로 사용하거나 배워나가고 있는 스킬 셋입니다. 수치화 기준은 주관적 적응
+        및 숙련도입니다. Java를 공부하며 프로그래머 세계에 입문하였으나 현재는
         JavaScript의 매력에 빠져 해당 분야의 전문가가 되기 위해 노력하고
         있습니다. JavaScript라면 FrontEnd, BackEnd, FrameWork를 가리지 않고
-        좋아하고 해당 분야에서 일하기를 원합니다.
+        좋아하고 해당 분야에서 일하기를 희망합니다.
       </p>
       <div className={styles.skillset}>
         <ul className={styles.left}>
