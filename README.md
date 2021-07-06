@@ -1,10 +1,14 @@
 # SMP Portfolio & Youtube Summary Card Site
 
-- [🚀Portfolio site](#Portfolio site)
-- [📢Youtube Channel](#Youtube Channel)
-- [📝Summary Card](#Summary Card)
-
 `Portfolio` & `Youtube Summary Card`는 ReactJS(Hook)를 이용하여 제작하였습니다. `Portfolio site`는 HTML과 VanillaJS로 제작하였던 프로젝트를 ReactJS로 변환하였고 `Youtube & Summary Card`는 ReactJS(Hook)로 추가 제작하였습니다.
+
+<br>
+
+## Link
+
+- [🚀 Portfolio Site](#Portfolio__Site)
+- [📢 Youtube Channel](#Youtube__Channel)
+- [📝 Summary Card](#Summary__Card)
 
 <br>
 
@@ -26,7 +30,7 @@
 
 <br>
 
-## Portfolio site
+## Portfolio__Site
 
 저를 소개하기 위한 포트폴리오 페이지입니다.  
 모든 기능은 직접 제작하였으며 우주 컨셉으로 디자인하였습니다.
@@ -99,7 +103,7 @@
 
 <br>
 
-## Youtube Channel
+## Youtube__Channel
 
 개발자가 추천한 유튜브 리스트를 시청 및 저장하거나 직접 유튜브를 검색 및 저장 할 수 있는 사이트입니다.  
 로그인을 통해서 이용할 수 있습니다.
@@ -200,7 +204,7 @@
   🚀[**smpark.dev/study**](https://smpark.dev/study)에서 확인하실 수 있습니다.
   <br>
 
-## Summary Card
+## Summary__Card
 
 최근 유튜브를 통해 많고 다양한 양질의 정보를 얻을 수 있기 때문에 이를 이용하여 스터디 할 수 있는 페이지를 만들었습니다.  
 `My List`에 저장한 유튜브 영상을 클릭 후 카드 작성을 통해 이용할 수 있으며, 영상의 정보를 이용자가 간략하게 정리하고 볼 수 있는 기능입니다.  
