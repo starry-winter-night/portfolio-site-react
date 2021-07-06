@@ -1,6 +1,7 @@
 .portfolio {
   overflow-y: scroll;
   height: 100vh;
+  user-select: none;
 }
 
 .canvas {

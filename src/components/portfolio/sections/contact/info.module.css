@@ -7,3 +7,7 @@
   transform: scale(1.2);
   transition: all var(--animation-duration) ease;
 }
+
+.contentText {
+  cursor: pointer;
+}
