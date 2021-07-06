@@ -4,13 +4,16 @@ export default class MoveMenuSection {
       if (item.id === targetId) {
         index === 0
           ? this._moveScrollHome(portfolio)
-          : this._moveScrollMenu(item);
+          : this._moveScrollMenu(portfolio, item);
       }
     });
   }
 
-  _moveScrollMenu(item) {
-    item.scrollIntoView({ behavior: 'smooth' });
+  _moveScrollMenu(portfolio, item) {
+    portfolio.scrollTo({
+      top: item.getBoundingClientRect().top + portfolio.scrollTop,
+      behavior: 'smooth',
+    });
   }
 
   _moveScrollHome(portfolio) {
