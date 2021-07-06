@@ -346,7 +346,6 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
                 if (!videoId) videoId = item.id;
 
                 if (videoId === currVideoId) {
-                  console.log(item);
                   setVideoPlay(item);
                 }
               });

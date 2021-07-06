@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, memo } from 'react';
+import React, { useCallback, useEffect, useRef, memo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRedoAlt } from '@fortawesome/free-solid-svg-icons';
 import { Editor } from '@toast-ui/react-editor';
@@ -61,6 +61,17 @@ const Write = memo(({ cards, selectedCard, cloudinary, onUpdateCard }) => {
       } else {
         name = 'description';
         value = editorRef.current.getInstance().getHtml();
+
+        editorRef.current
+          .getInstance()
+          .addHook('addImageBlobHook', async (img) => {
+            const uploaded = await cloudinary.imageUpload(img);
+
+            const image = `<img src=${uploaded.url} alt=${uploaded.original_filename}>`;
+
+            value = value + image;
+            editorRef.current.getInstance().setHtml(value, true);
+          });
       }
 
       card = {
@@ -145,7 +156,7 @@ const Write = memo(({ cards, selectedCard, cloudinary, onUpdateCard }) => {
           <Editor
             className={styles.toastEditor}
             previewStyle="tab"
-            height="250px"
+            height="auto"
             previewHighlight={false}
             initialEditType="wysiwyg"
             useCommandShortcut={true}
