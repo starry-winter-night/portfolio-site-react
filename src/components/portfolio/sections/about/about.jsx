@@ -10,7 +10,7 @@ const about = () => (
       <h1>About me</h1>
     </div>
     <p>
-      안녕하세요. 현재 대전에 거주하는 업력 1년 차 주니어 웹 개발자입니다. 운이
+      안녕하세요. 현재 대전에 거주하는 업력 1년 2개월 주니어 웹 개발자입니다. 운이
       좋게도 첫 회사에서 PL로 일하며 주도적으로 개발한 경험이 있습니다. 직접
       발로 뛰며 시장 조사를 하고 고객과 미팅하며 프로젝트를 기획 및
       설계하였습니다. 또한 Front·back-end를 모두 접하며 경험할 수 있었고 다양한
@@ -47,23 +47,23 @@ const about = () => (
       <div className={styles.job}>
         <div className={styles.jobImg}>
           <img
-            src="imgs/company.png"
-            alt="비공개"
+            src="imgs/irexnet.png"
+            alt="irexnet"
             className={styles.job__logo}
           />
         </div>
         <ul>
           <li>
-            <span>· </span> (주)oooo에서 1년 2개월 신사업부 웹 개발자로
+            <span>· </span> (주)irexnet에서 1년 2개월 신사업부 웹 개발자로
             일하였습니다.
           </li>
           <li>
-            <span>· </span> ooo, oo(가제), oooooo 및 사내 소프트웨어 등을
+            <span>· </span> PLM, 점빵(가제), 네이버 클로버(음성쇼핑) 및 사내 소프트웨어 등을
             개발하였습니다.
           </li>
           <li>
-            <span>· </span> 그 외 업무(시장) 조사 및 미팅, K-WATER 시연,
-            oo대학교 시연 및 발표 등을 맡아 하였습니다.
+            <span>· </span> 그 외 업무 관련 시장조사 및 클라이언트 미팅, K-WATER 시연,
+            대전대학교 시연 및 발표 등을 팀에서 맡아 하였습니다.
           </li>
         </ul>
       </div>
