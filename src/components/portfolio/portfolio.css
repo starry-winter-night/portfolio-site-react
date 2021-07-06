@@ -4,6 +4,23 @@
   user-select: none;
 }
 
+.aside {
+  font-family: 'Didact Gothic';
+  position: sticky;
+  top: 0;
+  bottom: 0;
+  float: right;
+  width: 15%;
+  height: 100vh;
+  z-index: 3;
+  display: flex;
+  letter-spacing: 0.1rem;
+  flex-direction: column;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 .canvas {
   z-index: -99;
   position: fixed;
@@ -26,5 +43,21 @@
   .section {
     padding: 15px;
     width: 90%;
+  }
+
+  .aside {
+    padding-top: 0;
+    width: 100px;
+    align-items: center;
+    position: absolute;
+    right: 0;
+    height: 100px;
+  }
+
+  .aside.active {
+    top: 0;
+    padding-top: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    height: 100vh;
   }
 }

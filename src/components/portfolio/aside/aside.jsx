@@ -7,7 +7,15 @@ import Menu from './menu';
 import styles from './aside.module.css';
 
 const Aside = memo(
-  ({ highLightMenu, mainRef, moveSection, portfolioRef, authService }) => {
+  ({
+    highLightMenu,
+    mainRef,
+    moveSection,
+    portfolioRef,
+    authService,
+    toggleMenu,
+    mobileMenuIconToggle,
+  }) => {
     const menus = [
       { id: 'home', title: 'Home' },
       { id: 'about', title: 'About' },
@@ -16,8 +24,9 @@ const Aside = memo(
       { id: 'contact', title: 'Contact' },
     ];
     const [observe, setObserve] = useState(null);
-    const [mobileMenuIconToggle, setMobileMenuIconToggle] = useState('off');
+
     const auth = localStorage.getItem('state');
+
     const history = useHistory();
 
     const onObserveTarget = useCallback((el) => {
@@ -31,10 +40,10 @@ const Aside = memo(
     const onMenuIconClick = (e) => {
       e.preventDefault();
 
-      if (mobileMenuIconToggle === 'off') {
-        setMobileMenuIconToggle('on');
+      if (mobileMenuIconToggle === 'on') {
+        toggleMenu('off');
       } else {
-        setMobileMenuIconToggle('off');
+        toggleMenu('on');
       }
     };
 
@@ -51,12 +60,7 @@ const Aside = memo(
     };
 
     return (
-      <aside
-        id="aside"
-        className={`${styles.aside} ${
-          mobileMenuIconToggle === 'on' && styles.active
-        }`}
-      >
+      <>
         <button className={styles.menu__btn} onClick={onMenuIconClick}>
           <FontAwesomeIcon icon={faBars} />
         </button>
@@ -102,7 +106,7 @@ const Aside = memo(
             </button>
           </li>
         </ul>
-      </aside>
+      </>
     );
   }
 );
