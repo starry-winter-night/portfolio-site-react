@@ -1,0 +1,45 @@
+.navbar {
+  height: 56px;
+  min-height: 56px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-background);
+  width: 100%;
+}
+
+.backBox {
+  width: 73px;
+  color: var(--color-light-white);
+}
+
+.logoBox {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 35px;
+  margin: 0;
+  user-select: none;
+}
+
+.title {
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 300;
+  font-size: 1.5rem;
+  user-select: none;
+  margin: 0 37px 0 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .title {
+    margin: 0 10px;
+    font-size: 1.2em;
+  }
+
+  .backBox {
+    width: 30px;
+  }
+}

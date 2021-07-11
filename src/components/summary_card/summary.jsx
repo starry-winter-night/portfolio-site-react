@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import Goback from '../common/move/goback';
-import Logout from '../common/auth/logout';
+import Navbar from './navbar/navbar';
 import Maker from './maker/maker';
 import Preview from './preview/preview';
 import Loading from '../common/loading/loading';
@@ -96,14 +95,7 @@ const Summary = ({ authService, cloudinary, cardRepo }) => {
     <>
       {auth && (
         <>
-          <nav className={styles.navbar}>
-            <Goback backBox={styles.backBox} move="/study" />
-            <div className={styles.logoBox}>
-              <img className={styles.logo} src="imgs/note.png" alt="note"></img>
-              <h3 className={styles.title}>Summary Card</h3>
-            </div>
-            <Logout authService={authService} />
-          </nav>
+          <Navbar authService={authService} />
           <main className={styles.main}>
             {loading === 'on' && <Loading styles={styles} />}
             {cards[selectedCard.id] && loading === 'off' && (

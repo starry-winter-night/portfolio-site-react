@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { useHistory } from 'react-router';
@@ -7,9 +7,9 @@ import styles from './home.module.css';
 const Goback = memo(({ homeBox }) => {
   const history = useHistory();
 
-  const handleGoHome = () => {
+  const handleGoHome = useCallback(() => {
     history.push('/');
-  };
+  }, [history]);
 
   return (
     <div className={homeBox} onClick={handleGoHome}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, memo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faTrashAlt,
@@ -8,7 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Modal from '../../common/modal/modal';
 
-const Card = ({
+const Card = memo(({
   card,
   styles,
   onEditButton,
@@ -121,6 +121,6 @@ const Card = ({
       />
     </ul>
   );
-};
+});
 
 export default Card;

@@ -2,7 +2,7 @@ import React from 'react';
 
 const Logo = ({ logo }) => (
   <div className={logo}>
-    <a href="https://test-temp-portfolio.netlify.app">
+    <a href="https://smpark.dev">
       web <br />
       developer <br />
       smpark

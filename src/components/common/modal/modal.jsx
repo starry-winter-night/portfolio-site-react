@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import styles from './modal.module.css';
@@ -14,17 +14,20 @@ const Modal = ({
 }) => {
   const modalRef = useRef();
 
-  const onClick = (e) => {
-    const value = e.currentTarget.innerText;
+  const onClick = useCallback(
+    (e) => {
+      const value = e.currentTarget.innerText;
 
-    if (e.target === modalRef.current) {
-      onCloseModal();
-    }
+      if (e.target === modalRef.current) {
+        onCloseModal();
+      }
 
-    if (value === '확인') {
-      onCheckModal(modalType);
-    }
-  };
+      if (value === '확인') {
+        onCheckModal(modalType);
+      }
+    },
+    [modalType, onCheckModal, onCloseModal]
+  );
 
   return (
     <>
