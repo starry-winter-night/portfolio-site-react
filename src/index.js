@@ -31,7 +31,6 @@ const youtubeRepo = new YoutubeVideoRepository();
 
 ReactDOM.render(
   <React.StrictMode>
-  {/* <> */}
     <App
       authService={authService}
       cardRepo={cardRepo}
@@ -45,7 +44,6 @@ ReactDOM.render(
       youtubeRepo={youtubeRepo}
     />
     <Smpchat smpChat={smpChat} />
-  {/* </>, */}
   </React.StrictMode>,
   document.getElementById('root')
 );

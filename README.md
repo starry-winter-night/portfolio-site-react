@@ -4,7 +4,7 @@
 
 <br>
 
-## Link
+## Projects Index Link
 
 - [🚀 Portfolio Site](#Portfolio__Site)
 - [📢 Youtube Channel](#Youtube__Channel)
@@ -30,7 +30,97 @@
 
 <br>
 
-## Portfolio__Site
+## Common
+
+- **Optimization**
+
+  - **Memo**  
+     리액트는 Props, State 또는 부모 컴포넌트가 변경되면 Render됩니다.  
+     하지만 값이 변경되지 않아 굳이 Render되지 않아도 되는 페이지는 Memo를 통해 캐시하여 Render를 방지하였습니다.  
+     또한 상위 부모 단계 컴포넌트 중 업데이트가 빈번하게 일어나는 경우 Memo를 사용하면 의미없이 캐시가 반복되기 때문에 사용하지 않았습니다.
+
+    ```javascript
+    import React, { memo } from 'react';
+
+    const Card = memo(({ ... }) => { ... })
+    ```
+
+  - **UseCallback**  
+     리액트 Hook의 콜백함수는 Render가 일어날 때마다 새로 만들어지게 됩니다.  
+     컴포넌트가 변경이 되어도 한번 만들어진 함수를 재사용하기 위하여 useCallback을 사용하였습니다.  
+     콜백함수 안에서 사용하는 데이터의 변경이 있을 때만 새로 만들어지도록 Dependency List에 데이터를 넣어 명시하였습니다.
+
+    ```javascript
+    import React, { useCallback } from 'react';
+
+    const onUpdateCard = useCallback(
+      (card) => {
+        cardRepo.saveCard(auth, videoId, card);
+      },
+      [auth, cardRepo, videoId]
+    );
+    ```
+
+    <br>
+
+- **Performance**
+
+  - **Document Structure**  
+    사용하는 DB의 Document구조를 Array에서 Object로 변경하였습니다.
+
+    `before`
+
+    ```javascript
+    // Data 구조 -> array
+    const data = [
+      {id: '1', ...},
+      {id: '2', ...}
+    ];
+
+    // Data Read
+    {data.map((item) => (
+      <component
+        key={item.id}
+        item={item}
+        ...
+      />
+    ))}
+    ```
+
+    위와 같은 구조는 데이터의 양이 많거나 최악의 경우 원하는 아이템의 위치가 배열의 끝의 위치하게 되면 모든 데이터를 탐색해야 하므로 일정한 성능을 유지할 수 없습니다.  
+     ex) O(n)
+
+    <br>
+
+    `after`
+
+    ```javascript
+    // Data 구조 -> object
+    const data = {
+      `1`: {id: '1', ...},
+      `2`: {id: '2', ...}
+    };
+
+    // Data Read
+    {Object.keys(data).map((key) => (
+      <component
+        key={key}
+        item={data[key]}
+        ...
+      />
+    ))}
+    ```
+
+    오브젝트의 키로 접근할 수 있게 수정하면 모든 아이템을 탐색할 필요가 없이 key로 바로 접근이 가능하기 때문에 데이터가 쌓일 수록 `before`보다 빠르고 일정한 속도를 유지할 수 있습니다.  
+    ex) O(1)
+
+    <br>
+
+  - **ETC**
+    
+<br>
+
+## Portfolio\_\_Site
 
 저를 소개하기 위한 포트폴리오 페이지입니다.  
 모든 기능은 직접 제작하였으며 우주 컨셉으로 디자인하였습니다.
@@ -57,7 +147,8 @@
   ```
 
 - **메뉴**  
-  현재 View의 위치에 따라 메뉴 이펙트가 변하고, 클릭을 통해 해당 섹션으로 이동하는 기능을 만들었습니다. 최초에는 스크롤 이벤트를 통해 처리했지만, 성능을 생각하여 `Interactive Observer API`를 사용하는 방식으로 바꾸었습니다.
+  현재 View의 위치에 따라 메뉴 이펙트가 변하고, 클릭을 통해 해당 섹션으로 이동하는 기능을 만들었습니다.  
+  최초에는 스크롤 이벤트를 통해 처리했지만, 성능을 고려하여 `Interactive Observer API`를 사용하는 방식으로 바꾸었습니다.
 
   ```javascript
   _callback(onObserveTarget) {
@@ -85,9 +176,7 @@
     return (e) => {
       const rocket = element.childNodes[1];
       const currHeight = this.portfolio.scrollTop;
-
       const distance = getRocketMoveDistancePixel(element, this.portfolio);
-
       const rotate = getRocketRotate(this.prevHeight, currHeight);
 
       rocket.style.transform = `translateX(${distance}px) ${rotate}`;
@@ -103,7 +192,7 @@
 
 <br>
 
-## Youtube__Channel
+## Youtube\_\_Channel
 
 개발자가 추천한 유튜브 리스트를 시청 및 저장하거나 직접 유튜브를 검색 및 저장 할 수 있는 사이트입니다.  
 로그인을 통해서 이용할 수 있습니다.
@@ -111,7 +200,7 @@
 #### Introduce
 
 - **유튜브**  
-  `Youtube API`에서 제공하는 영상 데이터를 통해 제가 추천한 영상 리스트를 볼 수 있고 직접 유튜브를 통해 검색 할 수 있는 기능입니다. 다만 유튜브 정책으로 그 횟수(Point)가 정해져 있으며 해당 횟수를 넘으면 이용할 수 없습니다.
+  `Youtube API`에서 제공하는 영상 데이터를 통해 개발자가 추천한 영상 리스트를 볼 수 있고 직접 유튜브를 통해 검색 할 수 있는 기능입니다. 다만 유튜브 정책으로 그 횟수(Point)가 정해져 있으며 해당 횟수를 넘으면 이용할 수 없습니다.
 
   ```javascript
   async search(query, pageToken, maxResults = 25) {
@@ -140,8 +229,8 @@
 
 - **리스트**  
   리스트는 `Search`, `My List`, `Smpark's Picks`, `ETC`로 이루어져 있습니다.  
-  데이터의 수를 25개로 고정하여 일정한 로딩 시간을 유지합니다.  
-  `SMP Chat`에서 마우스 이벤트로 Scroll Load 기능을 구현했다면, 해당 프로젝트에서는 `Interactive Observer API`로 구현하였습니다.  
+  불러오는 데이터의 수를 25개로 고정하여 일정한 로딩 시간을 유지합니다.  
+  `SMPChat`에서 마우스 이벤트와 디바운스로 `List Load` 기능을 구현했다면, 해당 프로젝트에서는 `Interactive Observer API`로 구현하였습니다.  
   웹 스토리지를 통해 현재 바라보고 있는 리스트를 저장하여 보여줌으로써 유튜브에서 제공하는 API Point를 절약합니다.  
   유저의 액션에 따라 리스트가 활성화되어 해당 리스트를 보여줍니다.
 
@@ -176,7 +265,7 @@
 - **로그인**  
   Youtube와 Summary Card 기능은 로그인 후 이용이 가능합니다.
   로그인은 `Firebase`를 이용하여 처리합니다.  
-  `Google`, `Github`를 통한 로그인과 `SMP Oauth Server`를 이용한 로그인이 가능합니다.  
+  `Google`, `Github`를 통한 로그인과 자체 제작한 `SMP Oauth Server`를 이용한 로그인이 가능합니다.  
   특히 `SMP Oauth Login`은 Oauth 2.0으로 받아온 유저 정보를 `Firebase`에서 지정한 방식으로 토큰화하여 넘겨줌으로써 연동되며, 로그인 및 로그아웃, 계정 관리 등 `Firebase`에서 다른 로그인 방식과 마찬가지로 일괄적으로 처리 및 관리가 가능합니다.
 
   ```javascript
@@ -204,7 +293,7 @@
   🚀[**smpark.dev/study**](https://smpark.dev/study)에서 확인하실 수 있습니다.
   <br>
 
-## Summary__Card
+## Summary\_\_Card
 
 최근 유튜브를 통해 많고 다양한 양질의 정보를 얻을 수 있기 때문에 이를 이용하여 스터디 할 수 있는 페이지를 만들었습니다.  
 `My List`에 저장한 유튜브 영상을 클릭 후 카드 작성을 통해 이용할 수 있으며, 영상의 정보를 이용자가 간략하게 정리하고 볼 수 있는 기능입니다.  
@@ -308,8 +397,13 @@
 #### End Comment
 
 `smpark` - 이번에 작성된 3가지의 프로젝트는 모두 ReactJS를 이용하여 제작되었습니다.  
-처음 ReactJS를 활용하는 만큼 어려움이 있었지만 VanillaJS를 통한 프로젝트 제작보다 훨씬 더 간결하고 편함을 느낄 수 있었습니다.  
-document의 직접적인 제어의 배제, component의 재활용을 위한 설계 및 제작, 최적화 등을 생각하며 제작하였습니다.  
-이번 프로젝트에서는 Hook을 사용하고 프로젝트의 규모도 크지 않음으로 상태관리 라이브러리를 사용하지 않았지만 다음에는 사용해보고 싶고, 개인적인 시간 문제로 JEST 같은 테스트 유닛을 사용해보지 못한 것이 아쉬움으로 남습니다.  
-Read me는 여기까지입니다.  
+처음 ReactJS를 활용하는 만큼 어려움이 있었지만 VanillaJS를 통한 프로젝트 제작보다 훨씬 더 간결하고 편함을 느낄 수 있었습니다.
+
+document의 직접적인 제어의 배제, component의 재활용을 위한 설계 및 제작, 최적화 등을 생각하며 제작하였습니다.
+
+Hook을 사용하였고 객체를 새로생성하여 리턴하면서 상태를 관리하였습니다.  
+프로젝트의 규모가 크지 않음으로 상태관리 라이브러리를 굳이 사용하지 않았습니다.  
+개인적인 시간 문제로 JEST 같은 테스트 유닛을 사용해보지 못한 것이 아쉬움으로 남습니다.
+
+Readme는 여기까지입니다.  
 읽어주셔서 감사합니다.
