@@ -1,6 +1,6 @@
-import * as starFunc from "./star_function.js";
+import * as starFunc from './star_function.js';
 
-const BACK_GROUND_COLOR = "rgba(2, 2, 14, 0.3)";
+const BACK_GROUND_COLOR = 'rgba(2, 2, 14, 0.3)';
 
 export default class MilkyWayBuilder {
   starCount(count) {
@@ -13,21 +13,33 @@ export default class MilkyWayBuilder {
     return this;
   }
 
+  clear(state) {
+    this.clear = state;
+    return this;
+  }
+
   build(canvas) {
-    return new MilkyWay(canvas, this.starCount, this.starSize);
+    return new MilkyWay(canvas, this.starCount, this.starSize, this.clear);
   }
 }
 
+let raf = null;
 class MilkyWay {
-  constructor(canvas, starCount, starSize) {
+  constructor(canvas, starCount, starSize, clear) {
     this.canvas = canvas;
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
-    this.ctx = this.canvas.getContext("2d");
+    this.ctx = this.canvas.getContext('2d');
     this.starCount = starFunc.convertStarCount(this.canvas.width, starCount);
     this.starSize = starSize;
-
+    this.clear = clear;
     this.milkyWay = [];
+
+    if (this.clear === 'clear') {
+      cancelAnimationFrame(raf);
+
+      return;
+    }
 
     this._init();
   }
@@ -63,6 +75,12 @@ class MilkyWay {
       this.ctx.fill();
     });
 
-    requestAnimationFrame(this._drawSpace);
+    raf = requestAnimationFrame(this._drawSpace);
+
+    if (this.clear === 'clear') {
+      cancelAnimationFrame(raf);
+
+      return;
+    }
   };
 }

@@ -6,20 +6,32 @@ export default class ShootingStarBuilder {
     return this;
   }
 
+  clear(state) {
+    this.clear = state;
+    return this;
+  }
+
   build(canvas) {
-    return new ShootingStar(canvas, this.starSize);
+    return new ShootingStar(canvas, this.starSize, this.clear);
   }
 }
 
+let raf = null;
 class ShootingStar {
-  constructor(canvas, starSize) {
+  constructor(canvas, starSize, clear) {
     this.canvas = canvas;
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
     this.ctx = this.canvas.getContext('2d');
+    this.clear = clear;
     this.starSize = starSize;
-
     this.shootingStar = null;
+
+    if (this.clear === 'clear') {
+      cancelAnimationFrame(raf);
+
+      return;
+    }
 
     this._init();
   }
@@ -84,6 +96,12 @@ class ShootingStar {
       this._createShootingStar();
     }
 
-    requestAnimationFrame(this._restartShootingStar);
+    raf = requestAnimationFrame(this._restartShootingStar);
+
+    if (this.clear === 'clear') {
+      cancelAnimationFrame(raf);
+
+      return;
+    }
   };
 }

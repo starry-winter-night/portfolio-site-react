@@ -18,7 +18,13 @@ const Portfolio = ({
   const mainRef = useRef();
 
   useEffect(() => {
-    starryNight.draw(canvasRef.current);
+    const canvas = canvasRef.current;
+
+    starryNight.draw(canvas);
+
+    return () => {
+      starryNight.clear(canvas);
+    };
   }, [starryNight]);
 
   const toggleMenu = useCallback((state) => {

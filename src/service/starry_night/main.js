@@ -12,4 +12,14 @@ export default class StarryNight {
       .starSize(8)
       .build(canvas);
   }
+
+  clear(canvas) {
+    new MilkyWayBuilder() //
+      .clear('clear')
+      .build(canvas);
+
+    new ShootingStarBuilder() //
+      .clear('clear')
+      .build(canvas);
+  }
 }
