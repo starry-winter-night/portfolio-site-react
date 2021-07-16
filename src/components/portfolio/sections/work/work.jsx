@@ -25,7 +25,7 @@ const work = () => {
       title: 'SMPCHAT third-party-service',
       url: 'https://github.com/starry-winter-night/smpchat-library',
       type: 'frontend',
-      imgUrl: 'imgs/smpchat_logo.png',
+      imgUrl: 'imgs/smpchat_logo_compress.png',
       alt: 'smpchat',
     },
     {
@@ -54,8 +54,6 @@ const work = () => {
     },
   ];
 
-  const drawProject = (item) => <Project key={item.id} project={item} />;
-
   return (
     <section id="work" className={`${styles.work} section`}>
       <div className={styles.title}>
@@ -64,9 +62,15 @@ const work = () => {
       <p>이미지를 클릭하시면 해당하는 GitHub Page로 이동합니다.</p>
       <div className={styles.projects}>
         <h2>Back-end</h2>
-        {projects.map((item) => item.type === 'backend' && drawProject(item))}
+        {projects.map(
+          (item) =>
+            item.type === 'backend' && <Project key={item.id} project={item} />
+        )}
         <h2>Front-end</h2>
-        {projects.map((item) => item.type === 'frontend' && drawProject(item))}
+        {projects.map(
+          (item) =>
+            item.type === 'frontend' && <Project key={item.id} project={item} />
+        )}
       </div>
     </section>
   );

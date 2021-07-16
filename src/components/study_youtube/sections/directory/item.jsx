@@ -42,7 +42,7 @@ const Item = memo(
     if (!videoId) videoId = item.id;
 
     const onListClick = (e) => {
-      if (!e.target.closest('svg')?.dataset.etcId) {
+      if (!e.target.closest('svg')?.dataset.etcId && e.target.tagName !== "LI") {
         onVideoListClick(item, videoId, videoListId);
       }
     };
@@ -50,6 +50,9 @@ const Item = memo(
     const onDeleteClick = (text) => {
       if (text === '삭제하기') {
         youtubeRepo.deleteVideo(auth, videoId);
+
+        localStorage.removeItem('videoId');
+        localStorage.removeItem('videoView');
       }
     };
 

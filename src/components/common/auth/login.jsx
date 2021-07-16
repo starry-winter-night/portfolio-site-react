@@ -1,55 +1,44 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import styles from './login.module.css';
 import Logo from '../logo/logo';
-import Goback from '../move/goback';
+import Home from '../move/home';
 
-const Login = ({ authService, smpAuth, smpChat }) => {
+const Login = memo(({ authService, smpAuth, smpChat }) => {
   const history = useHistory();
   const auth = localStorage.getItem('state');
   const params = new URLSearchParams(window.location.search);
+
   localStorage.setItem('code', params.get('code'));
   localStorage.setItem('smp_state', params.get('state'));
 
-  const goToStudy = useCallback(
-    (id) => {
-      history.push({
-        pathname: '/study',
-        state: { id },
-      });
-    },
-    [history]
-  );
+  const onClickLoginButton = (e) => {
+    let loginType = e.target.dataset.name;
 
-  const onClickLoginButton = useCallback(
-    (e) => {
-      let loginType = e.target.dataset.name;
+    if (!loginType) {
+      const li = e.target.closest('li');
 
-      if (!loginType) {
-        const li = e.target.closest('li');
-        loginType = li.dataset.name;
-      }
+      loginType = li.dataset.name;
+    }
 
-      if (loginType === 'Smpark') {
-        smpAuth.login();
-      } else {
-        authService
-          .login(loginType)
-          .then((data) => {
-            localStorage.setItem('state', data.user.uid);
-          })
-          .catch((e) => {
-            e.code === 'auth/account-exists-with-different-credential' &&
-              alert(
-                `같은 이메일 주소가 등록되어 있습니다. 기존의 등록한 방식으로 로그인하여 주십시오. ${e.email}`
-              );
+    if (loginType === 'Smpark') {
+      smpAuth.login();
+    } else {
+      authService
+        .login(loginType)
+        .then((data) => {
+          localStorage.setItem('state', data.user.uid);
+        })
+        .catch((e) => {
+          e.code === 'auth/account-exists-with-different-credential' &&
+            alert(
+              `같은 이메일 주소가 등록되어 있습니다. 기존의 등록한 방식으로 로그인하여 주십시오. ${e.email}`
+            );
 
-            localStorage.clear();
-          });
-      }
-    },
-    [authService, smpAuth]
-  );
+          localStorage.clear();
+        });
+    }
+  };
 
   useEffect(() => {
     const code = localStorage.getItem('code') || null;
@@ -76,11 +65,17 @@ const Login = ({ authService, smpAuth, smpChat }) => {
   useEffect(() => {
     authService.loginUserCheck((user) => {
       if (user) {
+        const uid = user.uid;
         if (!auth) {
-          localStorage.setItem('state', user.uid);
+          localStorage.setItem('state', uid);
         }
-        smpChat.load(user.uid);
-        goToStudy(user.uid);
+
+        smpChat.load(uid);
+
+        history.push({
+          pathname: '/study',
+          state: { uid },
+        });
       } else {
         if (auth) {
           localStorage.clear();
@@ -89,14 +84,14 @@ const Login = ({ authService, smpAuth, smpChat }) => {
         smpChat.clear();
       }
     });
-  }, [auth, authService, goToStudy, smpChat]);
+  }, [auth, authService, history, smpChat]);
 
   return (
     <>
       {!auth && (
         <section className={styles.section}>
           <header className={styles.header}>
-            <Goback backBox={styles.backBox} move="/"/>
+            <Home homeBox={styles.homeBox} />
             <Logo logo={styles.logo} />
             <h1 className={styles.title}>Study Page Login</h1>
           </header>
@@ -121,6 +116,6 @@ const Login = ({ authService, smpAuth, smpChat }) => {
       )}
     </>
   );
-};
+});
 
 export default Login;

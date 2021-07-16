@@ -3,7 +3,7 @@ import Goback from '../../common/move/goback';
 import Logout from '../../common/auth/logout';
 import styles from './navbar.module.css';
 
-const Navbar = memo(({authService}) => {
+const Navbar = memo(({ authService }) => {
   return (
     <nav className={styles.navbar}>
       <Goback backBox={styles.backBox} move="/study" />

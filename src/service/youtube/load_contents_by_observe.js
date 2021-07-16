@@ -54,7 +54,6 @@ function loadNextSmparkList(youtube, nextPageToken, onYoutubeLayerSet) {
 }
 
 function loadNextSearchList(youtube, nextPageToken, onYoutubeLayerSet, query) {
-  console.log('in');
   if (query) {
     onYoutubeLayerSet(
       youtube.search(query, nextPageToken, 25),

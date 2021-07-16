@@ -7,10 +7,13 @@ const Logout = memo(({ authService, style }) => {
 
   const hadleLogout = useCallback(() => {
     localStorage.clear();
+
     authService.logout();
+
     history.push({
       pathname: '/login',
     });
+    
   }, [authService, history]);
   
   return (

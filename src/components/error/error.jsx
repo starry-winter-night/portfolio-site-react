@@ -6,7 +6,9 @@ import styles from './error.module.css';
 
 const Error = ({ authService }) => {
   const location = useLocation();
+
   const auth = localStorage.getItem('state');
+  
   let code = location.state?.code;
 
   if (!code) code = 404;

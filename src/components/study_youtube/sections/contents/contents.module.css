@@ -14,7 +14,7 @@
 
 .title {
   display: inline-block;
-  flex-basis: 80%;
+  width: 80%;
   margin: 0;
   margin-right: 10px;
 }
@@ -22,7 +22,7 @@
 .channel {
   display: inline-block;
   min-width: 100px;
-  flex-basis: 10%;
+  width: 10%;
   height: 40px;
   padding: 0;
   font-size: 15px;
@@ -45,7 +45,7 @@
 .save {
   display: inline-block;
   min-width: 100px;
-  flex-basis: 10%;
+  width: 10%;
   height: 40px;
   padding: 0;
   font-size: 15px;
@@ -66,7 +66,7 @@
 .summary {
   display: inline-block;
   min-width: 100px;
-  flex-basis: 10%;
+  width: 10%;
   height: 40px;
   padding: 0;
   font-size: 15px;
@@ -204,7 +204,7 @@
 }
 
 .card_subTitle {
-  flex-basis: 100%;
+  width: 100%;
   margin: 15px 0 0 0;
   min-height: 63px;
   padding-bottom: 15px;
@@ -388,7 +388,7 @@
 
 @media screen and (max-width: 1024px) {
   .title {
-    flex-basis: 90%;
+    width: 90%;
   }
   .summary {
     display: none;

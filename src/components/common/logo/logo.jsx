@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { memo } from 'react';
 
-const Logo = ({ logo }) => (
+const Logo = memo(({ logo }) => (
   <div className={logo}>
     <a href="https://smpark.dev">
       web <br />
@@ -8,6 +8,6 @@ const Logo = ({ logo }) => (
       smpark
     </a>
   </div>
-);
+));
 
 export default Logo;

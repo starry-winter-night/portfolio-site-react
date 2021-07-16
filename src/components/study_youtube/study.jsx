@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router';
 import Navbar from './navbar/navbar';
 import Sections from './sections/sections';
@@ -25,7 +25,7 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
   ]);
   const history = useHistory();
 
-  const auth = localStorage.getItem('state');
+  const auth = useMemo(() => localStorage.getItem('state'), []);
 
   const goToError = useCallback(
     (code) => {
@@ -67,7 +67,9 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
 
               cardRepo.readCardList('smpark', (card) => {
                 result.items = result.items.map((item) => {
-                  item.card = card[item.snippet.resourceId.videoId];
+                  if (card) {
+                    item.card = card[item.snippet.resourceId.videoId];
+                  }
 
                   return item;
                 });
@@ -147,7 +149,11 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
             case 'smparkAdd':
               cardRepo.readCardList('smpark', (card) => {
                 result.items = result.items.map((item) => {
-                  item.card = card[item.snippet.resourceId.videoId];
+                  if (card) {
+                    item.card = card[item.snippet.resourceId.videoId];
+
+                    return item;
+                  }
 
                   return item;
                 });
@@ -237,8 +243,6 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
       video.date = Date.now();
 
       youtubeRepo.saveVideo(auth, video, videoId);
-
-      alert('My list에 저장 되었습니다.');
     },
     [auth, youtubeRepo]
   );
@@ -257,19 +261,22 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
     );
   }, []);
 
-  const onHideDropBox = (e) => {
-    const toggleState = e.target.closest('svg')?.dataset.etcId;
+  const onHideDropBox = useCallback(
+    (e) => {
+      const toggleState = e.target.closest('svg')?.dataset.etcId;
 
-    if (toggleState) {
-      if (etcToggleId === toggleState) {
-        setEtcToggleId(null);
+      if (toggleState) {
+        if (etcToggleId === toggleState) {
+          setEtcToggleId(null);
+        } else {
+          setEtcToggleId(toggleState);
+        }
       } else {
-        setEtcToggleId(toggleState);
+        setEtcToggleId(null);
       }
-    } else {
-      setEtcToggleId(null);
-    }
-  };
+    },
+    [etcToggleId]
+  );
 
   const onVideoListClick = useCallback((video, videoId, view) => {
     setVideoPlay(video);
@@ -330,15 +337,16 @@ const Study = ({ authService, cardRepo, youtube, youtubeRepo }) => {
           cardRepo.readCardList(auth, (result) => {
             let sortList = [];
 
-            if (result) {
-              sortList = arr.sort().map((item) => {
+            sortList = arr.sort().map((item) => {
+              if (result) {
                 obj[item].card =
                   result[obj[item]?.snippet?.resourceId?.videoId] ||
                   result[obj[item].id];
 
                 return obj[item];
-              });
-            }
+              }
+              return obj[item];
+            });
 
             if (currVideoId && currVideoView === 'mylist') {
               sortList.forEach((item) => {

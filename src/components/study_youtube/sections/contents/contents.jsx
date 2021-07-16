@@ -22,13 +22,13 @@ const Contents = memo(({ videoPlay, onVideoSave, etcToggleId }) => {
   };
 
   const onSaveButtonClick = (e) => {
-    e.preventDefault();
+    alert('My list에 저장 되었습니다.');
 
     onVideoSave(videoPlay, videoId);
   };
 
   const onSummaryCardButtonClick = (e) => {
-    e.preventDefault();
+    onVideoSave(videoPlay, videoId);
 
     goToSummary();
   };
@@ -36,10 +36,10 @@ const Contents = memo(({ videoPlay, onVideoSave, etcToggleId }) => {
   const onDropBoxListClick = (text) => {
     switch (text) {
       case '요약카드':
-        goToSummary();
+        onSummaryCardButtonClick();
         break;
       case '저장하기':
-        onVideoSave(videoPlay, videoId);
+        onSaveButtonClick();
         break;
       case '채널방문':
         window.open(

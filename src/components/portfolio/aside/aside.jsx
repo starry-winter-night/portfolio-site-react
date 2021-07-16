@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect, useCallback } from 'react';
+import React, { memo, useState, useEffect, useCallback, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
@@ -16,16 +16,20 @@ const Aside = memo(
     toggleMenu,
     mobileMenuIconToggle,
   }) => {
-    const menus = [
-      { id: 'home', title: 'Home' },
-      { id: 'about', title: 'About' },
-      { id: 'skills', title: 'Skills' },
-      { id: 'work', title: 'Work' },
-      { id: 'contact', title: 'Contact' },
-    ];
+    const menus = useMemo(
+      () => [
+        { id: 'home', title: 'Home' },
+        { id: 'about', title: 'About' },
+        { id: 'skills', title: 'Skills' },
+        { id: 'work', title: 'Work' },
+        { id: 'contact', title: 'Contact' },
+      ],
+      []
+    );
+
     const [observe, setObserve] = useState(null);
 
-    const auth = localStorage.getItem('state');
+    const auth = useMemo(() => localStorage.getItem('state'), []);
 
     const history = useHistory();
 
@@ -37,17 +41,20 @@ const Aside = memo(
       highLightMenu.on(mainRef.current.childNodes, onObserveTarget);
     }, [highLightMenu, onObserveTarget, mainRef]);
 
-    const onMenuIconClick = (e) => {
-      e.preventDefault();
+    const onMenuIconClick = useCallback(
+      (e) => {
+        e.preventDefault();
 
-      if (mobileMenuIconToggle === 'on') {
-        toggleMenu('off');
-      } else {
-        toggleMenu('on');
-      }
-    };
+        if (mobileMenuIconToggle === 'on') {
+          toggleMenu('off');
+        } else {
+          toggleMenu('on');
+        }
+      },
+      [mobileMenuIconToggle, toggleMenu]
+    );
 
-    const onPageMoveButtonClick = (e) => {
+    const onPageMoveButtonClick = useCallback((e) => {
       e.preventDefault();
 
       if (e.currentTarget.innerText === 'Login') {
@@ -57,7 +64,7 @@ const Aside = memo(
       if (e.currentTarget.innerText === 'Study') {
         history.push('/study');
       }
-    };
+    }, [history]);
 
     return (
       <>

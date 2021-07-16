@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router';
 import Navbar from './navbar/navbar';
 import Maker from './maker/maker';
@@ -7,12 +7,6 @@ import Loading from '../common/loading/loading';
 import styles from './summary.module.css';
 
 const Summary = ({ authService, cloudinary, cardRepo }) => {
-  const history = useHistory();
-
-  const auth = localStorage.getItem('state');
-  const videoId = history.location.state?.videoId;
-  const title = history.location.state?.title;
-
   const [cards, setCards] = useState({
     preview: {
       id: 'preview',
@@ -21,6 +15,18 @@ const Summary = ({ authService, cloudinary, cardRepo }) => {
   });
   const [selectedCard, setSelectedCard] = useState({ id: 'preview' });
   const [loading, setLoading] = useState(null);
+
+  const history = useHistory();
+
+  const auth = useMemo(() => localStorage.getItem('state'), []);
+  const videoId = useMemo(
+    () => history.location.state?.videoId,
+    [history.location.state?.videoId]
+  );
+  const title = useMemo(
+    () => history.location.state?.title,
+    [history.location.state?.title]
+  );
 
   const onUpdateCard = useCallback(
     (card) => {
