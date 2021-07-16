@@ -34,10 +34,10 @@
 
 - **Optimization**
 
-  - **Memo**  
-     리액트는 Props, State 또는 부모 컴포넌트가 변경되면 Render됩니다.  
-     하지만 값이 변경되지 않아 굳이 Render되지 않아도 되는 페이지는 Memo를 통해 캐시하여 Render를 방지하였습니다.  
-     또한 상위 부모 단계 컴포넌트 중 업데이트가 빈번하게 일어나는 경우 Memo를 사용하면 의미없이 캐시가 반복되기 때문에 사용하지 않았습니다.
+  - **memo**  
+    리액트는 props, state 또는 부모 컴포넌트가 변경되면 Render됩니다.  
+    하지만 값이 변경되지 않아 굳이 Render되지 않아도 되는 컴포넌트는 memo를 통해 캐시하여 Render를 방지하였습니다.  
+    또한 상위 부모 단계 컴포넌트 중 업데이트가 빈번하게 일어나는 경우엔 memo를 사용하면 의미없이 캐시가 반복되기 때문에 사용하지 않았습니다.
 
     ```javascript
     import React, { memo } from 'react';
@@ -45,10 +45,29 @@
     const Card = memo(({ ... }) => { ... })
     ```
 
-  - **UseCallback**  
-     리액트 Hook의 콜백함수는 Render가 일어날 때마다 새로 만들어지게 됩니다.  
-     컴포넌트가 변경이 되어도 한번 만들어진 함수를 재사용하기 위하여 useCallback을 사용하였습니다.  
-     콜백함수 안에서 사용하는 데이터의 변경이 있을 때만 새로 만들어지도록 Dependency List에 데이터를 넣어 명시하였습니다.
+  - **useState**  
+     setState를 호출하면 state를 비교 후 업데이트가 필요한 경우 Render하는데 Object의 경우 값을 변경하여도 레퍼런스는 변경되지 않으므로 Spread Operator를 통해 새로운 Object를 만들어서 리턴하였습니다.  
+     또한 useState는 비동기이므로 setState를 콜백 후 업데이트하여 Object를 최신화 하였습니다.
+
+    ```javascript
+    import React, { useState } from 'react';
+
+    const [layer, setLayer] = useState([...]);
+
+    setLayer((list) => {
+      return list.map((item) => {
+        if (item.id === currView) {
+          return { ...item, view: 'on' };
+        }
+        return { ...item, view: 'off' };
+      });
+    });
+    ```
+
+  - **useCallback**  
+    리액트 Hook의 콜백함수는 Render가 일어날 때마다 새로 만들어지게 됩니다.  
+    컴포넌트가 변경이 되어도 한번 만들어진 함수를 재사용하기 위하여 useCallback을 사용하였습니다.  
+    콜백함수 안에서 사용하는 데이터의 변경이 있을 때만 새로 만들어지도록 Dependency List에 데이터를 넣어 명시하였습니다.
 
     ```javascript
     import React, { useCallback } from 'react';
@@ -60,6 +79,9 @@
       [auth, cardRepo, videoId]
     );
     ```
+
+  - **useMemo**
+
 
     <br>
 
@@ -111,13 +133,20 @@
     ))}
     ```
 
-    오브젝트의 키로 접근할 수 있게 수정하면 모든 아이템을 탐색할 필요가 없이 key로 바로 접근이 가능하기 때문에 데이터가 쌓일 수록 `before`보다 빠르고 일정한 속도를 유지할 수 있습니다.  
+    오브젝트의 키로 접근할 수 있게 수정하면 모든 아이템을 탐색할 필요가 없습니다. key로 바로 접근이 가능하기 때문에 데이터가 쌓일 수록 `before`보다 빠르고 일정한 속도를 유지할 수 있습니다.  
     ex) O(1)
 
     <br>
 
+  - **Rendering**
+
+
+
+    <br>
+
   - **ETC**
-    
+  
+
 <br>
 
 ## Portfolio\_\_Site
