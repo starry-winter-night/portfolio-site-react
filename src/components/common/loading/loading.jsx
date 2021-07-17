@@ -1,6 +1,12 @@
-import React, { memo } from 'react';
+import React, { useMemo } from 'react';
+import style from './loading.module.css';
 
-const Loading = memo(({ styles }) => {
+const Loading = ({ styles }) => {
+  styles = useMemo(() => {
+    console.log('??');
+    return styles ? styles : style;
+  }, [styles]);
+
   return (
     <div className={styles.loadingBox}>
       <img
@@ -10,6 +16,6 @@ const Loading = memo(({ styles }) => {
       ></img>
     </div>
   );
-});
+};
 
 export default Loading;

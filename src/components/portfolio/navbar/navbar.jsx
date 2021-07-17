@@ -22,7 +22,7 @@ const Navbar = memo(({ portfolioRef }) => {
           data-id="earth"
         />
         <img
-          src="/imgs/spaceShip-unscreen.gif"
+          src="/imgs/spaceShip-unscreen-compress.gif"
           alt="spaceShip"
           className={styles.rocket}
           data-id="rocket"
