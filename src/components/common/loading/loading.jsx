@@ -3,7 +3,6 @@ import style from './loading.module.css';
 
 const Loading = ({ styles }) => {
   styles = useMemo(() => {
-    console.log('??');
     return styles ? styles : style;
   }, [styles]);
 

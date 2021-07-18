@@ -88,10 +88,9 @@
 - **Performance**
 
   - **Document Structure**  
-    사용하는 DB의 Document구조를 Array에서 Object로 변경하였습니다.
+    사용하는 DB의 Document구조를 Array에서 Object로 변경하였습니다.  
 
     `before`
-
     ```javascript
     // Data 구조 -> array
     const data = [
@@ -112,10 +111,8 @@
     위와 같은 구조는 데이터의 양이 많거나 최악의 경우 원하는 아이템의 위치가 배열의 끝의 위치하게 되면 모든 데이터를 탐색해야 하므로 일정한 성능을 유지할 수 없습니다.  
      ex) O(n)
 
-    <br>
 
     `after`
-
     ```javascript
     // Data 구조 -> object
     const data = {
