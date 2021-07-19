@@ -494,7 +494,7 @@
           ```
 
           `Frame - after`
-          <img src="public/imgs/Frames.PNG" alt='Frames'>
+          <img src="public/imgs/frames.PNG" alt='Frames'>
 
     <br>
 
