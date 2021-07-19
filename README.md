@@ -311,9 +311,9 @@
 - **Optimization**
 
   - **memo**  
-    리액트는 props, state 또는 부모 컴포넌트가 변경되면 Render됩니다.  
-    하지만 값이 변경되지 않아 굳이 Render되지 않아도 되는 컴포넌트는 memo를 통해 캐시하여 Render를 방지하였습니다.  
-    또한 상위 부모 단계 컴포넌트 중 업데이트가 빈번하게 일어나는 경우엔 memo를 사용하면 의미없이 캐시가 반복되기 때문에 사용하지 않았습니다.
+    리액트는 props, state 또는 부모 컴포넌트가 변경되면 Render 됩니다.  
+    하지만 값이 변경되지 않아 굳이 Render 되지 않아도 되는 컴포넌트는 memo를 통해 캐시 하여 Render를 방지하였습니다.  
+    또한 상위 부모 단계 컴포넌트 중 업데이트가 빈번하게 일어나는 경우엔 memo를 사용하면 의미 없이 캐시가 반복되기 때문에 사용하지 않았습니다.
 
     ```javascript
     import React, { memo } from 'react';
@@ -324,8 +324,8 @@
      <br>
 
   - **useState**  
-     setState를 호출하면 state를 비교 후 업데이트가 필요한 경우 Render하는데 Object의 경우 값을 변경하여도 레퍼런스는 변경되지 않으므로 Spread Operator를 통해 새로운 Object를 만들어서 리턴하였습니다.  
-     또한 useState는 비동기이므로 setState를 콜백 후 업데이트하여 Object를 최신화 하였습니다.
+     setState를 호출하면 state를 비교 후 업데이트가 필요한 경우 Render 하는데 Object의 경우 값을 변경하여도 레퍼런스는 변경되지 않음으로 Spread Operator를 통해 새로운 Object를 만들어서 리턴하였습니다.  
+     또한 useState는 비동기이므로 setState를 콜백 후 업데이트하여 Object를 최신화하였습니다.
 
     ```javascript
     import React, { useState } from 'react';
@@ -345,9 +345,9 @@
      <br>
 
   - **useCallback**  
-    리액트 Hook의 콜백함수는 Render가 일어날 때마다 새로 만들어지게 됩니다.  
-    컴포넌트가 변경이 되어도 한번 만들어진 함수를 재사용하기 위하여 useCallback을 사용하였습니다.  
-    콜백함수 안에서 사용하는 데이터의 변경이 있을 때만 새로 만들어지도록 Dependency List에 데이터를 넣어 명시하였습니다.
+    리액트 Hook의 콜백 함수는 Render가 일어날 때마다 새로 만들어지게 됩니다.  
+    컴포넌트가 변경되어도 한번 만들어진 함수를 재사용하기 위해 useCallback을 사용하였습니다.  
+    콜백 함수 안에서 사용하는 데이터의 변경이 있을 때만 새로 만들어지도록 Dependency List에 데이터를 넣어 명시하였습니다.
 
     ```javascript
     import React, { useCallback } from 'react';
@@ -363,8 +363,8 @@
      <br>
 
   - **useMemo**  
-    하나의 컴포넌트에서 복수의 state가 변경된다면 변경시마다 Render가 일어나게 되며 메모리제이션되지 않은 데이터는 재호출되게 됩니다.  
-    데이터가 바뀌지 않는다면 Render가 반복되더라도 한번만 호출되도록 useMemo를 적용하였습니다.
+    하나의 컴포넌트에서 복수의 state가 변경된다면 변경 시마다 Render가 일어나게 되며 메모리제이션되지 않은 데이터는 재 호출되게 됩니다.  
+    데이터가 바뀌지 않는다면 Render가 반복되더라도 한 번만 호출되도록 useMemo를 적용하였습니다.
 
     ```javascript
     import React, { useMemo } from 'react';
@@ -398,7 +398,7 @@
     ))}
     ```
 
-    위와 같은 구조는 데이터의 양이 많거나 최악의 경우 원하는 아이템의 위치가 배열의 끝의 위치하게 되면 모든 데이터를 탐색해야 하므로 일정한 성능을 유지할 수 없습니다.  
+    위와 같은 구조는 데이터의 양이 많거나 최악의 경우 원하는 아이템의 위치가 배열의 끝에 위치하게 되면 모든 데이터를 탐색해야 하므로 일정한 성능을 유지할 수 없습니다.  
      ex) O(n)
 
     `after`
@@ -420,19 +420,19 @@
     ))}
     ```
 
-    오브젝트의 키로 접근할 수 있게 수정하면 모든 아이템을 탐색할 필요 없이 key로 바로 접근이 가능하기 때문에 데이터가 쌓일 수록 `before`보다 빠르고 일정한 속도를 유지할 수 있습니다.  
+    오브젝트의 키로 접근할 수 있게 수정하면 모든 아이템을 탐색할 필요 없이 key로 바로 접근할 수 있기 때문에 데이터가 쌓일수록 `before`보다 빠르고 일정한 속도를 유지할 수 있습니다.  
     ex) O(1)
 
     <br>
 
   - **Rendering**  
-    렌더링 과정에서 발생하는 이슈들을 개선하여 렌더링 속도를 향상시켰습니다.
+    렌더링 과정에서 발생하는 이슈들을 개선하여 렌더링 속도를 향상했습니다.
 
     1.  `Composite Layers`  
         Portfolio page의 skills 섹션에서 work 섹션으로 스크롤 중 프레임이 드롭되는 이슈가 있어 이를 해결하였습니다.
 
         - 원인  
-          렌더링의 속도를 높이기위해서는 dom요소가 작을수록 유리한데, work 섹션의 이미지 용량만 압축하고 사이즈를 자르지 않아 해당 섹션에 진입시 프레임 드롭 문제 발생
+          렌더링의 속도를 높이기 위해서는 dom 요소가 작을수록 유리한데, work 섹션의 이미지 용량만 압축하고 사이즈를 자르지 않아 해당 섹션에 진입 시 프레임 드롭 문제 발생
 
           `Frame Drop`
           <img src="public/imgs/layout-composite.PNG" alt='layout-composite'>
@@ -446,7 +446,7 @@
         Portfolio page에서 스크롤링 시 Layout Shift가 일어나는 이슈가 있어 이를 해결하였습니다.
 
         - 원인  
-          로켓 가이드 기능 중 로켓의 위치 값 CSS를 top & left 속성으로 이동시키고 있었기에 Layout Shift가 일어나 dom 요소의 위치와 크기가 스크롤시마다 재 설정되는 문제 발생
+          로켓 가이드 기능 중 로켓의 위치 값 CSS를 top & left 속성으로 이동시키고 있었기에 Layout Shift가 일어나 dom 요소의 위치와 크기가 스크롤 시마다 재설정되는 문제 발생
 
           `Layout Shift - before`
           <img src="public/imgs/layout_shift.PNG" alt='layout-shift'>
@@ -466,7 +466,7 @@
           <br>
 
     3.  `Frame Drop`  
-        Portfolio page 이탈 후 복귀 시 프레임이 드랍되는 이슈
+        Portfolio page 이탈 후 복귀 시 프레임이 드롭 되는 이슈
 
         - 원인  
           Canvas에서 사용한 requestAnimationFrame을 페이지를 벗어날 시 멈추지 않았기에 문제 발생
@@ -500,10 +500,10 @@
 
   - **Code Splitting**
 
-    해당 리액트 포트폴리오를 프로젝트 별로 코드 스플리팅하여 로딩 시간을 개선하였습니다.
+    해당 리액트 포트폴리오를 프로젝트별로 코드 스플리팅하여 로딩 시간을 개선하였습니다.
 
     - 원인  
-      빌드 시 프로젝트의 코드가 main.js에 집중되어 초기 로딩시간이 증가하는 이슈 발생
+      빌드 시 프로젝트의 코드가 main.js에 집중되어 초기 로딩 시간이 증가하는 이슈 발생
 
       `loading time - before`
       <img src="public/imgs/loading-before.PNG" alt='low loading'>
@@ -540,7 +540,7 @@
   - **ETC**
 
     - Lazy Loading  
-      Interactive Observer API를 이용한 페이지네이션으로 컨텐츠를 제한적으로 로드하고 액션에 따라 추가 로드하면서 렌더링 속도를 일정하게 유지하였습니다.
+      Interactive Observer API를 이용한 페이지네이션으로 콘텐츠를 제한적으로 로드하고 액션에 따라 추가 로드하면서 렌더링 속도를 일정하게 유지하였습니다.
 
 <br>
 
@@ -550,11 +550,11 @@
 
 dom의 직접적인 제어 배제, component의 재활용을 위한 설계 및 제작, 최적화 등을 생각하며 제작하였습니다.
 
-Hook을 사용하였고 Immer를 사용하지 않고 객체를 새로생성하며 불변성을 유지하여 상태를 관리하였습니다.  
+Hook을 사용하였고 Immer를 사용하지 않고 객체를 새로 생성하며 불변성을 유지하여 상태를 관리하였습니다.  
 또한 프로젝트의 규모가 크지 않음으로 useContext 또는 상태관리 라이브러리 역시 사용하지 않았습니다.  
 개인적인 시간 문제로 JEST 같은 테스트 유닛을 사용해보지 못한 것이 아쉬움으로 남습니다.
 
 다음 프로젝트는 TypecScript, NextJs, Jest, useContext등을 사용하여 진행해보고 싶습니다.
 
-Readme는 여기까지입니다.  
+README는 여기까지입니다.  
 읽어주셔서 감사합니다.
