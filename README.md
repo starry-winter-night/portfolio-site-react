@@ -41,7 +41,7 @@
 
 - **배경**  
   Interactive Developer 유튜브를 보고 감명을 받아, 처음으로 `Canvas`를 사용하여 배경 이미지를 만들어 보았습니다. 랜덤 값을 통해 별을 찍고 별똥별을 만들어 떨어트리는 기능을 제작하였습니다.  
-  Build pattern을 사용하여 쉽게 별의 숫자와 크기, 별똥별의 크기 등을 조절하기 쉽게 하였습니다.
+  Build pattern을 사용하여 별의 숫자와 크기, 별똥별의 크기 등을 조절하기 쉽게 하였습니다.
 
   ```javascript
   export default class StarryNight {
