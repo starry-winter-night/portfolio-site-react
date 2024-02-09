@@ -1,9 +1,10 @@
 import React from 'react';
 import styles from './work.module.css';
 import Project from './project';
+import ToggleArrow from '../../../common/button/toggleArrow';
 
 const work = () => {
-  const projects = [
+  const portfolio = [
     {
       id: 1,
       title: 'SMP Oauth2.0 Server',
@@ -54,24 +55,294 @@ const work = () => {
     },
   ];
 
+  const work = [
+    {
+      id: 1,
+      company: 'Xinapse',
+      period: '2021.08 ~ 2023.02',
+      works: [
+        {
+          id: 1,
+          title: '듀얼톡 3.0 React Version 개발완료',
+          period: '2022.03 ~ 2023.02',
+          descript: `클라이언트가 직접 챗봇을 디자인하고 기능을 간편하게 선택 할 수 있도록 관리자 페이지를 
+          제작하였습니다. 기존 버전 서비스의 기능을 포함하여 새로운 기능 구현을하였습니다. 
+          `,
+          stack: 'React, Zustand, PostCSS, TypeScript, Webpack',
+          link: [
+            { id: 1, link: 'https://www.dualtalk.ai/', description: '공식 웹사이트' },
+            { id: 2, link: 'https://www.imaeil.com/page/view/2023110914325051970', description: '출시 기사' },
+            // { id: 3, link: 'https://github.com', description: '모듈화 설계 깃허브' },
+          ],
+          experience: [
+            {
+              id: 1,
+              detail: `프론트엔드 기술환경 구성 및 기능 구현`,
+            },
+            {
+              id: 2,
+              detail: `Fetch, Type, State, Logic, View 분리 모듈화 설계`,
+            },
+            {
+              id: 3,
+              detail: `QA 이후 버그 픽스 및 서비스 오픈`,
+            },
+            {
+              id: 4,
+              detail: `Drag & Drop을 통한 (이미지, 영상, 텍스트에디터, 지도등) 커스텀 화면 제작 기능 구현등`,
+            },
+          ],
+        },
+        {
+          id: 2,
+          title: '산업연구원(kiet) 2차, 3차 개발 및 납품 (프론트엔드)',
+          period: '2021.08 ~ 2023.02',
+          descript: `1차 개발 된 서비스를 이어받아 완성 및 납품한 웹 페이지입니다. 
+          주로 데이터를 시각화하는 작업을 하였습니다.`,
+          stack: 'React, Redux, PostCss',
+          experience: [
+            {
+              id: 1,
+              detail: `2차 : 뉴스 지표 및 관련 산업 지수의 시각화 (차트) `,
+            },
+            {
+              id: 2,
+              detail: `3차 : 뉴스 지표 및 관련 산업 지수의 시각화 (클라우드)`,
+            },
+            {
+              id: 3,
+              detail: `4차 : 계약 완료 및 개발 예정`,
+            },
+          ],
+        },
+        {
+          id: 3,
+          title: '듀얼톡 1.0 Vue Version  운영, 기능 개발, 유지 보수 (프론트엔드)',
+          period: '2021.08 ~ 2023.02',
+          descript: `1세대 듀얼톡으로 최초 서비스를 이용한 고객사를 위해 운영되는 챗봇으로 레거시 버전을 업데이트 하고 
+          고객의 요구에 맞춰 개발 및 운영, 유지보수 하였습니다. `,
+          stack: 'Vue, Vuex',
+          experience: [
+            {
+              id: 1,
+              detail: `프론트엔드 기능 구현 및 보수`,
+            },
+            {
+              id: 2,
+              detail: `레거시 버전 업데이트 및 패키지 충돌 개선`,
+            },
+            {
+              id: 3,
+              detail: `머신러닝 학습 페이지(각종 시각화, 학습 진행도 실시간 표기, 진행률) 등 추가`,
+            },
+          ],
+        },
+        {
+          id: 4,
+          title: '듀얼톡 2.0 React Version 운영, 기능 개발, 유지 보수 (프론트엔드)',
+          period: '2021.08 ~ 2023.02',
+          descript: `2세대 듀얼톡으로 1세대에 비해 편의 기능이 확장된 챗봇으로 미완성 서비스를 이어받아 완성 시켰습니다.
+          주로 고객의 요구에 맞춰 개발 및 운영, 유지보수 하였습니다. `,
+          stack: 'React, Redux, Styled-components, TypeScript',
+          experience: [
+            {
+              id: 1,
+              detail: `프론트엔드 미구현 기능 개발 및 유지보수`,
+            },
+            {
+              id: 2,
+              detail: `클라이언트 요구에 따른 기능 개발`,
+            },
+            {
+              id: 3,
+              detail: `자동완성 및 방향키를 이용한 선택 기능, 자주찾는 인텐트 리스트, 듀얼페이지 등 개발`,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 2,
+      company: 'Assemble',
+      period: '2017.12 ~ 2019.01',
+      works: [
+        {
+          id: 1,
+          title: '철물점 재고관리시스템',
+          period: '2018.09 ~ 2018.12',
+          descript: `ERP & POS를 웹페이지로 서비스 하기 위한 프로젝트입니다. 
+          직접 클라이언트를 만나 진행사항 및 애로사항을 공유하며 작업하였습니다.`,
+          stack: 'NodeJS, Express, PUG, JAVASCRIPT, MYSQL',
+          experience: [
+            {
+              id: 1,
+              detail: `DB 설계 제작 및 철물점 제품 DB 구축`,
+            },
+            {
+              id: 2,
+              detail: `백엔드 & 프론트엔드 기술환경 구축 및 개발`,
+            },
+            {
+              id: 3,
+              detail: `전자세금계산서 API 연동`,
+            },
+            {
+              id: 4,
+              detail: `POS 기능을 위한 스캐너 조작 테스트 등`,
+            },
+          ],
+        },
+        {
+          id: 2,
+          title: '티몬 출시(판매) 상품 재고관리시스템',
+          period: '2018.07 ~ 2018.09',
+          descript: `사내 배송 제품을 관리하는 웹페이지 제작 추가 인원으로 참여 하였습니다.`,
+          stack: 'NodeJS, Express, HTML, JQuery, MYSQL',
+          experience: [
+            {
+              id: 1,
+              detail: `주문, 환불 페이지 UI/UX 디자인 적용 및 주문, 백앤드 코드 작성`,
+            },
+          ],
+        },
+        {
+          id: 3,
+          title: '네이버 CLOVA 연동 AI 쇼핑 웹 서비스 프로토 타입 제작',
+          period: '2018.05 ~ 2018.07',
+          descript: `네이버 클로버의 음성인식 데이터에 따라 웹화면을 시각화(쇼핑 페이지)하는 서비스의 
+          프로토 타입을 개발하였습니다. `,
+          stack: 'NodeJS, Express, HTML, Javascript, OAUTH2.0',
+          experience: [
+            {
+              id: 1,
+              detail: `Oauth2.0 토큰을 통한 연동`,
+            },
+            {
+              id: 2,
+              detail: `음성인식 패턴에 따른 분기 처리 및 데이터 시각화`,
+            },
+          ],
+        },
+        {
+          id: 4,
+          title: '레일바이크 안드로이드 어플리케이션 유지보수',
+          period: '2018.04 ~ 2018.04',
+          descript: `레일바이크 어플리케이션의 사용 권한 퍼미션 문제를 해결하였습니다.`,
+          stack: 'Android(JAVA)',
+          experience: [
+            {
+              id: 1,
+              detail: `퍼미션 문제 해결 및 곡성 레일바이크 시승 테스트
+              `,
+            },
+          ],
+        },
+        {
+          id: 5,
+          title: '프로젝트 라이프사이클 관리 시스템',
+          period: '2018.01 ~ 2018.03',
+          descript: `사내 중구난방 프로젝트를 정리하고 개발 현황을 체계적으로 확인하고 보고 할 수 있도록 
+          제안하고 개발한 웹 서비스입니다. `,
+          stack: 'NodeJS, Express, Pug, Javascript, MySQL',
+          experience: [
+            {
+              id: 1,
+              detail: `백엔드 & 프론트엔드 기술환경 구축 및 개발`,
+            },
+            {
+              id: 2,
+              detail: `프로젝트 상태를 5가지로 나누고, 상태에 따라 담당자에게 메일을 보내는 기능등을 제작`,
+            },
+          ],
+        },
+      ],
+    },
+  ];
+
   return (
-    <section id="work" className={`${styles.work} section`}>
+    <section id='work' className={`${styles.work} section`}>
       <div className={styles.title}>
         <h1>My work</h1>
       </div>
       <p>이미지를 클릭하시면 해당하는 GitHub Page로 이동합니다.</p>
-      <div className={styles.projects}>
-        <h2>Back-end</h2>
-        {projects.map(
-          (item) =>
-            item.type === 'backend' && <Project key={item.id} project={item} />
-        )}
-        <h2>Front-end</h2>
-        {projects.map(
-          (item) =>
-            item.type === 'frontend' && <Project key={item.id} project={item} />
-        )}
-      </div>
+      <ToggleArrow title={'Portfolio(2021)'}>
+        <div className={styles.projects}>
+          <h2>Back-end</h2>
+          {portfolio.map((item) => item.type === 'backend' && <Project key={item.id} project={item} />)}
+          <h2>Front-end</h2>
+          {portfolio.map((item) => item.type === 'frontend' && <Project key={item.id} project={item} />)}
+        </div>
+      </ToggleArrow>
+
+      <ToggleArrow title={'Work Experience'} toggleDefault={true}>
+        <div className={styles.container}>
+          {work.map((item) => (
+            <ul className={styles.list} key={item.id}>
+              <div className={styles.company_container}>
+                <h3 className={styles.company}>{item.company}</h3>
+                <p className={styles.period}>{item.period}</p>
+              </div>
+              <div className={styles.info_container}>
+                {item.works &&
+                  item.works.map((work) => (
+                    <li className={styles.info_list_container} key={work.id}>
+                      <div className={styles.title_list_container}>
+                        <h3>{work.title}</h3>
+                        <p className={styles.period}>{work.period}</p>
+                      </div>
+                      <div className={styles.descript_title_container}>
+                        <h4 className={styles.descript_title}>Descript</h4>
+                        <p className={styles.descript}>{work.descript}</p>
+                        <h4 className={styles.experience_title}>Work Experience</h4>
+                        <ul className={styles.experience}>
+                          {work.experience &&
+                            work.experience.map((exp) => (
+                              <li key={exp.id}>
+                                <p>{exp.detail}</p>
+                              </li>
+                            ))}
+                        </ul>
+                        <h4 className={styles.tech_stack_title}>Tech Stack</h4>
+                        <p className={styles.tech_stack}>{work.stack}</p>
+                        {work?.link && (
+                          <ul className={styles.link}>
+                            <h4 className={styles.link_title}>Link</h4>
+                            {work.link.map((link) => (
+                              <li key={link.id}>
+                                <a href={link.link} target='noopener'>
+                                  {link.description}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+              </div>
+            </ul>
+          ))}
+        </div>
+        {/* <div className={styles.jobs}>
+          <div className={styles.job}>
+            <div className={styles.jobImg}>
+              <img src='imgs/irexnet.png' alt='irexnet' className={styles.job__logo} />
+            </div>
+            <ul>
+              <li>
+                <span>· </span> (주)irexnet에서 1년 2개월 신사업기획개발부 웹 개발자로 일하였습니다.
+              </li>
+              <li>
+                <span>· </span> PLM, 점빵(가제), 네이버 클로버(음성쇼핑) 및 사내 소프트웨어 등을 개발하였습니다.
+              </li>
+              <li>
+                <span>· </span> 그 외 업무 관련 시장조사 및 클라이언트 미팅, K-WATER 시연, 대전대학교 시연 및 발표 등을
+                팀에서 맡아 하였습니다.
+              </li>
+            </ul>
+          </div>
+        </div> */}
+      </ToggleArrow>
     </section>
   );
 };

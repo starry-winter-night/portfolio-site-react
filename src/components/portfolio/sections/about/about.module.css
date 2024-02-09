@@ -1,10 +1,12 @@
-.about p {
-  margin-top: 40px;
-  margin-bottom: 40px;
+.about p,
+.about pre {
   font-family: 'Nanum Gothic Coding', monospace;
   color: var(--color-dark-white);
   font-weight: 100;
   line-height: 25px;
+  margin: 0;
+  white-space: pre-line;
+  margin: 60px 0 0 0;
 }
 
 .title {
@@ -22,50 +24,12 @@
 .majors {
   display: flex;
   justify-content: space-around;
-  margin: 40px 0;
+  margin: 60px 0 40px 0;
+  transform: scale(0.7);
 }
 
-.jobs {
-  display: flex;
-  flex-direction: column;
-}
-
-.job {
-  text-align: center;
-  display: flex;
-  background-color: var(--color-backgroundTransparency);
-  border-radius: 15px;
-  padding: 25px 15px 25px 15px;
-  justify-content: space-around;
-}
-
-.job > ul {
-  line-height: 35px;
-  text-align: left;
-}
-
-.job > ul > li {
-  color: var(--color-dark-white);
-  font-size: var(--font-micro);
-}
-
-.job > ul > li > span {
-  color: var(--color-dark-white);
-  font-size: var(--font-regular);
-  font-weight: var(--weight-bold);
-}
-
-.jobImg {
-  max-width: 110px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  margin-right: 5%;
-}
-
-.job__logo {
-  max-width: 100%;
-  max-height: 100%;
+.major {
+  padding: 0 10px;
 }
 
 .major__icon {
@@ -92,22 +56,23 @@
   transition: all var(--animation-duration) ease;
 }
 
+.major__icon pre {
+  margin: 0;
+  line-height: 70%;
+  font-family: 'Inconsolata';
+  color: white;
+  font-weight: 900;
+  font-size: 50px;
+}
+
+.major__icon:hover pre {
+  color: var(--color-orange);
+  transform: scale(1.2);
+}
+
 @media screen and (max-width: 768px) {
   .title {
     width: 15em;
-  }
-
-  .job {
-    flex-direction: column;
-  }
-
-  .job ul {
-    line-height: 25px;
-  }
-
-  .jobImg {
-    max-width: 80px;
-    margin: 5px auto 10px auto;
   }
 
   .major__title {

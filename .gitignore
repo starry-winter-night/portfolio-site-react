@@ -26,6 +26,8 @@
 
 # yarn
 yarn.lock
+.yarn
+.yarnrc.yml
 
 # deploy
 study
